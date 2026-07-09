@@ -14,26 +14,26 @@
     src: url(../Ubuntu_Condensed/Ubuntu-Regular.ttf);
 }
 
-/* Variáveis do Design System (Light Mode - Paleta Vinho #73030D) */
+/* Variáveis do Design System (Light Mode - Paleta Customizada 5 Cores) */
 :root {
-    --bg-primary: #FAF9F6;       /* Fundo off-white suave */
+    --bg-primary: #F2F2F2;       /* Fundo cinza claro */
     --bg-secondary: #FFFFFF;     /* Branco para cartões */
-    --bg-tertiary: #F3F1ED;      /* Cinza claro-quente */
-    --text-primary: #1E1E1E;     /* Preto Carvão Neutro */
-    --text-secondary: #555555;   /* Cinza Escuro */
-    --text-muted: #8E8A85;       /* Cinza Mudo */
-    --accent-primary: #73030D;   /* Vermelho Vinho Escuro (Cor base) */
-    --accent-secondary: #8E8A85; /* Cinza Mudo para tags secundárias */
-    --accent-tertiary: #A6242F;  /* Vermelho mais aberto para realces */
-    --accent-hover: #520209;     /* Vinho bem escuro no hover */
-    --border-color: rgba(115, 3, 13, 0.1); /* Bordas com tom sutil de vinho */
+    --bg-tertiary: #E6E6E6;      /* Cinza intermediário para hover/blocos */
+    --text-primary: #0D0D0D;     /* Off-black quase preto */
+    --text-secondary: #595959;   /* Cinza escuro para corpo */
+    --text-muted: #8C8C8C;       /* Cinza médio */
+    --accent-primary: #73030D;   /* Vinho / Vermelho Escuro */
+    --accent-secondary: #732F3B; /* Vinho Muted / Rose */
+    --accent-tertiary: #8C8C8C;  /* Cinza para bordas/tags secundárias */
+    --accent-hover: #520209;
+    --border-color: rgba(13, 13, 13, 0.08); /* Bordas discretas em off-black */
     --font-title: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     
     /* Sombras e Efeitos */
-    --shadow-sm: 0 1px 3px rgba(115, 3, 13, 0.03);
-    --shadow-md: 0 8px 24px rgba(115, 3, 13, 0.04);
-    --shadow-lg: 0 16px 40px rgba(115, 3, 13, 0.06);
+    --shadow-sm: 0 1px 3px rgba(13, 13, 13, 0.02);
+    --shadow-md: 0 8px 24px rgba(13, 13, 13, 0.03);
+    --shadow-lg: 0 16px 40px rgba(13, 13, 13, 0.04);
     --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     --border-radius-sm: 6px;
     --border-radius-md: 12px;
