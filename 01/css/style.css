@@ -1,0 +1,395 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Fontes Locais */
+@font-face {
+    font-family: 'Ubuntu Bold';
+    src: url(../Ubuntu_Condensed/UbuntuCondensed-Regular.ttf);
+}
+@font-face {
+    font-family: 'Ubuntu Light';
+    src: url(../Ubuntu_Condensed/Ubuntu-Light.ttf);
+}
+@font-face {
+    font-family: 'Ubuntu Regular';
+    src: url(../Ubuntu_Condensed/Ubuntu-Regular.ttf);
+}
+
+/* Variáveis do Design System (Light Mode - Paleta Customizada) */
+:root {
+    --bg-primary: #FAF9F6;       /* Fundo off-white linho */
+    --bg-secondary: #FFFFFF;     /* Branco para cartões */
+    --bg-tertiary: #F1EFEA;      /* Cinza-bege claro */
+    --text-primary: #382C23;     /* Marrom Café Escuro */
+    --text-secondary: #5A4E46;   /* Marrom Médio */
+    --text-muted: #8E8177;       /* Marrom Mudo */
+    --accent-primary: #B85C18;   /* Terracota / Laranja Escuro */
+    --accent-secondary: #2E5D63; /* Verde-Azul / Teal */
+    --accent-tertiary: #18A7B8;  /* Ciano Vibrante */
+    --accent-hover: #9E4D12;
+    --border-color: rgba(56, 44, 37, 0.12); /* Bordas amarronzadas */
+    --font-title: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    
+    /* Sombras e Efeitos */
+    --shadow-sm: 0 1px 3px rgba(56, 44, 37, 0.04);
+    --shadow-md: 0 8px 24px rgba(56, 44, 37, 0.05);
+    --shadow-lg: 0 16px 40px rgba(56, 44, 37, 0.08);
+    --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    --border-radius-sm: 6px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 18px;
+    
+    --max-width: 1100px;
+}
+
+/* Reset Geral e Configurações de Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base */
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tipografia */
+h1, h2, h3, h4 {
+    font-family: var(--font-title);
+    font-weight: 600; /* Semibold */
+    color: var(--text-primary);
+    line-height: 1.25;
+}
+
+h1 { font-size: 2.75rem; margin-bottom: 1.5rem; font-weight: 700; } /* Bold */
+h2 { font-size: 2rem; margin-bottom: 1.25rem; font-weight: 600; } /* Semibold */
+h3 { font-size: 1.5rem; margin-bottom: 1rem; font-weight: 600; } /* Semibold */
+
+p {
+    font-size: 1rem;
+    font-weight: 300; /* Light */
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+}
+
+a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+a:hover {
+    color: var(--accent-hover);
+}
+
+/* Header & Barra de Navegação (Glassmorphism Light) */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgba(250, 249, 245, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nav-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.logo span {
+    color: var(--accent-primary);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+}
+
+nav a {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    position: relative;
+    padding: 0.25rem 0;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-primary);
+    transition: var(--transition-smooth);
+}
+
+nav a:hover {
+    color: var(--text-primary);
+}
+
+nav a:hover::after,
+nav a.active::after {
+    width: 100%;
+}
+
+nav a.active {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Layout e Containers */
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+/* Botões */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--accent-primary);
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.8rem 1.75rem;
+    border-radius: var(--border-radius-sm);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.btn:hover {
+    background-color: var(--accent-hover);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.btn-secondary {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    box-shadow: none;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(30, 35, 46, 0.08);
+    color: var(--text-primary);
+    box-shadow: none;
+}
+
+/* Cartões (Cards) */
+.card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-smooth);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Grid System */
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+/* Hero Section (Index) */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    padding: 5rem 2rem;
+    min-height: 70vh;
+}
+
+.hero-content {
+    flex: 1;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+}
+
+.hero-content p {
+    font-size: 1.15rem;
+    margin-bottom: 2rem;
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.hero-image-wrapper {
+    position: relative;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    max-width: 450px;
+    width: 100%;
+    aspect-ratio: 1;
+    transition: var(--transition-smooth);
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition-smooth);
+}
+
+.hero-image-wrapper:hover img {
+    transform: scale(1.05);
+}
+
+/* Seções de Conteúdo */
+.section-title {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    position: relative;
+}
+
+.section-title h2 {
+    font-size: 2.25rem;
+    display: inline-block;
+    position: relative;
+}
+
+.section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--accent-primary);
+    border-radius: 2px;
+}
+
+.section-title p {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Rodapé */
+footer {
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+footer p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+footer small {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+/* Responsividade Geral */
+@media screen and (max-width: 900px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .grid-3 {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding: 3rem 2rem;
+        gap: 2.5rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-image-wrapper {
+        max-width: 320px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    html {
+        font-size: 15px;
+    }
+    
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    nav ul {
+        gap: 1.25rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .container {
+        padding: 3rem 1.25rem;
+    }
+}

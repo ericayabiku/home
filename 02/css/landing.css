@@ -1,0 +1,66 @@
+@font-face {
+    font-family: 'Julius Sans Regular';
+    src: url(../Julius_Sans_One/JuliusSansOne-Regular.ttf);
+}
+
+h2{
+    font-family: 'Julius Sans Regular';
+}
+
+.logotipo {
+    display: flex;
+    margin: 0 32px;
+    
+}
+
+.logotipo a {
+    margin: 0 1.3rem;
+    margin-left: 18rem;
+    text-decoration: none;
+    color: black;
+}
+
+.imagem-topo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width:728px) {
+
+    .logotipo {
+        margin: 0 1rem;
+        margin-left: 10px;
+        font-size: 10px;
+    }
+
+    .logotipo a {
+        margin: 0 16px;
+        margin-left: 0;
+    }
+
+    .imagem-topo img {
+        max-width: 500px;
+        width: 100%;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
