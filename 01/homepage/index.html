@@ -10,57 +10,32 @@
     <style>
         body {
             background-color: var(--bg-primary);
-            min-height: 100vh;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        main {
-            flex: 1;
-            padding-top: 180px; /* Espaço para o cabeçalho fixo */
-            padding-bottom: 5rem;
-        }
-
-        /* Cabeçalho Editorial Fixo (Sem borda de baixo) */
-        .header-editorial {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
+        /* Container Principal do Layout */
+        .homepage-container {
+            max-width: var(--max-width);
+            width: 100%;
+            padding: 0 5rem;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            padding: 3rem 5rem;
-            background-color: var(--bg-primary);
-            border-bottom: none;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Transição transparente quando scrollado para baixo */
-        .header-editorial.scrolled {
-            background-color: rgba(250, 249, 246, 0); /* Totalmente transparente */
-            padding-top: 1.5rem;
-            padding-bottom: 1.5rem;
-            pointer-events: none;
-        }
-        
-        .header-editorial.scrolled .name-title,
-        .header-editorial.scrolled .nav-links a {
-            pointer-events: auto;
-            opacity: 0.15;
+        /* Lateral Esquerda - Nome e Link de Projetos */
+        .brand-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
-        .header-editorial.scrolled:hover {
-            opacity: 1;
-        }
-        
-        .header-editorial.scrolled:hover .name-title,
-        .header-editorial.scrolled:hover .nav-links a {
-            opacity: 1;
-        }
-
-        /* Nome Erica Yabiku em Helvetica Semibold */
+        /* Nome em Helvetica Semibold */
         .name-title {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: 96px;
@@ -68,16 +43,50 @@
             line-height: 0.9;
             letter-spacing: -3px;
             color: var(--text-primary);
+            text-transform: none; /* Iniciais maiúsculas apenas */
+        }
+
+        /* Link de Projetos (Helvetica Light, Grande, Terracota) */
+        .projects-trigger {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 2.25rem; /* ~36px */
+            font-weight: 300; /* Light */
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: var(--transition-smooth);
+            align-self: flex-start;
+            position: relative;
+            padding-bottom: 0.25rem;
+        }
+
+        .projects-trigger::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-primary);
             transition: var(--transition-smooth);
         }
 
-        /* Menu na vertical (Helvetica Light) */
+        .projects-trigger:hover {
+            color: var(--accent-hover);
+            transform: translateX(4px);
+        }
+
+        .projects-trigger:hover::after {
+            width: 100%;
+        }
+
+        /* Lateral Direita - Menu Vertical (Helvetica Light) */
         .nav-links {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.25rem;
             align-items: flex-end;
-            padding-top: 0.75rem;
+            padding-top: 1rem;
         }
 
         .nav-links a {
@@ -112,234 +121,38 @@
             width: 100%;
         }
 
-        /* Projetos na Vertical (Single Column Feed) */
-        .projects-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 6rem; /* Distanciamento entre os projetos */
-            max-width: 680px; /* Largura harmônica centralizada */
-            margin: 0 auto;
-        }
-
-        .project-card {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        /* Imagens Grandes e Inteiras (Contidas sem cortes) */
-        .project-image-wrapper {
-            position: relative;
-            width: 100%;
-            height: 650px; /* Imagem grande de volta */
-            border-radius: var(--border-radius-md);
-            overflow: hidden;
-            cursor: pointer;
-            background-color: var(--bg-tertiary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            box-shadow: none;
-        }
-
-        .project-image-wrapper img {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain; /* Foto por inteiro sem cortes */
-            display: block;
-            transition: var(--transition-smooth);
-        }
-
-        /* Overlay de Legenda Menor */
-        .project-caption-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(56, 44, 35, 0.95); /* Cor escura café */
-            color: #FFFFFF;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            text-align: center;
-            opacity: 0;
-            transition: var(--transition-smooth);
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        /* Legenda menor */
-        .project-caption-overlay p {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 0.8rem; /* Menor */
-            font-weight: 300; /* Light */
-            line-height: 1.5;
-            color: #FFFFFF;
-            margin-bottom: 0;
-            letter-spacing: 0.5px;
-        }
-
-        /* Efeitos no Hover */
-        .project-image-wrapper:hover img {
-            transform: scale(1.02);
-        }
-
-        .project-image-wrapper:hover .project-caption-overlay {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* Detalhes de Texto do Projeto */
-        .project-details h3 {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 1.35rem;
-            font-weight: 600; /* Semibold */
-            margin-bottom: 0.35rem;
-            color: var(--text-primary);
-        }
-
-        .project-category {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 0.75rem;
-            font-weight: 300; /* Light */
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 0.75rem;
-        }
-
-        .project-details p {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 0.95rem;
-            font-weight: 300; /* Light */
-            line-height: 1.6;
-            color: var(--text-secondary);
-        }
-
-        /* Modal Lightbox para expandir imagens */
-        .lightbox {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(56, 44, 35, 0.97); /* Cor café escura */
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .lightbox.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .lightbox-content {
-            max-width: 90%;
-            max-height: 80%;
-            border-radius: var(--border-radius-sm);
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-            object-fit: contain;
-        }
-
-        .lightbox.active .lightbox-content {
-            transform: scale(1);
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 2rem;
-            right: 3rem;
-            color: #FFFFFF;
-            font-size: 2.5rem;
-            font-weight: 200;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            user-select: none;
-        }
-
-        .lightbox-close:hover {
-            color: var(--text-muted);
-            transform: scale(1.1);
-        }
-
-        .lightbox-caption {
-            margin-top: 1.5rem;
-            color: #EFECE6;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 0.9rem;
-            font-weight: 300;
-            max-width: 600px;
-            text-align: center;
-            letter-spacing: 0.5px;
-        }
-
         /* Responsividade */
-        @media screen and (max-width: 1024px) {
-            .header-editorial {
-                padding: 2.5rem 3rem;
+        @media screen and (max-width: 950px) {
+            .homepage-container {
+                padding: 0 3rem;
             }
             .name-title {
                 font-size: 72px;
             }
-            main {
-                padding-top: 160px;
+            .projects-trigger {
+                font-size: 1.85rem;
             }
         }
 
         @media screen and (max-width: 768px) {
-            .header-editorial {
-                position: relative;
+            body {
+                overflow: auto;
+            }
+            .homepage-container {
                 flex-direction: column;
-                gap: 1.5rem;
+                gap: 3rem;
+                padding: 4rem 2rem;
                 align-items: flex-start;
-                padding: 2rem 1.5rem;
-                background-color: var(--bg-primary);
+                justify-content: flex-start;
+                height: 100%;
             }
-            
-            .header-editorial.scrolled {
-                background-color: var(--bg-primary);
-                padding-top: 2rem;
-                padding-bottom: 2rem;
-            }
-
-            .header-editorial.scrolled .name-title,
-            .header-editorial.scrolled .nav-links a {
-                opacity: 1;
-            }
-
             .name-title {
                 font-size: 54px;
                 letter-spacing: -1.5px;
             }
-
             .nav-links {
-                padding-top: 0;
                 align-items: flex-start;
-            }
-
-            main {
-                padding-top: 2rem;
-            }
-
-            .projects-grid {
-                max-width: 100%;
-                gap: 4rem;
-            }
-            
-            .project-image-wrapper {
-                height: 480px;
+                padding-top: 0;
             }
         }
 
@@ -353,115 +166,19 @@
 </head>
 <body>
 
-    <!-- Cabeçalho Editorial Fixo (Sem borda de baixo, com transição ao scrollar) -->
-    <header class="header-editorial">
-        <h1 class="name-title">Erica Yabiku</h1>
+    <div class="homepage-container">
+        <!-- Esquerda: Identidade e Gatilho do Portfólio -->
+        <div class="brand-section">
+            <h1 class="name-title">Erica Yabiku</h1>
+            <a href="../html/projetos.html" class="projects-trigger">Projetos</a>
+        </div>
+
+        <!-- Direita: Menu Vertical de Páginas -->
         <nav class="nav-links">
             <a href="../html/index.html">Sobre</a>
             <a href="../html/contato.html">Contato</a>
         </nav>
-    </header>
-
-    <main class="container">
-        <!-- Vitrine de Projetos na Vertical -->
-        <section class="projects-grid">
-            <!-- Projeto 1: Coisas Convida -->
-            <article class="project-card">
-                <div class="project-image-wrapper" tabindex="0">
-                    <img src="../images/coisas_convida.png" alt="Cardápio do Evento Coisas Convida">
-                    <div class="project-caption-overlay">
-                        <p>cardápio feita pra evento privado House of Coisas e Aguikimchi</p>
-                    </div>
-                </div>
-                <div class="project-details">
-                    <span class="project-category">Design Gráfico & Identidade</span>
-                    <h3>Coisas Convida</h3>
-                    <p>Programação visual e design de cardápio desenvolvidos para o jantar colaborativo especial Aguikimchi x Dery Lima, promovido na House of Coisas.</p>
-                </div>
-            </article>
-
-            <!-- Projeto 2: A Última Gota -->
-            <article class="project-card">
-                <div class="project-image-wrapper" tabindex="0">
-                    <img src="../images/a_ultima_gota.png" alt="Pôster de A Última Gota">
-                    <div class="project-caption-overlay">
-                        <p>capa de curta metragem produzido em SENAC Lapa Scipião</p>
-                    </div>
-                </div>
-                <div class="project-details">
-                    <span class="project-category">Produção Audiovisual</span>
-                    <h3>A Última Gota</h3>
-                    <p>Direção de arte e roteirização de projeto de curta-metragem autoral desenvolvido durante a especialização no SENAC Lapa Scipião.</p>
-                </div>
-            </article>
-        </section>
-    </main>
-
-    <!-- Modal Lightbox (Expandir Imagens) -->
-    <div id="lightbox" class="lightbox">
-        <span class="lightbox-close">&times;</span>
-        <img class="lightbox-content" id="lightbox-img" alt="Imagem Expandida">
-        <div class="lightbox-caption" id="lightbox-caption"></div>
     </div>
-
-    <!-- Rodapé Simplificado -->
-    <footer>
-        <p>&copy; Erica Correia Yabiku. Todos os direitos reservados.</p>
-        <small>Desenvolvido por Erica Correia Yabiku &bull; UI/UX Designer & Copywriter</small>
-    </footer>
-
-    <!-- Script de Interação -->
-    <script>
-        // Transição transparente do cabeçalho ao scrollar
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('.header-editorial');
-            if (window.scrollY > 40) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Modal Lightbox para expandir as imagens
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const lightboxCaption = document.getElementById('lightbox-caption');
-        const closeBtn = document.querySelector('.lightbox-close');
-
-        document.querySelectorAll('.project-image-wrapper').forEach(wrapper => {
-            wrapper.addEventListener('click', () => {
-                const img = wrapper.querySelector('img');
-                const captionText = wrapper.querySelector('.project-caption-overlay p').textContent;
-                
-                lightboxImg.src = img.src;
-                lightboxCaption.textContent = captionText;
-                
-                lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Bloqueia o scroll de fundo
-            });
-        });
-
-        // Fechar Lightbox
-        closeBtn.addEventListener('click', () => {
-            lightbox.classList.remove('active');
-            document.body.style.overflow = ''; // Libera o scroll
-        });
-
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-
-        // Suporte a fechamento com tecla ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-    </script>
 
 </body>
 </html>
