@@ -14,26 +14,26 @@
     src: url(../Ubuntu_Condensed/Ubuntu-Regular.ttf);
 }
 
-/* Variáveis do Design System (Light Mode - Paleta Customizada) */
+/* Variáveis do Design System (Light Mode - Paleta Vinho #73030D) */
 :root {
-    --bg-primary: #FAF9F6;       /* Fundo off-white linho */
+    --bg-primary: #FAF9F6;       /* Fundo off-white suave */
     --bg-secondary: #FFFFFF;     /* Branco para cartões */
-    --bg-tertiary: #F1EFEA;      /* Cinza-bege claro */
-    --text-primary: #382C23;     /* Marrom Café Escuro */
-    --text-secondary: #5A4E46;   /* Marrom Médio */
-    --text-muted: #8E8177;       /* Marrom Mudo */
-    --accent-primary: #B85C18;   /* Terracota / Laranja Escuro */
-    --accent-secondary: #2E5D63; /* Verde-Azul / Teal */
-    --accent-tertiary: #18A7B8;  /* Ciano Vibrante */
-    --accent-hover: #9E4D12;
-    --border-color: rgba(56, 44, 37, 0.12); /* Bordas amarronzadas */
+    --bg-tertiary: #F3F1ED;      /* Cinza claro-quente */
+    --text-primary: #1E1E1E;     /* Preto Carvão Neutro */
+    --text-secondary: #555555;   /* Cinza Escuro */
+    --text-muted: #8E8A85;       /* Cinza Mudo */
+    --accent-primary: #73030D;   /* Vermelho Vinho Escuro (Cor base) */
+    --accent-secondary: #8E8A85; /* Cinza Mudo para tags secundárias */
+    --accent-tertiary: #A6242F;  /* Vermelho mais aberto para realces */
+    --accent-hover: #520209;     /* Vinho bem escuro no hover */
+    --border-color: rgba(115, 3, 13, 0.1); /* Bordas com tom sutil de vinho */
     --font-title: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     
     /* Sombras e Efeitos */
-    --shadow-sm: 0 1px 3px rgba(56, 44, 37, 0.04);
-    --shadow-md: 0 8px 24px rgba(56, 44, 37, 0.05);
-    --shadow-lg: 0 16px 40px rgba(56, 44, 37, 0.08);
+    --shadow-sm: 0 1px 3px rgba(115, 3, 13, 0.03);
+    --shadow-md: 0 8px 24px rgba(115, 3, 13, 0.04);
+    --shadow-lg: 0 16px 40px rgba(115, 3, 13, 0.06);
     --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     --border-radius-sm: 6px;
     --border-radius-md: 12px;
