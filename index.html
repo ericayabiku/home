@@ -1,14 +1,185 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=./01/homepage/index.html" />
-    <title>Erica Yabiku — Redirecionando...</title>
-    <script>
-        window.location.href = "./01/homepage/index.html";
-    </script>
+<!-- saved from url=(0053)file:///C:/Users/Vitor%20Mauro/Downloads/index_1.html -->
+<html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erica Yabiku — Portfólio</title>
+    <link rel="stylesheet" type="text/css" href="file:///C:/Users/Vitor%20Mauro/Downloads/01/css/style.css">
+    <link rel="shortcut icon" href="file:///C:/Users/Vitor%20Mauro/Downloads/01/images/developmenticon.png">
+    <style>
+        body {
+            background-color: var(--bg-primary);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Container Principal do Layout */
+        .homepage-container {
+            max-width: var(--max-width);
+            width: 100%;
+            padding: 0 5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        /* Lateral Esquerda - Nome e Link de Projetos */
+        .brand-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Nome em Helvetica Semibold */
+        .name-title {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 96px;
+            font-weight: 600; /* Semibold */
+            line-height: 0.9;
+            letter-spacing: -3px;
+            color: var(--text-primary);
+            text-transform: none; /* Iniciais maiúsculas apenas */
+        }
+
+        /* Link de Projetos (Helvetica Light, Grande, Terracota) */
+        .projects-trigger {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 2.25rem; /* ~36px */
+            font-weight: 300; /* Light */
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: var(--transition-smooth);
+            align-self: flex-start;
+            position: relative;
+            padding-bottom: 0.25rem;
+        }
+
+        .projects-trigger::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-primary);
+            transition: var(--transition-smooth);
+        }
+
+        .projects-trigger:hover {
+            color: var(--accent-hover);
+            transform: translateX(4px);
+        }
+
+        .projects-trigger:hover::after {
+            width: 100%;
+        }
+
+        /* Lateral Direita - Menu Vertical (Helvetica Light) */
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            align-items: flex-end;
+            padding-top: 1rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 0.95rem;
+            font-weight: 300; /* Light */
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            padding-bottom: 0.25rem;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--text-primary);
+            transition: var(--transition-smooth);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Responsividade */
+        @media screen and (max-width: 950px) {
+            .homepage-container {
+                padding: 0 3rem;
+            }
+            .name-title {
+                font-size: 72px;
+            }
+            .projects-trigger {
+                font-size: 1.85rem;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            body {
+                overflow: auto;
+            }
+            .homepage-container {
+                flex-direction: column;
+                gap: 3rem;
+                padding: 4rem 2rem;
+                align-items: flex-start;
+                justify-content: flex-start;
+                height: 100%;
+            }
+            .name-title {
+                font-size: 54px;
+                letter-spacing: -1.5px;
+            }
+            .nav-links {
+                align-items: flex-start;
+                padding-top: 0;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .name-title {
+                font-size: 42px;
+                letter-spacing: -1px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <p>Se você não for redirecionado em instantes, <a href="./01/homepage/index.html">clique aqui</a>.</p>
-</body>
-</html>
+
+    <div class="homepage-container">
+        <!-- Esquerda: Identidade e Gatilho do Portfólio -->
+        <div class="brand-section">
+            <h1 class="name-title">Erica Yabiku</h1>
+            <a href="file:///C:/Users/Vitor%20Mauro/Downloads/01/html/projetos.html" class="projects-trigger">Projetos</a>
+        </div>
+
+        <!-- Direita: Menu Vertical de Páginas -->
+        <nav class="nav-links">
+            <a href="file:///C:/Users/Vitor%20Mauro/Downloads/01/html/index.html">Sobre</a>
+            <a href="file:///C:/Users/Vitor%20Mauro/Downloads/01/html/contato.html">Contato</a>
+        </nav>
+    </div>
+
+
+
+</body></html>
