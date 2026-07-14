@@ -61,6 +61,20 @@
     line-height: 1;    /* Evita espaços vazios fantasmas embaixo da letra */
     color:#ffffff
 }
+.bloco-lateral-esquerdo a {
+    display: inline-block;
+    text-decoration: none;
+    color: #ffffff; /* Garante que a cor base permaneça branca */
+    border-bottom: 2px solid transparent; /* Reserva o espaço da linha para não empurrar o texto */
+    transition: transform 0.25s ease, border-color 0.25s ease;
+    transform-origin: left center; /* Força o texto a crescer fixado na esquerda, sem tremer */
+}
+
+/* AÇÃO AO PASSAR O MOUSE (HOVER) */
+.bloco-lateral-esquerdo a:hover {
+    transform: scale(1.05); /* Aumenta o tamanho discretamente em 5% */
+    border-color: #ffffff; /* Faz a linha de sublinhado aparecer em branco */
+}
 
 /* Ajuste do Link Projetos */
 .bloco-lateral-esquerdo .link-projetos {
