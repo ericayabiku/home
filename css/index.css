@@ -199,21 +199,23 @@
 
 /* Tags de Habilidades e Sub-tags de Experiência */
 .skill-tag {
+    background-color: rgba(255, 255, 255, 0.1); /* Um fundo leve e transparente */
+    color: #ffffff; /* Texto branco para contrastar com o gradiente */
+    padding: 8px 16px;
+    border-radius: 20px;
     display: inline-block;
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-    font-size: 0.85rem;
-    font-weight: 500;
-    padding: 0.4rem 0.85rem;
-    border-radius: var(--border-radius-sm);
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition-smooth);
+    margin: 5px;
+    transition: all 0.3s ease; /* Faz a mudança de cor ser suave e elegante */
+    cursor: pointer; /* Transforma o mouse na mãozinha de clique */
 }
 
+/* Efeito ao passar o mouse (HOVER) */
 .skill-tag:hover {
-    border-color: var(--text-primary);
-    transform: translateY(-1px);
+    /* Escolha uma cor marcante do seu gradiente do Figma */
+    background-color: #e73c7e; /* Muda o fundo para um tom de rosa/magenta */
+    color: #ffffff;            /* Mantém o texto branco */
+    transform: translateY(-3px); /* Faz a skill dar um leve "pulinho" para cima */
+    box-shadow: 0 5px 15px rgba(231, 60, 126, 0.4); /* Adiciona um brilho neon suave */
 }
 
 .sub-tag {
