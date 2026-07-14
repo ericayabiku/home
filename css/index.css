@@ -88,6 +88,43 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
 }
+/* Centraliza apenas os títulos principais das seções */
+.skills-section h2 {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2rem; /* Espaço embaixo do título antes de começar a lista */
+}
+
+/* Faz as habilidades voltarem a ficar lado a lado de forma fluida */
+.skills-list {
+    display: flex;
+    flex-direction: row;     /* Força os itens a ficarem lado a lado */
+    flex-wrap: wrap;         /* Permite que quebrem de linha quando não couberem mais */
+    justify-content: center; /* Centraliza o bloco inteiro de habilidades na tela */
+    gap: 1rem;               /* Espaçamento igual entre cada caixinha */
+    max-width: 800px;        /* Limita a largura máxima para não espalhar demais em telas grandes */
+    margin: 0 auto 3rem auto; /* Centraliza a caixa inteira na tela e dá espaço para os Idiomas */
+}
+
+/* Estilo individual de cada tag de skill */
+.skills-list .skill-tag {
+    font-size: 1rem;
+    padding: 8px 16px;
+    background-color: rgba(0, 0, 0, 0.05); /* Um fundo sutil para parecer um botão (opcional) */
+    border-radius: 20px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    white-space: nowrap;     /* Impede que o texto de uma única skill quebre em duas linhas */
+}
+
+/* Efeito hover de crescimento centralizado */
+.skills-list .skill-tag:hover {
+    color: #e73c7e;
+    background-color: rgba(231, 60, 126, 0.1); /* Fundo levemente rosado no hover */
+    transform: scale(1.05);
+    font-weight: 600;
+}
+
 
 .skill-card {
     background-color: var(--bg-secondary);
@@ -116,6 +153,49 @@
     font-size: 0.85rem;
     line-height: 1.5;
     margin-bottom: 0;
+}
+.skills-idiomas-container {
+    display: flex;
+    flex-direction: row;      /* Garante o posicionamento lado a lado */
+    justify-content: space-between; /* Espalha as duas colunas nas extremidades */
+    align-items: flex-start;  /* Alinha os blocos pelo topo */
+    gap: 4rem;                /* Espaço de respiro entre a coluna esquerda e a direita */
+    max-width: 1100px;        /* Limita a largura total máxima na tela */
+    margin: 4rem auto;        /* Centraliza o bloco inteiro na página */
+    width: 100%;
+}
+
+/* Ajuste da largura de cada coluna */
+.coluna-skills {
+    flex: 2;                  /* Dá um pouco mais de espaço para as nuvens de tags (Habilidades) */
+}
+
+.coluna-idiomas {
+    flex: 1;                  /* Coluna menor e mais compacta para os Idiomas */
+    min-width: 280px;         /* Evita que o bloco esmague em telas médias */
+}
+
+/* Alinhamento dos títulos para a esquerda em cada coluna */
+.coluna-skills h2, 
+.coluna-idiomas h2 {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+/* Mantém as suas tags de habilidades fluidas e alinhadas dentro da coluna dela */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Alinha o início das tags à esquerda */
+    gap: 0.75rem;
+}
+
+/* Organização das linhas dos idiomas */
+.languages-box div {
+    display: flex;
+    justify-content: space-between; /* Deixa o nome na esquerda e as bolinhas na direita */
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
 }
 
 /* Linha do Tempo (Timeline) */
