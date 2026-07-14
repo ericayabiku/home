@@ -121,6 +121,16 @@
         .nav-links a:hover::after {
             width: 100%;
         }
+        .bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;   /* Força a largura total da tela */
+    height: 100vh;  /* Força a altura total da tela */
+    object-fit: cover; /* Faz o vídeo cobrir todo o espaço sem distorcer */
+    z-index: -1;    /* Joga o gradiente para trás do texto obrigatoriamente */
+    pointer-events: none;
+}
 
         /* Responsividade */
         @media screen and (max-width: 950px) {
@@ -166,7 +176,9 @@
     </style>
 </head>
 <body>
-
+<video autoplay muted loop playsinline class="bg-video">
+        <source src="../home/01/images/gradientecores.mp4" type="video/mp4">
+    </video>
     <div class="homepage-container">
         <!-- Esquerda: Identidade e Gatilho do Portfólio -->
         <div class="brand-section">
@@ -174,7 +186,7 @@
             
             <a href="01/html/projetos.html" class="projects-trigger">Projetos</a>
         </div>
-        <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/proto/Wa66XYC0kfwkcOJnhy22jL/brisas?node-id=2017-26&starting-point-node-id=2017%3A18&embed-host=share" allowfullscreen></iframe>
+        
 
         <!-- Direita: Menu Vertical de Páginas -->
         <nav class="nav-links">

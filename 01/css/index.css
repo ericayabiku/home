@@ -237,6 +237,7 @@
     margin-bottom: 0.4rem;
 }
 
+
 /* Responsividade específica para a página */
 @media screen and (max-width: 850px) {
     .profile-header {
