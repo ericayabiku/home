@@ -27,6 +27,22 @@
             justify-content: space-between;
             align-items: flex-start;
         }
+        /* Estado normal dos links (Como eles já estão na tela) */
+.bloco-lateral-esquerdo .link-menu,
+.bloco-lateral-esquerdo a {
+    display: inline-block;       /* Necessário para permitir animações de tamanho/escala */
+    text-decoration: none;       /* Garante que o sublinhado comece desativado */
+    transition: all 0.3s ease;   /* Deixa a transição de tamanho e linha bem suave */
+}
+
+/* AÇÃO AO PASSAR O MOUSE (HOVER) */
+.bloco-lateral-esquerdo .link-menu:hover,
+.bloco-lateral-esquerdo a:hover {
+    text-decoration: underline;  /* Ativa a ação de sublinhar */
+    transform: scale(1.08);      /* Aumenta o tamanho do link em 8% de forma elegante */
+    /* Dica: Usar 'transform: scale' é melhor do que aumentar o 'font-size', 
+       pois evita que o texto empurre os outros itens para baixo ao crescer! */
+}
         /* Caixa principal que segura os dois elementos */
 .bloco-lateral-esquerdo {
     position: absolute;
