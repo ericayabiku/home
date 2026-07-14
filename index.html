@@ -27,6 +27,32 @@
             justify-content: space-between;
             align-items: flex-start;
         }
+        /* Caixa principal que segura os dois elementos */
+.bloco-lateral-esquerdo {
+    position: absolute;
+    top: 40px;         /* Distância do topo da tela */
+    left: 40px;        /* Distância da borda esquerda */
+    display: flex;
+    flex-direction: column; /* Alinha um embaixo do outro verticalmente */
+    align-items: flex-start; /* Força o alinhamento total à esquerda */
+}
+
+/* Ajuste do Nome */
+.bloco-lateral-esquerdo h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 4rem;   /* Mantém o tamanho grande do seu print */
+    line-height: 1;    /* Evita espaços vazios fantasmas embaixo da letra */
+}
+
+/* Ajuste do Link Projetos */
+.bloco-lateral-esquerdo .link-projetos {
+    margin-top: 24px;  /* Controla o espaço vertical entre o nome e o link */
+    margin-left: 0;    /* Zera qualquer margem antiga que jogava ele pro meio */
+    font-size: 1.5rem; /* Ajuste o tamanho da fonte como preferir */
+    text-decoration: none; /* Remove o sublinhado se quiser */
+    color: #8b0000;    /* Mantém o tom avermelhado atual (ou use #ffffff para testar branco!) */
+}
 
         /* Lateral Esquerda - Nome e Link de Projetos */
         .brand-section {
@@ -186,13 +212,11 @@
 <video autoplay muted loop playsinline class="bg-video">
     <source src="./images/gradientecores.mp4" type="video/mp4">
 </video>
-    <div class="homepage-container">
-        <!-- Esquerda: Identidade e Gatilho do Portfólio -->
-        <div class="brand-section">
-            <h1 class="name-title">Erica Yabiku</h1>
-            
-            <a href="./projetos.html" class="projects-trigger">Projetos</a>
-        </div>
+    <div class="bloco-lateral-esquerdo">
+    <h1>Erica Yabiku</h1>
+    <!-- Garanta que o link de projetos esteja aqui dentro, logo abaixo do h1 -->
+    <a href="./projetos.html" class="link-projetos">PROJETOS</a>
+</div>
         
 
         <!-- Direita: Menu Vertical de Páginas -->
