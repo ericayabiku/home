@@ -200,7 +200,7 @@
 /* Tags de Habilidades e Sub-tags de Experiência */
 .skill-tag {
     background-color: rgba(255, 255, 255, 0.1); /* Um fundo leve e transparente */
-    color: #ffffff; /* Texto branco para contrastar com o gradiente */
+    color: #000000; /* Texto branco para contrastar com o gradiente */
     padding: 8px 16px;
     border-radius: 20px;
     display: inline-block;
@@ -212,7 +212,7 @@
 /* Efeito ao passar o mouse (HOVER) */
 .skill-tag:hover {
     /* Escolha uma cor marcante do seu gradiente do Figma */
-    background-color: #e73c7e; /* Muda o fundo para um tom de rosa/magenta */
+    background-color: #73030D; /* Muda o fundo para um tom de rosa/magenta */
     color: #ffffff;            /* Mantém o texto branco */
     transform: translateY(-3px); /* Faz a skill dar um leve "pulinho" para cima */
     box-shadow: 0 5px 15px rgba(231, 60, 126, 0.4); /* Adiciona um brilho neon suave */
