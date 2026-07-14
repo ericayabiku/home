@@ -119,7 +119,7 @@
 
 /* Efeito hover de crescimento centralizado */
 .skills-list .skill-tag:hover {
-    color: #e73c7e;
+    color: #73030D;
     background-color: rgba(231, 60, 126, 0.1); /* Fundo levemente rosado no hover */
     transform: scale(1.05);
     font-weight: 600;
