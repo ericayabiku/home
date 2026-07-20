@@ -1,196 +1,98 @@
-const slides = document.querySelectorAll(".slide");
-let index = 0;
-
-function showSlide(i) {
-  slides.forEach(slide => slide.classList.remove("active"));
-  slides[i].classList.add("active");
-}
-
-document.querySelector(".next").addEventListener("click", () => {
-  index = (index + 1) % slides.length;
-  showSlide(index);
-});
-
-document.querySelector(".prev").addEventListener("click", () => {
-  index = (index - 1 + slides.length) % slides.length;
-  showSlide(index);
-});
-
-setInterval(() => {
-  index = (index + 1) % slides.length;
-  showSlide(index);
-}, 3000);
-
-const modal = document.getElementById("modal");
-const imgGrande = document.getElementById("imgGrande");
-
-document.querySelectorAll(".slide").forEach(img => {
-    img.addEventListener("click", () => {
-        modal.style.display = "flex";
-        imgGrande.src = img.src;
-    });
-});
-
-document.querySelector(".fechar").addEventListener("click", () => {
-    modal.style.display = "none";
-});
-
-modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-        modal.style.display = "none";
-    }
-});
-
-    <!-- Modal Lightbox (Expandir Imagens) -->
-
-        // Modal Lightbox para expandir as imagens
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const lightboxCaption = document.getElementById('lightbox-caption');
-        const closeBtn = document.querySelector('.lightbox-close');
-
-        document.querySelectorAll('.project-image-wrapper').forEach(wrapper => {
-            wrapper.addEventListener('click', () => {
-                const img = wrapper.querySelector('img');
-                const captionText = wrapper.querySelector('.project-caption-overlay p').textContent;
-                
-                lightboxImg.src = img.src;
-                lightboxCaption.textContent = captionText;
-                
-                lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Bloqueia o scroll de fundo
-            });
-        });
-
-        // Fechar Lightbox
-        closeBtn.addEventListener('click', () => {
-            lightbox.classList.remove('active');
-            document.body.style.overflow = ''; // Libera o scroll
-        });
-
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-
-        // Suporte a fechamento com tecla ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-
-        document.addEventListener("DOMContentLoaded", () => {
-    // === LÓGICA DO CARROSSEL ===
-    const slides = document.querySelectorAll(".carousel .slide");
-    const prevBtn = document.querySelector(".carousel .prev");
-    const nextBtn = document.querySelector(".carousel .next");
-    let currentSlide = 0;
-
-    function showSlide(index) {
-        // Remove a classe active de todos os slides
-        slides.forEach(slide => slide.classList.remove("active"));
-        
-        // Ajusta o índice se passar dos limites (carrossel infinito)
-        if (index >= slides.length) currentSlide = 0;
-        else if (index < 0) currentSlide = slides.length - 1;
-        else currentSlide = index;
-
-        // Adiciona a classe active no slide atual
-        slides[currentSlide].classList.add("active");
-    }
-
-    // Eventos dos botões de avançar e voltar
-    nextBtn.addEventListener("click", () => showSlide(currentSlide + 1));
-    prevBtn.addEventListener("click", () => showSlide(currentSlide - 1));
-
-
-    // === LÓGICA DO MODAL (ABRIR IMAGEM CLICADA) ===
-    const modal = document.getElementById("modal");
-    const modalImg = document.getElementById("imgGrande");
-    const fecharBtn = document.querySelector(".fechar");
-
-    // Adiciona o clique em cada uma das imagens do carrossel
-    slides.forEach(slide => {
-        slide.addEventListener("click", () => {
-            modal.style.display = "block"; // Mostra o modal
-            modalImg.src = slide.src;      // Copia o caminho da imagem clicada para o modal
-            modalImg.alt = slide.alt;
-        });
-    });
-
-    // Fecha o modal ao clicar no 'X'
-    fecharBtn.addEventListener("click", () => {
-        modal.style.display = "none";
-    });
-
-    // Fecha o modal se o usuário clicar na área escura (fora da imagem)
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.style.display = "none";
-        }
-    });
-});
 document.addEventListener("DOMContentLoaded", () => {
+    // === SELETORES DO CARROSSEL DA PÁGINA ===
     const slides = document.querySelectorAll(".carousel .slide");
     const prevBtn = document.querySelector(".carousel .prev");
     const nextBtn = document.querySelector(".carousel .next");
     
-    const modal = document.getElementById("modal");
-    const modalImg = document.getElementById("imgGrande");
-    const fecharBtn = document.querySelector(".fechar");
+    // === SELETORES DO MODAL (LIGHTBOX) ===
+    const lightbox = document.getElementById("modal") || document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("imgGrande") || document.getElementById("lightbox-img");
+    const closeBtn = document.querySelector(".fechar") || document.querySelector(".lightbox-close");
     const modalPrevBtn = document.querySelector(".modal-prev");
     const modalNextBtn = document.querySelector(".modal-next");
     
     let currentSlide = 0;
 
-    // Função centralizada para mudar os slides
+    // FUNÇÃO CENTRAL: Altera a foto ativa e atualiza o modal caso esteja aberto
     function showSlide(index) {
+        if (slides.length === 0) return;
+
+        // Remove a classe ativa de todos os slides da página
         slides.forEach(slide => slide.classList.remove("active"));
         
+        // Sistema de carrossel infinito (volta ao início ou fim)
         if (index >= slides.length) currentSlide = 0;
         else if (index < 0) currentSlide = slides.length - 1;
         else currentSlide = index;
 
+        // Ativa o slide atual no fundo da página
         slides[currentSlide].classList.add("active");
 
-        // Se o modal estiver aberto, atualiza também a imagem gigante
-        if (modal.style.display === "block") {
-            modalImg.src = slides[currentSlide].src;
-            modalImg.alt = slides[currentSlide].alt;
+        // Se o lightbox estiver aberto, atualiza a imagem interna dele imediatamente
+        if (lightbox && (lightbox.classList.contains("active") || lightbox.style.display === "flex" || lightbox.style.display === "block")) {
+            if (lightboxImg) {
+                lightboxImg.src = slides[currentSlide].src;
+                lightboxImg.alt = slides[currentSlide].alt;
+            }
         }
     }
 
-    // Botões do Carrossel normal da página
-    nextBtn.addEventListener("click", () => showSlide(currentSlide + 1));
-    prevBtn.addEventListener("click", () => showSlide(currentSlide - 1));
+    // EVENTOS: Cliques nas setas do carrossel padrão da página
+    if (nextBtn) nextBtn.addEventListener("click", () => showSlide(currentSlide + 1));
+    if (prevBtn) prevBtn.addEventListener("click", () => showSlide(currentSlide - 1));
 
-    // Abrir o Modal mapeando o índice correto da foto clicada
+    // EVENTOS: Abre o lightbox sincronizado ao clicar em qualquer imagem do carrossel
     slides.forEach((slide, index) => {
         slide.addEventListener("click", () => {
-            currentSlide = index; // Armazena qual foto foi clicada
-            modal.style.display = "block";
-            showSlide(currentSlide);
+            currentSlide = index; // Armazena a posição correta da foto clicada
+            
+            if (lightbox) {
+                // Adaptação para abrir usando classe utilitária do CSS ou display flex
+                if (lightbox.classList.contains("lightbox")) {
+                    lightbox.classList.add("active");
+                } else {
+                    lightbox.style.display = "flex";
+                }
+                document.body.style.overflow = "hidden"; // Bloqueia o scroll da página de fundo
+                showSlide(currentSlide);
+            }
         });
     });
 
-    // Botões de navegação de dentro do Modal
-    modalNextBtn.addEventListener("click", (e) => {
-        e.stopPropagation(); // Evita fechar o modal por acidente
-        showSlide(currentSlide + 1);
-    });
+    // EVENTOS: Cliques nas setas de navegação internas do Modal
+    if (modalNextBtn) {
+        modalNextBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Evita que o modal feche por um clique fantasma de fundo
+            showSlide(currentSlide + 1);
+        });
+    }
 
-    modalPrevBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        showSlide(currentSlide - 1);
-    });
+    if (modalPrevBtn) {
+        modalPrevBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            showSlide(currentSlide - 1);
+        });
+    }
 
-    // Fechar o modal
-    fecharBtn.addEventListener("click", () => modal.style.display = "none");
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) modal.style.display = "none";
+    // FUNÇÃO INTERNA: Fecha o lightbox de forma limpa
+    function closeLightbox() {
+        if (lightbox) {
+            lightbox.classList.remove("active");
+            lightbox.style.display = "none";
+        }
+        document.body.style.overflow = ""; // Restaura a rolagem da página
+    }
+
+    // EVENTOS: Formas de fechar o Modal (botão X, área externa ou tecla ESC)
+    if (closeBtn) closeBtn.addEventListener("click", closeLightbox);
+    
+    if (lightbox) {
+        lightbox.addEventListener("click", (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+    }
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
     });
 });
