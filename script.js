@@ -134,3 +134,63 @@ modal.addEventListener("click", (e) => {
         }
     });
 });
+document.addEventListener("DOMContentLoaded", () => {
+    const slides = document.querySelectorAll(".carousel .slide");
+    const prevBtn = document.querySelector(".carousel .prev");
+    const nextBtn = document.querySelector(".carousel .next");
+    
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("imgGrande");
+    const fecharBtn = document.querySelector(".fechar");
+    const modalPrevBtn = document.querySelector(".modal-prev");
+    const modalNextBtn = document.querySelector(".modal-next");
+    
+    let currentSlide = 0;
+
+    // Função centralizada para mudar os slides
+    function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove("active"));
+        
+        if (index >= slides.length) currentSlide = 0;
+        else if (index < 0) currentSlide = slides.length - 1;
+        else currentSlide = index;
+
+        slides[currentSlide].classList.add("active");
+
+        // Se o modal estiver aberto, atualiza também a imagem gigante
+        if (modal.style.display === "block") {
+            modalImg.src = slides[currentSlide].src;
+            modalImg.alt = slides[currentSlide].alt;
+        }
+    }
+
+    // Botões do Carrossel normal da página
+    nextBtn.addEventListener("click", () => showSlide(currentSlide + 1));
+    prevBtn.addEventListener("click", () => showSlide(currentSlide - 1));
+
+    // Abrir o Modal mapeando o índice correto da foto clicada
+    slides.forEach((slide, index) => {
+        slide.addEventListener("click", () => {
+            currentSlide = index; // Armazena qual foto foi clicada
+            modal.style.display = "block";
+            showSlide(currentSlide);
+        });
+    });
+
+    // Botões de navegação de dentro do Modal
+    modalNextBtn.addEventListener("click", (e) => {
+        e.stopPropagation(); // Evita fechar o modal por acidente
+        showSlide(currentSlide + 1);
+    });
+
+    modalPrevBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showSlide(currentSlide - 1);
+    });
+
+    // Fechar o modal
+    fecharBtn.addEventListener("click", () => modal.style.display = "none");
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.style.display = "none";
+    });
+});

@@ -30,6 +30,50 @@ body {
   height: 100vh;
   background: #f2f2f2;
 }
+.modal-prev, .modal-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 2rem;
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s;
+    z-index: 1001; /* Fica acima da imagem */
+}
+
+.modal-prev:hover, .modal-next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-prev { left: 20px; }
+.modal-next { right: 20px; }
+
+/* Garanta que o modal se comporte como flex/grid para centralizar a imagem */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-img {
+    margin: auto;
+    display: block;
+    max-width: 80%;
+    max-height: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 .modal {
     display: none;
     position: fixed;
@@ -380,8 +424,12 @@ button {
 
 <!-- Modal isolado (fora do fluxo do carrossel para não quebrar os botões) -->
 <div id="modal" class="modal">
-    <span class="fechar">&times;</span>
+     <span class="fechar">&times;</span>
+    
+    <!-- Botões de navegação dentro do modal -->
+    <button class="modal-prev">&#10094;</button>
     <img id="imgGrande" class="modal-img">
+    <button class="modal-next">&#10095;</button>
 </div>
 <span class="project-category">Ilustração</span>
 <div class="project-details">   
