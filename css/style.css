@@ -55,12 +55,28 @@ html {
 }
 
 body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--bg-primary); /* Mantém sua cor de fundo original */
+    /* REMOVA DAQUI: display: flex; justify-content: center; align-items: center; */
+}
+header {
+    width: 100%;
+    position: relative; /* Ou fixed, se quiser que ele acompanhe a rolagem */
+    left: 0;
+    top: 0;
+}
+.carousel {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Impede que o carrossel estique demais */
+    height: 400px;
+    margin: 0 auto; /* Centraliza o carrossel na página de forma isolada */
+    overflow: hidden;
+    border-radius: 12px;
 }
 
 /* Tipografia */
