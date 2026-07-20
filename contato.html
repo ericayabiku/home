@@ -10,125 +10,195 @@
     <link rel="stylesheet" type="text/css" href="./css/index.css">
     <link rel="shortcut icon" href="./images/developmenticon.png">
     <style>
-.contact-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 150px);
-    padding: 2rem;
-}
-
-.contact-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-/* Cabeçalho da Seção */
-.contact-header {
-    text-align: left;
-    margin-bottom: 4rem;
-}
-
-.contact-header h2 {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: var(--text-primary, #111111);
-    margin-bottom: 1rem;
-}
-
-.contact-header p {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 1.1rem;
-    font-weight: 300;
-    color: var(--text-secondary, #666666);
-}
-
-/* Grid de Informações */
-.contact-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-/* Cards de Contato Interativos */
-.contact-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.8rem 2rem;
-    background-color: #FFFFFF;
-    border-radius: 12px;
-    text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.contact-card:not(.no-link):hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-}
-
-/* Labels e Textos Internos */
-.contact-label {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-muted, #999999);
-    font-weight: 500;
-    width: 25%;
-}
-
-.contact-value {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 1.1rem;
-    color: var(--text-primary, #111111);
-    font-weight: 400;
-    flex: 1;
-}
-
-/* Seta Indicativa Metálica */
-.contact-arrow {
-    font-size: 1.2rem;
-    color: var(--text-muted, #999999);
-    transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.contact-card:hover .contact-arrow {
-    transform: translateX(5px);
-    color: var(--text-primary, #111111);
-}
-
-/* Ajuste para o card de endereço fixo */
-.contact-card.no-link {
-    background-color: transparent;
-    border: 1px dashed rgba(0, 0, 0, 0.15);
-}
-
-/* Responsividade para Celulares */
-@media screen and (max-width: 600px) {
-    .contact-header h2 {
-        font-size: 2rem;
+<style>
+    /* Força o alinhamento correto das colunas e resolve o visual quebrado */
+    .contact-section {
+        width: 100%;
+        min-height: calc(100vh - 150px);
+        display: block !important; /* Remove o flex antigo que esmagava o layout */
+        padding: 6rem 2rem;
+        box-sizing: border-box;
     }
-    
-    .contact-card {
+
+    .contact-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        width: 100%;
+        display: grid !important;
+        grid-template-columns: 1fr 1.2fr !important; /* Separa os blocos em duas colunas perfeitas */
+        gap: 6rem;
+    }
+
+    .contact-left {
+        display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-        padding: 1.5rem;
     }
-    
-    .contact-label {
+
+    .contact-left h2 {
+        font-size: 3rem;
+        font-weight: 600;
+        line-height: 1.1;
+        margin: 0 0 1.5rem 0;
+        letter-spacing: -1.5px;
+        color: #111111;
+    }
+
+    .contact-left p {
+        font-size: 1.1rem;
+        font-weight: 300;
+        line-height: 1.6;
+        color: #555555;
+        margin: 0;
+    }
+
+    .contact-list {
+        display: flex !important;
+        flex-direction: column !important; /* Empilha as linhas uma embaixo da outra */
         width: 100%;
     }
-    
-    .contact-arrow {
-        display: none; /* Oculta a seta no mobile para economizar espaço */
+
+    .contact-row {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 1.8rem 0 !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+        text-decoration: none;
+        width: 100%;
     }
-}
-    </style>
+
+    .contact-type {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 500;
+        color: #999999;
+        width: 140px; /* Dá espaço fixo para os rótulos não empurrarem os links */
+        text-align: left;
+    }
+
+    .contact-link-text {
+        font-size: 1.15rem;
+        font-weight: 400;
+        color: #111111;
+        flex: 1;
+        text-align: left; /* Garante o alinhamento dos links à esquerda */
+    }
+
+    .contact-arrow {
+        font-size: 1.1rem;
+        color: #999999;
+    }
+</style>
+<style>
+    /* Reset e estrutura principal */
+    .contact-section {
+        width: 100%;
+        min-height: calc(100vh - 160px);
+        display: block !important;
+        padding: 5rem 3rem; /* Aumenta o respiro nas laterais */
+        box-sizing: border-box;
+    }
+
+    .contact-container {
+        max-width: 1140px;
+        margin: 0 auto;
+        width: 100%;
+        display: grid !important;
+        /* Altera a proporção: 40% para o texto da esquerda e 60% para a lista da direita */
+        grid-template-columns: 4fr 6fr !important; 
+        gap: 5rem;
+        align-items: flex-start !important;
+    }
+
+    /* Coluna da Esquerda (Textos) */
+    .contact-left {
+        display: flex;
+        flex-direction: column;
+        padding-top: 0.5rem;
+    }
+
+    /* Diminui o tamanho da fonte para o título longo não invadir a outra coluna */
+    .contact-left h2 {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 2.2rem !important; /* Tamanho reduzido e elegante */
+        font-weight: 600;
+        line-height: 1.2;
+        margin: 0 0 1.5rem 0;
+        letter-spacing: -1px;
+        color: #111111;
+    }
+
+    .contact-left p {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 1rem;
+        font-weight: 300;
+        line-height: 1.6;
+        color: #555555;
+        margin: 0;
+    }
+
+    /* Coluna da Direita (Tabela de Informações) */
+    .contact-list {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100%;
+    }
+
+    .contact-row {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 1.5rem 0 !important; /* Espaçamento vertical equilibrado */
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+        text-decoration: none;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Aumenta a largura do rótulo para afastar totalmente do link */
+    .contact-type {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 500;
+        color: #999999;
+        width: 160px !important; /* Espaço estendido para segurança */
+        text-align: left;
+        display: inline-block;
+    }
+
+    .contact-link-text {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: #111111;
+        flex: 1;
+        text-align: left;
+    }
+
+    .contact-arrow {
+        font-size: 1rem;
+        color: #999999;
+        margin-left: 10px;
+    }
+
+    /* Responsividade para telas menores e celulares */
+    @media screen and (max-width: 900px) {
+        .contact-container {
+            grid-template-columns: 1fr !important; /* Vira uma coluna única no mobile */
+            gap: 3rem;
+        }
+        .contact-left h2 {
+            font-size: 2rem !important;
+        }
+        .contact-type {
+            width: 120px !important;
+        }
+    }
+</style>
+</style>
 </head>
 <body>
 
@@ -142,16 +212,64 @@
                     <li><a href="./sobre.html">Sobre</a></li>
                     <li><a href="./projetos.html">Projetos</a></li>
                     <li><a href="./contato.html" class="active">Contato</a></li>
+                    <li><button id="lang-toggle" class="lang-btn">EN</button></li>
                 </ul>
             </nav>
         </div>
     </header>
 <main class="contact-section">
-    <div class="contact-container">
-        <div class="contact-header">
-            <h2>Vamos trabalhar juntos?</h2>
-         
+   <div class="contact-left">
+                <h2 data-pt="Vamos criar algo juntos?" data-en="Let's build something together?">Vamos criar algo juntos?</h2>
+                <p data-pt="Se você tem um projeto em mente, quer discutir uma colaboração em UI/UX, Copywriting ou Produção Audiovisual, sinta-se à vontade para me mandar uma mensagem." 
+                   data-en="If you have a project in mind, want to discuss a collaboration in UI/UX, Copywriting, or Audiovisual Production, feel free to drop me a line.">
+                   Se você tem um projeto em mente, quer discutir uma colaboração em UI/UX, Copywriting ou Produção Audiovisual, sinta-se à vontade para me mandar uma mensagem.
+                </p>
+            </div>
+            <div class="contact-right">
+                <div class="contact-list">
+                    
+                    <!-- Linha de E-mail -->
+                    <a href="mailto:ericayabiku@outlook.com" class="contact-row">
+                        <span class="contact-type" data-pt="E-mail" data-en="Email">E-mail</span>
+                        <span class="contact-link-text">ericayabiku@outlook.com</span>
+                        <span class="contact-arrow">&nearr;</span>
+                    </a>
+
+                    <!-- Linha do LinkedIn -->
+                    <a href="https://www.linkedin.com/in/erica-yabiku/" target="_blank" class="contact-row">
+                        <span class="contact-type" data-pt="LinkedIn" data-en="LinkedIn">LinkedIn</span>
+                        <span class="contact-link-text">Meu LinkedIn</span>
+                        <span class="contact-arrow">&nearr;</span>
+                    </a>
+
+                    <!-- Linha do WhatsApp -->
+                    <a href="https://wa.me" target="_blank" class="contact-row">
+                        <span class="contact-type" data-pt="WhatsApp" data-en="WhatsApp">WhatsApp</span>
+                        <span class="contact-link-text">(11) 96207-0314</span>
+                        <span class="contact-arrow">&nearr;</span>
+                    </a>
+
+                    <!-- Linha de Localização Fixa -->
+                    <div class="contact-row no-hover">
+                        <span class="contact-type" data-pt="Localização" data-en="Location">Localização</span>
+                        <span class="contact-link-text" data-pt="São Paulo, SP — Parada Inglesa" data-en="Sao Paulo, Brazil">São Paulo, SP — Parada Inglesa</span>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
+    </main>
+
+    <!-- Rodapé Unificado -->
+    <footer style="text-align: center; padding: 2.5rem 0; border-top: 1px solid rgba(0,0,0,0.05); margin-top: auto;">
+        <p style="font-size: 0.8rem; color: #999999; margin: 0;">&copy; 2026 Erica Correia Yabiku.</p>
+    </footer>
+
+    <!-- Certifique-se de que o script de tradução é chamado no final -->
+    <script src="./script.js"></script>
+</body>
+</html>
         
         <div class="contact-grid">
             <!-- Bloco de E-mail -->
