@@ -8,7 +8,174 @@
     <link rel="stylesheet" type="text/css" href="./css/style.css">
     <link rel="shortcut icon" href="./images/developmenticon.png">
     <style>
-        body {
+.project-details p {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--text-secondary) !important; /* Cinza claro na noite, cinza escuro no dia */
+}
+
+/* Container do Carrossel e Wrappers de Imagem */
+.project-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 650px;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    background-color: var(--bg-secondary) !important; /* Fundo cinza suave que se adapta */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: none;
+}
+
+.carousel {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: var(--bg-secondary) !important;
+}
+
+/* Subtítulos de Categoria (UI/UX, Produção Audiovisual) */
+.project-category {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted) !important;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+.fechar {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+}
+.slides {
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide.active {
+  display: block;
+}
+
+button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+/* Modal Lightbox para expandir imagens */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(115, 3, 13, 0.97);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: var(--border-radius-sm);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            object-fit: contain;
+        }
+
+        .lightbox.active .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 3rem;
+            color: #FFFFFF;
+            font-size: 2.5rem;
+            font-weight: 200;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            user-select: none;
+        }
+
+        .lightbox-close:hover {
+            color: var(--text-muted);
+            transform: scale(1.1);
+        }
+
+        .lightbox-caption {
+            margin-top: 1.5rem;
+            color: #EFECE6;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 0.9rem;
+            font-weight: 300;
+            max-width: 600px;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsividade */
+        @media screen and (max-width: 768px) {
+            main {
+                padding-top: 2rem;
+            }
+
+            .projects-grid {
+                max-width: 100%;
+                gap: 4rem;
+            }
+            
+            .project-image-wrapper {
+                height: 480px;
+            }
+        }
+         body {
             background-color: var(--bg-primary);
             min-height: 100vh;
             display: flex;
@@ -315,6 +482,8 @@ button {
                 height: 480px;
             }
         }
+
+
 
     </style>
 </head>
