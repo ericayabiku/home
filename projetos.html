@@ -364,15 +364,24 @@ button {
 <body>
 
 <div class="carousel">
-  <button class="prev">&#10094;</button>
-
-  <div class="slides">
-    <img src="../home/images/corpo1.png" class="slide active" alt="Foto 1">
-    <img src="../home/images/corpo2.png" class="slide" alt="Foto 2">
-    <img src="../home/images/corpo3.png" class="slide" alt="Foto 3">
-  
+    <!-- Botão de Voltar -->
+    <button class="prev">&#10094;</button>
     
+    <!-- Container dos Slides -->
+    <div class="slides">
+        <img src="./images/corpo1.png" class="slide active" alt="Foto 1">
+        <img src="./images/corpo2.png" class="slide" alt="Foto 2">
+        <img src="./images/corpo3.png" class="slide" alt="Foto 3">
+    </div>
+    
+    <!-- Botão de Avançar (agora fora dos slides e do modal) -->
+    <button class="next">&#10095;</button>
 </div>
+
+<!-- Modal isolado (fora do fluxo do carrossel para não quebrar os botões) -->
+<div id="modal" class="modal">
+    <span class="fechar">&times;</span>
+    <img id="imgGrande" class="modal-img">
 </div>
 <span class="project-category">Ilustração</span>
 <div class="project-details">   
@@ -383,12 +392,8 @@ button {
             </article>
 </div>
 
-  <button class="next">&#10095;</button>
 </div>
-<div id="modal" class="modal">
-    <span class="fechar">&times;</span>
-    <img id="imgGrande" class="modal-img">
-</div>
+
 
 
 
@@ -410,10 +415,7 @@ button {
     </div>
 
     <!-- Rodapé Simplificado -->
-    <footer>
-        <p>&copy; Erica Correia Yabiku. Todos os direitos reservados.</p>
-        <small>Desenvolvido por Erica Correia Yabiku &bull; UI/UX Designer & Copywriter</small>
-    </footer>
+
 
     <!-- Script de Interação -->
     <script>
@@ -459,4 +461,8 @@ button {
     </script>
 
 </body>
+    <footer>
+        <p>&copy; Erica Correia Yabiku. Todos os direitos reservados.</p>
+        <small>Desenvolvido por Erica Correia Yabiku &bull; UI/UX Designer & Copywriter</small>
+    </footer>
 </html>

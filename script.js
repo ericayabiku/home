@@ -40,3 +40,97 @@ modal.addEventListener("click", (e) => {
         modal.style.display = "none";
     }
 });
+
+    <!-- Modal Lightbox (Expandir Imagens) -->
+
+        // Modal Lightbox para expandir as imagens
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const closeBtn = document.querySelector('.lightbox-close');
+
+        document.querySelectorAll('.project-image-wrapper').forEach(wrapper => {
+            wrapper.addEventListener('click', () => {
+                const img = wrapper.querySelector('img');
+                const captionText = wrapper.querySelector('.project-caption-overlay p').textContent;
+                
+                lightboxImg.src = img.src;
+                lightboxCaption.textContent = captionText;
+                
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Bloqueia o scroll de fundo
+            });
+        });
+
+        // Fechar Lightbox
+        closeBtn.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = ''; // Libera o scroll
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Suporte a fechamento com tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+    // === LÓGICA DO CARROSSEL ===
+    const slides = document.querySelectorAll(".carousel .slide");
+    const prevBtn = document.querySelector(".carousel .prev");
+    const nextBtn = document.querySelector(".carousel .next");
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        // Remove a classe active de todos os slides
+        slides.forEach(slide => slide.classList.remove("active"));
+        
+        // Ajusta o índice se passar dos limites (carrossel infinito)
+        if (index >= slides.length) currentSlide = 0;
+        else if (index < 0) currentSlide = slides.length - 1;
+        else currentSlide = index;
+
+        // Adiciona a classe active no slide atual
+        slides[currentSlide].classList.add("active");
+    }
+
+    // Eventos dos botões de avançar e voltar
+    nextBtn.addEventListener("click", () => showSlide(currentSlide + 1));
+    prevBtn.addEventListener("click", () => showSlide(currentSlide - 1));
+
+
+    // === LÓGICA DO MODAL (ABRIR IMAGEM CLICADA) ===
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("imgGrande");
+    const fecharBtn = document.querySelector(".fechar");
+
+    // Adiciona o clique em cada uma das imagens do carrossel
+    slides.forEach(slide => {
+        slide.addEventListener("click", () => {
+            modal.style.display = "block"; // Mostra o modal
+            modalImg.src = slide.src;      // Copia o caminho da imagem clicada para o modal
+            modalImg.alt = slide.alt;
+        });
+    });
+
+    // Fecha o modal ao clicar no 'X'
+    fecharBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    // Fecha o modal se o usuário clicar na área escura (fora da imagem)
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+});
