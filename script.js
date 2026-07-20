@@ -96,3 +96,44 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.key === "Escape") closeLightbox();
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const langToggleBtn = document.getElementById("lang-toggle");
+    
+    // Verifica se o usuário já tinha uma preferência salva, senão assume Português ('pt')
+    let currentLang = localStorage.getItem("preferredLanguage") || "pt";
+
+    // Função que aplica o idioma na interface
+    function applyLanguage(lang) {
+        // Altera o atributo oficial de idioma do HTML para SEO
+        document.documentElement.lang = lang === "pt" ? "pt-br" : "en";
+
+        // Busca todos os elementos da página que possuem tradução configurada
+        const translatableElements = document.querySelectorAll("[data-pt][data-en]");
+        
+        translatableElements.forEach(el => {
+            // Altera o conteúdo baseado no idioma selecionado
+            el.innerHTML = el.getAttribute(`data-${lang}`);
+        });
+
+        // Atualiza o texto visual do botão indicador
+        if (langToggleBtn) {
+            langToggleBtn.textContent = lang === "pt" ? "EN" : "PT";
+        }
+
+        // Salva a escolha do usuário na memória local do navegador
+        localStorage.setItem("preferredLanguage", lang);
+        currentLang = lang;
+    }
+
+    // Executa a tradução assim que a página carrega
+    applyLanguage(currentLang);
+
+    // Evento de clique para alternar o idioma
+    if (langToggleBtn) {
+        langToggleBtn.addEventListener("click", () => {
+            const nextLang = currentLang === "pt" ? "en" : "pt";
+            applyLanguage(nextLang);
+        });
+    }
+});

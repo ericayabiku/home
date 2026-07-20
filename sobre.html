@@ -16,6 +16,26 @@
             flex-direction: column;
             min-height: 100vh;
         }
+        .lang-btn {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: var(--text-primary, #111111);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.5px;
+    margin-left: 0.5rem;
+}
+
+.lang-btn:hover {
+    border-color: #73030D; /* Cor vinho característica */
+    color: #73030D;
+    background-color: rgba(115, 3, 13, 0.02);
+}
 
         .about-main {
             flex: 1;
@@ -180,6 +200,7 @@
                     <li><a href="./sobre.html" class="active">Sobre</a></li>
                     <li><a href="./projetos.html">Projetos</a></li>
                     <li><a href="./contato.html">Contato</a></li>
+                <li><button id="lang-toggle" class="lang-btn">EN</button></li>
                 </ul>
             </nav>
         </div>
@@ -193,13 +214,21 @@
             <div class="profile-intro">
                 <span class="profile-tag">UI / UX Design & Copywriting</span>
                 <h1>Erica Correia Yabiku</h1>
-                <p class="profile-meta">
-                    <strong>Localização:</strong> São Paulo - SP
-                </p>
+               
+                
                 <div class="profile-tagline">
-                    <p>Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling acreditando que design é, antes de tudo, comunicação.</p>
-                    <p>Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa.</p>
-                </div>
+    <!-- Primeiro parágrafo com as duas versões de texto -->
+    <p data-pt="Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação." 
+       data-en="I am a UI/UX designer and copywriter with a background in operational management. I work at the intersection of prototyping in Figma, creative direction, and storytelling — believing that design is, first and foremost, communication.">
+       Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação.
+    </p>
+    
+    <!-- Segundo parágrafo com as duas versões de texto -->
+    <p data-pt="Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa." 
+       data-en="My background in audiovisual production at SENAC fuels a narrative view of design: every screen, every graphic piece tells a story. I have a growing interest in using artificial intelligence as a tool for creative expansion.">
+       Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa.
+    </p>
+</div>
             </div>
             
             <div class="profile-avatar">
@@ -209,6 +238,13 @@
                 </div>
             </div>
         </section>
+    
+
+<p class="profile-meta">
+    <span data-pt="<strong>Localização:</strong> São Paulo - SP" data-en="<strong>Location:</strong> Sao Paulo - Brazil"><strong>Localização:</strong> São Paulo - SP</span>
+</p>
+
+
 
         <!-- Seção de Skills e Idiomas -->
         <section class="skills-and-languages">
@@ -243,6 +279,7 @@
 
         </section>
     </main>
+    <script src="./script.js"></script>
 
     <!-- Rodapé Minimalista -->
     <footer style="text-align: center; padding: 2.5rem 0; border-top: 1px solid rgba(0,0,0,0.05); margin-top: auto;">
