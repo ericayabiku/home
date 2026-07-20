@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -9,100 +10,124 @@
     <link rel="stylesheet" type="text/css" href="./css/index.css">
     <link rel="shortcut icon" href="./images/developmenticon.png">
     <style>
-        body {
-            background-color: var(--bg-primary);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+.contact-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 150px);
+    padding: 2rem;
+}
 
-        main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4rem 2rem;
-        }
+.contact-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
 
-        .contact-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius-md);
-            padding: 3rem 4rem;
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition-smooth);
-        }
+/* Cabeçalho da Seção */
+.contact-header {
+    text-align: left;
+    margin-bottom: 4rem;
+}
 
-        .contact-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-2px);
-        }
+.contact-header h2 {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--text-primary, #111111);
+    margin-bottom: 1rem;
+}
 
-        .contact-card h2 {
-            font-size: 2.25rem;
-            margin-bottom: 2rem;
-            font-family: var(--font-title);
-            position: relative;
-            display: inline-block;
-        }
+.contact-header p {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--text-secondary, #666666);
+}
 
-        .contact-card h2::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 2px;
-            background-color: var(--text-primary);
-        }
+/* Grid de Informações */
+.contact-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
 
-        .info-group {
-            margin-bottom: 2rem;
-        }
+/* Cards de Contato Interativos */
+.contact-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.8rem 2rem;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
 
-        .info-group:last-of-type {
-            margin-bottom: 0;
-        }
+.contact-card:not(.no-link):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
 
-        .info-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-bottom: 0.25rem;
-            font-weight: 600;
-        }
+/* Labels e Textos Internos */
+.contact-label {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted, #999999);
+    font-weight: 500;
+    width: 25%;
+}
 
-        .info-value {
-            font-size: 1.1rem;
-            color: var(--text-primary);
-            font-family: var(--font-body);
-        }
+.contact-value {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 1.1rem;
+    color: var(--text-primary, #111111);
+    font-weight: 400;
+    flex: 1;
+}
 
-        .info-value a {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
+/* Seta Indicativa Metálica */
+.contact-arrow {
+    font-size: 1.2rem;
+    color: var(--text-muted, #999999);
+    transition: transform 0.2s ease, color 0.2s ease;
+}
 
-        .info-value a:hover {
-            color: var(--accent-secondary);
-        }
+.contact-card:hover .contact-arrow {
+    transform: translateX(5px);
+    color: var(--text-primary, #111111);
+}
 
-        @media screen and (max-width: 600px) {
-            .contact-card {
-                padding: 2rem;
-            }
-            .contact-card h2 {
-                font-size: 1.75rem;
-            }
-            .info-value {
-                font-size: 0.95rem;
-            }
-        }
+/* Ajuste para o card de endereço fixo */
+.contact-card.no-link {
+    background-color: transparent;
+    border: 1px dashed rgba(0, 0, 0, 0.15);
+}
+
+/* Responsividade para Celulares */
+@media screen and (max-width: 600px) {
+    .contact-header h2 {
+        font-size: 2rem;
+    }
+    
+    .contact-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 1.5rem;
+    }
+    
+    .contact-label {
+        width: 100%;
+    }
+    
+    .contact-arrow {
+        display: none; /* Oculta a seta no mobile para economizar espaço */
+    }
+}
     </style>
 </head>
 <body>
@@ -121,39 +146,40 @@
             </nav>
         </div>
     </header>
+<main class="contact-section">
+    <div class="contact-container">
+        <div class="contact-header">
+            <h2>Vamos trabalhar juntos?</h2>
+         
+        </div>
+        
+        <div class="contact-grid">
+            <!-- Bloco de E-mail -->
+            <a href="mailto:ericayabiku@outlook.com" class="contact-card">
+                <span class="contact-label">E-mail</span>
+                <span class="contact-value">ericayabiku@outlook.com</span>
+                <span class="contact-arrow">&rarr;</span>
+            </a>
 
-    <main>
-        <!-- Cartão Minimalista de Contato -->
-        <div class="contact-card">
-            <h2>Contato</h2>
-            
-            <div class="info-group">
-                <p class="info-label">E-mail</p>
-                <p class="info-value"><a href="mailto:ericayabiku@outlook.com">ericayabiku@outlook.com</a></p>
-            </div>
-             <div class="info-group">
-                <p class="info-value"><a href="https://www.linkedin.com/in/erica-yabiku-40bb36196/">LinkedIn
+            <!-- Bloco do LinkedIn -->
+            <a href="https://www.linkedin.com/in/erica-yabiku/" target="_blank" class="contact-card">
+                <span class="contact-label">LinkedIn</span>
+                <span class="contact-value">Meu LinkedIn</span>
+                <span class="contact-arrow">&rarr;</span>
+            </a>
 
-                </a></p>
-            </div>
-            
-            <div class="info-group">
-                <p class="info-label">Telefone</p>
-                <p class="info-value"><a href="tel:+5511962070314">(11) 96207-0314</a></p>
-            </div>
-            
-            <div class="info-group">
-                <p class="info-label">Endereço</p>
-                <p class="info-value">312 Cap. Sérvio Rodrigues St.<br>Parada Inglesa, São Paulo - SP</p>
+            <!-- Bloco de Telefone -->
+            <a href="https://wa.me" target="_blank" class="contact-card">
+                <span class="contact-label">Telefone / WhatsApp</span>
+                <span class="contact-value">(11) 96207-0314</span>
+                <span class="contact-arrow">&rarr;</span>
+            </a>
+
+            <!-- Bloco de Localização -->
+            <div class="contact-card no-link">
+                <span class="contact-label">Localização</span>
+                <span class="contact-value">São Paulo, SP — Parada Inglesa</span>
             </div>
         </div>
-    </main>
-
-    <!-- Rodapé Simplificado -->
-    <footer>
-        <p>&copy; Erica Correia Yabiku. Todos os direitos reservados.</p>
-        <small>Desenvolvido por Erica Correia Yabiku &bull; UI/UX Designer & Copywriter</small>
-    </footer>
-
-</body>
-</html>
+    </div>
+</main>
