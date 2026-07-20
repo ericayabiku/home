@@ -137,3 +137,32 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+const themeToggleBtn = document.getElementById("theme-toggle");
+
+// Verifica se o usuário já salvou alguma preferência de tema antes
+const savedTheme = localStorage.getItem("theme") || "light";
+
+// Aplica o tema salvo logo ao carregar a página
+if (savedTheme === "dark") {
+    document.body.classList.add("dark-theme");
+    if (themeToggleBtn) themeToggleBtn.textContent = "☀️"; // Ícone para voltar ao dia
+} else {
+    document.body.classList.remove("dark-theme");
+    if (themeToggleBtn) themeToggleBtn.textContent = "🌙"; // Ícone para ir para a noite
+}
+
+// Evento de clique para alternar o tema
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener("click", () => {
+        document.body.classList.toggle("dark-theme");
+        
+        // Verifica qual classe está ativa após o clique para salvar no LocalStorage
+        if (document.body.classList.contains("dark-theme")) {
+            localStorage.setItem("theme", "dark");
+            themeToggleBtn.textContent = "☀️";
+        } else {
+            localStorage.setItem("theme", "light");
+            themeToggleBtn.textContent = "🌙";
+        }
+    });
+}

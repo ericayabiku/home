@@ -69,6 +69,54 @@ header {
     left: 0;
     top: 0;
 }
+:root {
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F9F9F9;
+    --text-primary: #111111;
+    --text-secondary: #555555;
+    --text-muted: #999999;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --card-bg: #FFFFFF;
+    --accent: #73030D; /* Seu tom vinho original */
+}
+
+/* Quando a classe .dark-theme estiver ativa no body, as cores mudam automaticamente */
+body.dark-theme {
+    --bg-primary: #121212;      /* Fundo preto fosco elegante */
+    --bg-secondary: #1A1A1A;    /* Fundo secundário */
+    --text-primary: #EAEAEA;    /* Texto principal claro */
+    --text-secondary: #A0A0A0;  /* Texto secundário */
+    --text-muted: #666666;      /* Texto apagado */
+    --border-color: rgba(255, 255, 255, 0.1);
+    --card-bg: #1E1E1E;         /* Fundo dos cards na noite */
+}
+
+/* Suaviza a transição de cor quando o usuário clica no botão */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Garanta que seus elementos existentes usem as variáveis (Exemplos): */
+h1, h2, h3 { color: var(--text-primary); }
+p { color: var(--text-secondary); }
+.card { background-color: var(--card-bg); border-color: var(--border-color); }
+
+.theme-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    padding: 3px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    margin-left: 0.5rem;
+}
+.theme-btn:hover {
+    border-color: var(--accent);
+    background-color: rgba(115, 3, 13, 0.02);
+}
 .carousel {
     position: relative;
     width: 100%;
