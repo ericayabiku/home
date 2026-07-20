@@ -16,6 +16,63 @@
             flex-direction: column;
             min-height: 100vh;
         }
+        .skill-tag {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--bg-secondary) !important; /* CORRIGIDO: Fundo escurece na noite e clareia de dia */
+    border-radius: 30px;
+    font-size: 0.85rem;
+    color: var(--text-primary) !important; /* CORRIGIDO: Fonte fica clara e visível no modo noite */
+    font-weight: 400;
+    transition: all 0.25s ease;
+    cursor: default;
+    border: 1px solid var(--border-color); /* Linha sutil opcional para dar contorno */
+}
+
+/* Comportamento de Hover (Mantém o tom vinho de destaque original) */
+.skill-tag:hover {
+    background-color: #73030D !important; 
+    color: #FFFFFF !important;
+    transform: translateY(-2px);
+}
+
+/* Linhas da tabela de Idiomas (Corrigindo cores das fontes escuras) */
+.lang-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    color: var(--text-primary) !important; /* CORRIGIDO: Texto do idioma fica claro na noite */
+}
+
+/* Alinhamento de cor forte para o texto interno em negrito dos idiomas */
+.lang-row strong {
+    color: var(--text-primary) !important;
+}
+
+/* Os pontinhos indicadores de fluência nos idiomas */
+.lang-dots {
+    color: #73030D; /* Mantém o destaque vinho */
+    letter-spacing: 2px;
+    font-size: 1.1rem;
+}
+body.dark-theme .profile-hero h1,
+body.dark-theme h1 {
+    color: #FFFFFF !important;
+}
+
+/* Força o título das seções (como Skills e Idiomas) a ficar branco */
+body.dark-theme .skills-and-languages h2,
+body.dark-theme h2 {
+    color: #FFFFFF !important;
+}
+
+/* Garante que o texto de introdução abaixo do nome ganhe excelente leitura */
+body.dark-theme .profile-tagline p {
+    color: #EAEAEA !important;
+}
         .lang-btn {
     background: transparent;
     border: 1px solid rgba(0, 0, 0, 0.15);
