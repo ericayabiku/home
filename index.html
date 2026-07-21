@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="./css/style.css">
     <link rel="shortcut icon" href="./images/developmenticon.png">
     <style>
-        body {
+body {
             background-color: var(--bg-primary);
             overflow: hidden;
             height: 100vh;
@@ -16,185 +16,45 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding-top: 90px;
         }
 
-        /* Container Principal do Layout */
-        .homepage-container {
-            max-width: var(--max-width);
-            width: 100%;
-            padding: 0 5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-        /* Estado normal dos links (Como eles já estão na tela) */
-.bloco-lateral-esquerdo .link-menu,
-.bloco-lateral-esquerdo a {
-    display: inline-block;       /* Necessário para permitir animações de tamanho/escala */
-    text-decoration: none;       /* Garante que o sublinhado comece desativado */
-    transition: all 0.3s ease;   /* Deixa a transição de tamanho e linha bem suave */
+
+.track{
+    display:inline-flex;
+    gap:50px;
+    animation:scroll 20s linear infinite;
 }
 
-/* AÇÃO AO PASSAR O MOUSE (HOVER) */
-.bloco-lateral-esquerdo .link-menu:hover,
-.bloco-lateral-esquerdo a:hover {
-    text-decoration: underline;  /* Ativa a ação de sublinhar */
-    transform: scale(1.08);      /* Aumenta o tamanho do link em 8% de forma elegante */
-    /* Dica: Usar 'transform: scale' é melhor do que aumentar o 'font-size', 
-       pois evita que o texto empurre os outros itens para baixo ao crescer! */
+.track span,
+.track a{
+    color:#fff;
+    font-size:64px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:3px;
+    text-decoration:none;
 }
-        /* Caixa principal que segura os dois elementos */
-.bloco-lateral-esquerdo {
-    position: absolute;
-    top: 40px;         /* Distância do topo da tela */
-    left: 40px;        /* Distância da borda esquerda */
-    display: flex;
-    flex-direction: column; /* Alinha um embaixo do outro verticalmente */
-    align-items: flex-start; /* Força o alinhamento total à esquerda */
-}
-
-/* Ajuste do Nome */
-.bloco-lateral-esquerdo h1 {
-    margin: 0;
-    padding: 0;
-    font-size: 4rem;   /* Mantém o tamanho grande do seu print */
-    line-height: 1;    /* Evita espaços vazios fantasmas embaixo da letra */
-    color:#ffffff
-}
-.bloco-lateral-esquerdo a {
-    display: inline-block;
-    text-decoration: none;
-    color: #ffffff; /* Garante que a cor base permaneça branca */
-    border-bottom: 2px solid transparent; /* Reserva o espaço da linha para não empurrar o texto */
-    transition: transform 0.25s ease, border-color 0.25s ease;
-    transform-origin: left center; /* Força o texto a crescer fixado na esquerda, sem tremer */
-}
-
-/* AÇÃO AO PASSAR O MOUSE (HOVER) */
-.bloco-lateral-esquerdo a:hover {
-    transform: scale(1.05); /* Aumenta o tamanho discretamente em 5% */
-    border-color: #ffffff; /* Faz a linha de sublinhado aparecer em branco */
-}
-
-/* Ajuste do Link Projetos */
-.bloco-lateral-esquerdo .link-projetos {
-    margin-top: 24px;  /* Controla o espaço vertical entre o nome e o link */
-    margin-left: 0;    /* Zera qualquer margem antiga que jogava ele pro meio */
-    font-size: 1.5rem; /* Ajuste o tamanho da fonte como preferir */
-    text-decoration: none; /* Remove o sublinhado se quiser */
-    color: #ffffff;    /* Mantém o tom avermelhado atual (ou use #ffffff para testar branco!) */
-}
-
-        /* Lateral Esquerda - Nome e Link de Projetos */
-        .brand-section {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;            
-            
-        }
-  
-        /* Nome em Helvetica Semibold */
-        .name-title {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 96px;
-            font-weight: 600; /* Semibold */
-            line-height: 0.9;
-            letter-spacing: -3px;
-            color: var(--text-primary);
-            text-transform: none; /* Iniciais maiúsculas apenas */
-        }
-        .name-title {
-    position: absolute;
-    top: 40px;      /* Distância do topo da tela */
-    left: 40px;     /* Distância da esquerda da tela */
-    margin: 0;      /* Remove margens antigas que possam atrapalhar */
-    text-align: left; /* Garante o alinhamento do texto para a esquerda */
-}
-
-        /* Link de Projetos (Helvetica Light, Grande, Terracota) */
-        .projects-trigger {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 2.25rem; /* ~36px */
-            font-weight: 300; /* Light */
-            color: var(--accent-primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: var(--transition-smooth);
-            align-self: flex-start;
-            position: relative;
-            padding-bottom: 0.25rem;
-        }
-
-        .projects-trigger::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--accent-primary);
-            transition: var(--transition-smooth);
-        }
-
-        .projects-trigger:hover {
-            color: var(--accent-hover);
-            transform: translateX(4px);
-        }
-
-        .projects-trigger:hover::after {
-            width: 100%;
-        }
-
-        /* Lateral Direita - Menu Vertical (Helvetica Light) */
-        .nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-            align-items: flex-end;
-            padding-top: 1rem;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 0.95rem;
-            font-weight: 300; /* Light */
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            position: relative;
-            padding-bottom: 0.25rem;
-            transition: var(--transition-smooth);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--text-primary);
-            transition: var(--transition-smooth);
-        }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        .bg-video {
+.text-carousel{
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;   /* Força a largura total da tela */
-    height: 100vh;  /* Força a altura total da tela */
-    object-fit: cover; /* Faz o vídeo cobrir todo o espaço sem distorcer */
-    z-index: -1;    /* Joga o gradiente para trás do texto obrigatoriamente */
-    pointer-events: none;
+    width: 100%;
+    height: 90px;
+    background: #000;
+    overflow: hidden;
+    z-index: 9999;
 }
+
+@keyframes scroll{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-50%);
+    }
+}
+
 
         /* Responsividade */
         @media screen and (max-width: 950px) {
@@ -240,17 +100,30 @@
     </style>
 </head>
 <body>
-<video autoplay muted loop playsinline class="bg-video">
-    <source src="./images/gradientecores.mp4" type="video/mp4">
-</video>
-    <div class="bloco-lateral-esquerdo">
-    <h1>Erica Yabiku</h1>
-    <!-- Garanta que o link de projetos esteja aqui dentro, logo abaixo do h1 -->
-    <a href="./projetos.html" class="link-projetos"><h1>PROJETOS</h1></a>
-    <a href="./sobre.html"><h1>SOBRE</h1></a>
-    <a href="./contato.html"><h1>CONTATO</h1></a>
- 
+    <div class="text-carousel">
+  <div class="track">
+     <span>ERICA YABIKU</span>
+    <span>•</span>
+    <a href="./projetos.html">PROJETOS</a>
+    <span>•</span>
+    <a href="./sobre.html">SOBRE</a>
+    <span>•</span>
+     <a href="./contato.html">CONTATO</a>
+    <span>•</span>
+
+    <!-- Duplicado para criar loop infinito -->
+    <span>ERICA YABIKU</span>
+    <span>•</span>
+    <a href="./projetos.html">PROJETOS</a>
+    <span>•</span>
+    <a href="./sobre.html">SOBRE</a>
+    <span>•</span>
+     <a href="./contato.html">CONTATO</a>
+    <span>•</span>
+  </div>
 </div>
+
+
         
 
 </body>
