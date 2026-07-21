@@ -22,8 +22,10 @@ body {
 
 .track{
     display:inline-flex;
+    align-items:center;
     gap:50px;
     animation:scroll 20s linear infinite;
+    white-space:nowrap;
 }
 
 .track span,
@@ -37,13 +39,15 @@ body {
 }
 .text-carousel{
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 90px;
-    background: #000;
-    overflow: hidden;
-    z-index: 9999;
+    top:0;
+    left:0;
+    width:100%;
+    height:110px;
+    background:#000;
+    overflow:hidden;
+    z-index:9999;
+    display:flex;
+    align-items:center;
 }
 
 @keyframes scroll{
@@ -102,7 +106,7 @@ body {
 <body>
     <div class="text-carousel">
   <div class="track">
-   <span>ERICA YABIKU</span>
+   <span>ERICA Y.</span>
     <span>•</span>
     <a href="./projetos.html">PROJETOS</a>
     <span>•</span>
@@ -113,7 +117,7 @@ body {
     
 
     <!-- Duplicado para criar loop infinito -->
-    <span>ERICA YABIKU</span>
+    <span>ERICA Y.</span>
     <span>•</span>
     <a href="./projetos.html">PROJETOS</a>
     <span>•</span>
