@@ -60,31 +60,44 @@ body {
 }
 .star{
     position: fixed;
-    width: 8px;
-    height: 8px;
-    background: white;
+    width: 12px;
+    height: 12px;
+    background: #000;
     pointer-events: none;
-    transform: rotate(45deg);
-    animation: sparkle .8s ease-out forwards;
-    z-index:99999;
+    z-index: 99999;
+
+    clip-path: polygon(
+        50% 0%,
+        61% 35%,
+        98% 35%,
+        68% 57%,
+        79% 100%,
+        50% 75%,
+        21% 100%,
+        32% 57%,
+        2% 35%,
+        39% 35%
+    );
+
+    animation: starMove 1s ease-out forwards;
 }
 
-.star{
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    background: black;
-    pointer-events: none;
-    transform: rotate(45deg);
-    animation: sparkle .8s ease-out forwards;
-    z-index:99999;
-}
 
-.star::before,
-.star::after{
-    content:"";
-    position:absolute;
-    background:black;
+@keyframes starMove{
+
+    0%{
+        opacity:1;
+        transform:scale(1) rotate(0deg);
+    }
+
+    100%{
+        opacity:0;
+        transform:
+        translateY(-50px)
+        scale(0)
+        rotate(180deg);
+    }
+
 }
 
 
@@ -172,6 +185,8 @@ body {
   </div>
 </div>
 <script>
+let lastStar = 0;
+
 document.addEventListener("mousemove", createStar);
 
 document.addEventListener("touchmove", function(e){
@@ -188,40 +203,44 @@ document.addEventListener("touchmove", function(e){
 
 function createStar(e){
 
-    const star = document.createElement("div");
-    star.className = "star";
+    const now = Date.now();
 
-    star.style.left = e.clientX + "px";
-    star.style.top = e.clientY + "px";
-
-    document.body.appendChild(star);
-
-    setTimeout(() => {
-        star.remove();
-    }, 800);
-
-}
-let lastStar = 0;
-
-function createStar(e){
-
-    let now = Date.now();
-
-    if(now - lastStar < 40) return;
+    // controla quantidade de estrelas
+    if(now - lastStar < 50) return;
 
     lastStar = now;
 
+
     const star = document.createElement("div");
     star.className = "star";
 
+
+    // posição
     star.style.left = e.clientX + "px";
     star.style.top = e.clientY + "px";
 
+
+    // tamanho aleatório
+    const size = Math.random() * 8 + 4;
+
+    star.style.width = size + "px";
+    star.style.height = size + "px";
+
+
+    // rotação aleatória
+    star.style.setProperty(
+        "--rotate",
+        Math.random() * 180 + "deg"
+    );
+
+
     document.body.appendChild(star);
+
 
     setTimeout(() => {
         star.remove();
-    },800);
+    },1000);
+
 }
 </script>
 
