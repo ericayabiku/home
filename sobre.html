@@ -16,6 +16,19 @@
             flex-direction: column;
             min-height: 100vh;
         }
+        .reveal{
+    opacity:0;
+    transform:translateY(80px);
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+
+
+.reveal.active{
+    opacity:1;
+    transform:translateY(0);
+}
         .skill-tag {
     display: inline-block;
     padding: 0.6rem 1.2rem;
@@ -265,78 +278,106 @@ body.dark-theme .profile-tagline p {
     </header>
 
     <!-- Conteúdo Principal Adaptado -->
-    <main class="about-main">
+ <main class="about-main">
         
-        <!-- Seção Cabeçalho do Perfil -->
-        <section class="profile-hero">
-            <div class="profile-intro">
-                <span class="profile-tag">UI / UX Design & Copywriting</span>
-                <h1>Erica Correia Yabiku</h1>
+    <section class="profile-hero reveal">
+        <div class="profile-intro">
+            <span class="profile-tag">UI / UX Design & Copywriting</span>
+
+            <h1>Erica Correia Yabiku</h1>
                
-                
-                <div class="profile-tagline">
-    <!-- Primeiro parágrafo com as duas versões de texto -->
-    <p data-pt="Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação." 
-       data-en="I am a UI/UX designer and copywriter with a background in operational management. I work at the intersection of prototyping in Figma, creative direction, and storytelling — believing that design is, first and foremost, communication.">
-       Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação.
-    </p>
-    
-    <!-- Segundo parágrafo com as duas versões de texto -->
-    <p data-pt="Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa." 
-       data-en="My background in audiovisual production at SENAC fuels a narrative view of design: every screen, every graphic piece tells a story. I have a growing interest in using artificial intelligence as a tool for creative expansion.">
-       Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa.
-    </p>
-</div>
+            <div class="profile-tagline">
+                <p data-pt="Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação.">
+                    Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação.
+                </p>
+
+                <p data-pt="Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa.">
+                    Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa.
+                </p>
             </div>
+        </div>
             
-            <div class="profile-avatar">
-                <div class="avatar-wrapper">
-                    <!-- Substitua pela imagem tratada com fundo preto se preferir -->
-                    <img src="./images/profilepic.png" alt="Foto de Perfil da Erica Correia Yabiku">
-                </div>
+        <div class="profile-avatar">
+            <div class="avatar-wrapper">
+                <img src="./images/profilepic.png" alt="Foto de Perfil da Erica Correia Yabiku">
             </div>
-        </section>
-    
-
-<p class="profile-meta">
-    <span data-pt="<strong>Localização:</strong> São Paulo - SP" data-en="<strong>Location:</strong> Sao Paulo - Brazil"><strong>Localização:</strong> São Paulo - SP</span>
-</p>
+        </div>
+    </section>
 
 
+    <p class="profile-meta reveal">
+        <span>
+            <strong>Localização:</strong> São Paulo - SP
+        </span>
+    </p>
 
-        <!-- Seção de Skills e Idiomas -->
-        <section class="skills-and-languages">
+
+
+    <section class="skills-and-languages reveal">
             
-            <div class="skills-block">
-                <h2>Skills</h2>
-                <div class="skills-list">
-                    <span class="skill-tag">UI/UX Design</span>
-                    <span class="skill-tag">Figma</span>
-                    <span class="skill-tag">Copywriting</span>
-                    <span class="skill-tag">Roteiro</span>
-                    <span class="skill-tag">Produção Audiovisual</span>
-                    <span class="skill-tag">Affinity</span>
-                    <span class="skill-tag">Escrita Criativa</span>
-                    <span class="skill-tag">Google/SEO</span>
+        <div class="skills-block">
+            <h2>Skills</h2>
+
+            <div class="skills-list">
+                <span class="skill-tag">UI/UX Design</span>
+                <span class="skill-tag">Figma</span>
+                <span class="skill-tag">Copywriting</span>
+                <span class="skill-tag">Roteiro</span>
+                <span class="skill-tag">Produção Audiovisual</span>
+                <span class="skill-tag">Affinity</span>
+                <span class="skill-tag">Escrita Criativa</span>
+                <span class="skill-tag">Google/SEO</span>
+            </div>
+        </div>
+
+
+        <div class="languages-block">
+            <h2>Idiomas</h2>
+
+            <div class="languages-box">
+                <div class="lang-row">
+                    <span><strong>Português:</strong> Nativo</span>
+                    <span class="lang-dots">•••••</span>
+                </div>
+
+                <div class="lang-row">
+                    <span><strong>Inglês:</strong> Avançado</span>
+                    <span class="lang-dots">••••</span>
                 </div>
             </div>
 
-            <div class="languages-block">
-                <h2>Idiomas</h2>
-                <div class="languages-box">
-                    <div class="lang-row">
-                        <span><strong>Português:</strong> Nativo</span>
-                        <span class="lang-dots">•••••</span>
-                    </div>
-                    <div class="lang-row">
-                        <span><strong>Inglês:</strong> Avançado</span>
-                        <span class="lang-dots">••••</span>
-                    </div>
-                </div>
-            </div>
+        </div>
 
-        </section>
-    </main>
+    </section>
+
+</main>
+<script>
+
+const reveals = document.querySelectorAll(".reveal");
+
+
+const observer = new IntersectionObserver((entries)=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+
+            entry.target.classList.add("active");
+
+        }
+
+    });
+
+}, {
+    threshold:0.15
+});
+
+
+reveals.forEach((element)=>{
+    observer.observe(element);
+});
+
+</script>
     <script src="./script.js"></script>
 
     <!-- Rodapé Minimalista -->
