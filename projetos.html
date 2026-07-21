@@ -15,10 +15,46 @@
     line-height: 1.6;
     color: var(--text-secondary) !important; /* Cinza claro na noite, cinza escuro no dia */
 }
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Mantém o grid responsivo */
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Garante que as fotos NUNCA estourem o tamanho do card */
+.project-card {
+  width: 100%;
+  overflow: hidden;
+}
+
+.project-card img, 
+.project-image-wrapper img {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: cover;
+  display: block;
+}
+
+/* Impede que o iframe do Figma também quebre o tamanho da página */
+.project-details iframe {
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9; /* Mantém a proporção do player do Figma */
+}
 .efeito-scroll {
   opacity: 0;
-  transition: opacity 0.8s ease-out; /* Removeu o transform */
+  transition: opacity 0.8s ease-in-out;
   will-change: opacity;
+}
+
+/* Estado Ativo: Surge suavemente no lugar correto */
+.efeito-scroll.visivel {
+  opacity: 1;
 }
 .project-card img {
   width: 100% !important;     /* Força a imagem a preencher apenas o card */
