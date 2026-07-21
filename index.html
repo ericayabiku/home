@@ -58,6 +58,49 @@ body {
         transform:translateX(-50%);
     }
 }
+.star{
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: white;
+    pointer-events: none;
+    transform: rotate(45deg);
+    animation: sparkle .8s ease-out forwards;
+    z-index:99999;
+}
+
+.star{
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: black;
+    pointer-events: none;
+    transform: rotate(45deg);
+    animation: sparkle .8s ease-out forwards;
+    z-index:99999;
+}
+
+.star::before,
+.star::after{
+    content:"";
+    position:absolute;
+    background:black;
+}
+
+
+@keyframes sparkle{
+
+    0%{
+        opacity:1;
+        transform:scale(1) rotate(45deg);
+    }
+
+    100%{
+        opacity:0;
+        transform:scale(3) rotate(45deg);
+    }
+
+}
 
 
         /* Responsividade */
@@ -128,7 +171,23 @@ body {
     
   </div>
 </div>
+<script>
+document.addEventListener("mousemove", function(e){
 
+    const star = document.createElement("div");
+    star.className = "star";
+
+    star.style.left = e.clientX + "px";
+    star.style.top = e.clientY + "px";
+
+    document.body.appendChild(star);
+
+    setTimeout(() => {
+        star.remove();
+    }, 800);
+
+});
+</script>
 
         
 
