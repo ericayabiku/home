@@ -15,6 +15,27 @@
     line-height: 1.6;
     color: var(--text-secondary) !important; /* Cinza claro na noite, cinza escuro no dia */
 }
+.efeito-scroll {
+  opacity: 0;
+  transition: opacity 0.8s ease-out; /* Removeu o transform */
+  will-change: opacity;
+}
+.project-card img {
+  width: 100% !important;     /* Força a imagem a preencher apenas o card */
+  max-width: 100%;            /* Evita que ela cresça além do container */
+  height: auto;               /* Mantém a proporção correta para não distorcer */
+  object-fit: cover;          /* Garante um corte limpo se necessário */
+}
+
+.project-image-wrapper {
+  width: 100%;                /* Garante que o container da imagem tenha o tamanho certo */
+  overflow: hidden;           /* Esconde qualquer sobra indesejada */
+}
+
+/* Estado ativo */
+.efeito-scroll.visivel {
+  opacity: 1;
+}
 
 /* Container do Carrossel e Wrappers de Imagem */
 .project-image-wrapper {
@@ -506,62 +527,46 @@ button {
         </div>
     </header>
 
-    <main>
-        <div class="container">
-            <div class="section-title">
-                <h2>Projetos</h2>
-                <p>Galeria de trabalhos desenvolvidos em Design Gráfico e Produção Audiovisual.</p>
-            </div>
+    <article class="project-card efeito-scroll">
+    <div class="project-image-wrapper" tabindex="0">
+        <img src="./images/coisas_convida.png" alt="Cardápio do Evento Coisas Convida">
+        <div class="project-caption-overlay">
+            <p>cardápio feita pra evento privado House of Coisas e Aguikimchi</p>
         </div>
+    </div>
+    <div class="project-details">
+        <span class="project-category">Design Gráfico & Identidade</span>
+        <h3>Coisas Convida</h3>
+        <p>Programação visual e design de cardápio desenvolvidos para o jantar colaborativo especial Aguikimchi x Dery Lima, promovido na House of Coisas.</p>
+    </div>
+</article>
 
-        <!-- Vitrine de Projetos na Vertical -->
-        <section class="projects-grid">
-            <!-- Projeto 1: Coisas Convida -->
-            <article class="project-card">
-                <div class="project-image-wrapper" tabindex="0">
-                    <img src="./images/coisas_convida.png" alt="Cardápio do Evento Coisas Convida">
-                    <div class="project-caption-overlay">
-                        <p>cardápio feita pra evento privado House of Coisas e Aguikimchi</p>
-                    </div>
-                </div>
-                <div class="project-details">
-                    <span class="project-category">Design Gráfico & Identidade</span>
-                    <h3>Coisas Convida</h3>
-                    <p>Programação visual e design de cardápio desenvolvidos para o jantar colaborativo especial Aguikimchi x Dery Lima, promovido na House of Coisas.</p>
-                </div>
-            </article>
+<!-- Projeto 2 -->
+<article class="project-card efeito-scroll">
+    <div class="project-image-wrapper" tabindex="0">
+        <img src="./images/a_ultima_gota.png" alt="Pôster de A Última Gota">
+        <div class="project-caption-overlay">
+            <p>capa de curta metragem produzido em SENAC Lapa Scipião</p>
+        </div>
+    </div>
+    <div class="project-details">
+        <span class="project-category">Produção Audiovisual</span>
+        <h3>A Última Gota</h3>
+        <p>Direção de arte e roteirização de projeto de curta-metragem autoral desenvolvido durante a especialização no SENAC Lapa Scipião.</p>
+    </div>
+</article>
 
-            <!-- Projeto 2: A Última Gota -->
-            <article class="project-card">
-                <div class="project-image-wrapper" tabindex="0">
-                    <img src="./images/a_ultima_gota.png" alt="Pôster de A Última Gota">
-                    <div class="project-caption-overlay">
-                        <p>capa de curta metragem produzido em SENAC Lapa Scipião</p>
-                    </div>
-                </div>
-                <div class="project-details">
-                    <span class="project-category">Produção Audiovisual</span>
-                    <h3>A Última Gota</h3>
-                    <p>Direção de arte e roteirização de projeto de curta-metragem autoral desenvolvido durante a especialização no SENAC Lapa Scipião.</p>
-                </div>
-            </article>
-<div class="project-details">
+<!-- Projeto 3 (Figma) -->
+<div class="project-details efeito-scroll">
     <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/proto/Fh19daKQpreNgvFh9wHE87/CASA-COMIGO-PAG.--Community-?node-id=606-305&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=11%3A19&embed-host=share" allowfullscreen></iframe>
-                    <span class="project-category">UI/UX</span>
-                    <h3>CASA COMIGO APP</h3>
-                    <p>prototipagem app casa comigo (ferramentas: Figma)
-                    </p>
-                </div>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carrossel</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <span class="project-category">UI/UX</span>
+    <h3>CASA COMIGO APP</h3>
+    <p>prototipagem app casa comigo (ferramentas: Figma)</p>
+</div>
 
-<div class="carousel">
+<!-- Projeto 4 (Carrossel/Ilustração) -->
+<div class="carousel efeito-scroll">
+    <div class="carousel">
     <!-- Botão de Voltar -->
     <button class="prev">&#10094;</button>
     
@@ -585,9 +590,10 @@ button {
     <img id="imgGrande" class="modal-img">
     <button class="modal-next">&#10095;</button>
 </div>
-<span class="project-category">Ilustração</span>
-<div class="project-details">   
-<h3>Ilustração</h3>
+</div>
+<div class="project-details efeito-scroll">   
+    <span class="project-category">Ilustração</span>
+    <h3>Ilustração</h3>
     <p>Ilustração de corpos e siluetas femininas. (ferramentas: Procreate, Affinity Designer)</p>
 </div>
   
@@ -621,6 +627,26 @@ button {
 
     <!-- Script de Interação -->
     <script>
+        
+  document.addEventListener("DOMContentLoaded", () => {
+    const elementos = document.querySelectorAll('.efeito-scroll');
+
+    const observador = new IntersectionObserver((entradas, observador) => {
+      entradas.forEach(entrada => {
+        if (entrada.isIntersecting) {
+          entrada.target.classList.add('visivel');
+          // Dispara apenas uma vez para o portfólio não ficar piscando ao subir a página
+          observador.unobserve(entrada.target); 
+        }
+      });
+    }, {
+      threshold: 0.1, // Ativa quando 10% do card aparece na tela
+      rootMargin: "0px 0px -50px 0px" // Dispara um pouco antes de tocar o fundo da tela
+    });
+
+    elementos.forEach(el => observador.observe(el));
+  });
+
         // Modal Lightbox para expandir as imagens
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
