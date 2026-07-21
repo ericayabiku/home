@@ -172,7 +172,21 @@ body {
   </div>
 </div>
 <script>
-document.addEventListener("mousemove", function(e){
+document.addEventListener("mousemove", createStar);
+
+document.addEventListener("touchmove", function(e){
+
+    const touch = e.touches[0];
+
+    createStar({
+        clientX: touch.clientX,
+        clientY: touch.clientY
+    });
+
+});
+
+
+function createStar(e){
 
     const star = document.createElement("div");
     star.className = "star";
@@ -186,7 +200,29 @@ document.addEventListener("mousemove", function(e){
         star.remove();
     }, 800);
 
-});
+}
+let lastStar = 0;
+
+function createStar(e){
+
+    let now = Date.now();
+
+    if(now - lastStar < 40) return;
+
+    lastStar = now;
+
+    const star = document.createElement("div");
+    star.className = "star";
+
+    star.style.left = e.clientX + "px";
+    star.style.top = e.clientY + "px";
+
+    document.body.appendChild(star);
+
+    setTimeout(() => {
+        star.remove();
+    },800);
+}
 </script>
 
         
