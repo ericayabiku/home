@@ -6,87 +6,84 @@
     <title>Erica Correia Yabiku — Sobre</title>
     <link rel="stylesheet" type="text/css" href="./css/style.css">
     <style>
-        /* CSS focado em estruturar o layout em grid e manter o header em 100% */
-        body {
-            margin: 0;
-            padding: 0;
-           
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        .reveal{
-    opacity:0;
-    transform:translateY(80px);
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(80px);
     transition:
         opacity .8s ease,
         transform .8s ease;
 }
 
-
-.reveal.active{
-    opacity:1;
-    transform:translateY(0);
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
 }
-        .skill-tag {
+
+/* Tags de Skill Minimalistas (com suporte a tema claro/escuro) */
+.skill-tag {
     display: inline-block;
     padding: 0.6rem 1.2rem;
-    background-color: var(--bg-secondary) !important; /* CORRIGIDO: Fundo escurece na noite e clareia de dia */
+    background-color: var(--bg-secondary, #f5f5f5) !important;
     border-radius: 30px;
     font-size: 0.85rem;
-    color: var(--text-primary) !important; /* CORRIGIDO: Fonte fica clara e visível no modo noite */
+    color: var(--text-primary, #444444) !important;
     font-weight: 400;
     transition: all 0.25s ease;
     cursor: default;
-    border: 1px solid var(--border-color); /* Linha sutil opcional para dar contorno */
+    border: 1px solid var(--border-color, transparent);
 }
 
-/* Comportamento de Hover (Mantém o tom vinho de destaque original) */
 .skill-tag:hover {
-    background-color: #73030D !important; 
+    background-color: #73030D !important;
     color: #FFFFFF !important;
     transform: translateY(-2px);
 }
 
-/* Linhas da tabela de Idiomas (Corrigindo cores das fontes escuras) */
+/* Linhas da tabela de Idiomas */
 .lang-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.04));
     font-size: 0.95rem;
-    color: var(--text-primary) !important; /* CORRIGIDO: Texto do idioma fica claro na noite */
+    color: var(--text-primary, #333333) !important;
 }
 
-/* Alinhamento de cor forte para o texto interno em negrito dos idiomas */
 .lang-row strong {
     color: var(--text-primary) !important;
 }
 
-/* Os pontinhos indicadores de fluência nos idiomas */
 .lang-dots {
-    color: #73030D; /* Mantém o destaque vinho */
+    color: #73030D;
     letter-spacing: 2px;
     font-size: 1.1rem;
 }
+
 body.dark-theme .profile-hero h1,
 body.dark-theme h1 {
     color: #FFFFFF !important;
 }
 
-/* Força o título das seções (como Skills e Idiomas) a ficar branco */
 body.dark-theme .skills-and-languages h2,
 body.dark-theme h2 {
     color: #FFFFFF !important;
 }
 
-/* Garante que o texto de introdução abaixo do nome ganhe excelente leitura */
 body.dark-theme .profile-tagline p {
     color: #EAEAEA !important;
 }
-        .lang-btn {
+
+.lang-btn {
     background: transparent;
     border: 1px solid rgba(0, 0, 0, 0.15);
     color: var(--text-primary, #111111);
@@ -102,160 +99,125 @@ body.dark-theme .profile-tagline p {
 }
 
 .lang-btn:hover {
-    border-color: #73030D; /* Cor vinho característica */
+    border-color: #73030D;
     color: #73030D;
     background-color: rgba(115, 3, 13, 0.02);
 }
 
-        .about-main {
-            flex: 1;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 6rem 2rem;
-            width: 100%;
-            box-sizing: border-box;
-        }
+.about-main {
+    flex: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
 
-        /* Seção Hero (Foto e Texto Lado a Lado) */
-        .profile-hero {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 5rem;
-            align-items: center;
-            margin-bottom: 5rem;
-        }
+/* Seção Hero (Foto e Texto Lado a Lado) */
+.profile-hero {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    margin-bottom: 5rem;
+}
 
-        .profile-intro {
-            display: flex;
-            flex-direction: column;
-        }
+.profile-intro {
+    display: flex;
+    flex-direction: column;
+}
 
-        .profile-tag {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #999999;
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
+.profile-tag {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999999;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
 
-        .profile-hero h1 {
-            font-size: 3.2rem;
-            font-weight: 600;
-            letter-spacing: -1.5px;
-            margin: 0 0 1rem 0;
-            color: #111111;
-            line-height: 1.1;
-        }
+.profile-hero h1 {
+    font-size: 3.2rem;
+    font-weight: 600;
+    letter-spacing: -1.5px;
+    margin: 0 0 1rem 0;
+    color: #111111;
+    line-height: 1.1;
+}
 
-        .profile-meta {
-            font-size: 0.95rem;
-            color: #666666;
-            margin-bottom: 2rem;
-        }
+.profile-meta {
+    font-size: 0.95rem;
+    color: #666666;
+    margin-bottom: 2rem;
+}
 
-        .profile-tagline p {
-            font-size: 1.15rem;
-            line-height: 1.6;
-            color: #333333;
-            font-weight: 300;
-            margin-bottom: 1.2rem;
-        }
+.profile-tagline p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #333333;
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+}
 
-        /* Moldura da Foto com Proporção Redonda Perfeita */
-        .profile-avatar {
-            display: flex;
-            justify-content: center;
-        }
+/* Moldura da Foto com Proporção Redonda Perfeita */
+.profile-avatar {
+    display: flex;
+    justify-content: center;
+}
 
-        .avatar-wrapper {
-            width: 320px;
-            height: 320px;
-            border-radius: 50%;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-        }
+.avatar-wrapper {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
 
-        .avatar-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
- }
-        
-        /* Seção Inferior: Grid de Skills e Idiomas */
-        .skills-and-languages {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 6rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.08);
-            padding-top: 4rem;
-        }
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-        .skills-and-languages h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 0 0 2rem 0;
-            color: #111111;
-            letter-spacing: -0.5px;
-        }
+/* Seção Inferior: Grid de Skills e Idiomas */
+.skills-and-languages {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 6rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding-top: 4rem;
+}
 
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
+.skills-and-languages h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 2rem 0;
+    color: #111111;
+    letter-spacing: -0.5px;
+}
 
-        /* Tags de Skill Minimalistas */
-        .skill-tag {
-            display: inline-block;
-            padding: 0.6rem 1.2rem;
-            background-color: #f5f5f5;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            color: #444444;
-            font-weight: 400;
-            transition: all 0.25s ease;
-            cursor: default;
-        }
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
 
-        .skill-tag:hover {
-            background-color: #73030D; /* Cor vinho padrão do seu portfólio */
-            color: #FFFFFF;
-            transform: translateY(-2px);
-        }
+/* Bloco de Idiomas */
+.languages-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
 
-        /* Bloco de Idiomas */
-        .languages-box {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-
-        .lang-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-            font-size: 0.95rem;
-            color: #333333;
-        }
-
-        .lang-dots {
-            color: #73030D;
-            letter-spacing: 2px;
-            font-size: 1.1rem;
-        }
-
-        /* Responsividade para Celulares e Tablets */
-        @media screen and (max-width: 900px) {
-            .about-main { padding: 4rem 1.5rem; }
-            .profile-hero { grid-template-columns: 1fr; gap: 3rem; }
-            .profile-avatar { order: -1; } /* Foto vai para o topo no mobile */
-            .avatar-wrapper { width: 240px; height: 240px; }
-            .profile-hero h1 { font-size: 2.4rem; }
-            .skills-and-languages { grid-template-columns: 1fr; gap: 4rem; }
-        }
+/* Responsividade para Celulares e Tablets */
+@media screen and (max-width: 900px) {
+    .about-main { padding: 4rem 1.5rem; }
+    .profile-hero { grid-template-columns: 1fr; gap: 3rem; }
+    .profile-avatar { order: -1; }
+    .avatar-wrapper { width: 240px; height: 240px; }
+    .profile-hero h1 { font-size: 2.4rem; }
+    .skills-and-languages { grid-template-columns: 1fr; gap: 4rem; }
+}
     </style>
 </head>
 <body>
