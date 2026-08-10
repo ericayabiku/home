@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="./css/style.css">
     <link rel="shortcut icon" href="./images/developmenticon.png">
     <style>
-body {
+        body {
             background-color: var(--bg-primary);
             overflow: hidden;
             height: 100vh;
@@ -19,235 +19,158 @@ body {
             padding-top: 90px;
         }
 
+        .track {
+            display: inline-flex;
+            align-items: center;
+            gap: 50px;
+            animation: scroll 20s linear infinite;
+            white-space: nowrap;
+        }
 
-.track{
-    display:inline-flex;
-    align-items:center;
-    gap:50px;
-    animation:scroll 20s linear infinite;
-    white-space:nowrap;
-}
+        .track span,
+        .track a {
+            color: #fff;
+            font-size: 64px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-decoration: none;
+        }
 
-.track span,
-.track a{
-    color:#fff;
-    font-size:64px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:3px;
-    text-decoration:none;
-}
-.text-carousel{
-    position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:110px;
-    background:#000;
-    overflow:hidden;
-    z-index:9999;
-    display:flex;
-    align-items:center;
-}
+        .text-carousel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 110px;
+            background: #000;
+            overflow: hidden;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+        }
 
-@keyframes scroll{
-    from{
-        transform:translateX(0);
-    }
-    to{
-        transform:translateX(-50%);
-    }
-}
-.star{
-    position: fixed;
-    width: 12px;
-    height: 12px;
-    background: #000;
-    pointer-events: none;
-    z-index: 99999;
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
 
-    clip-path: polygon(
-        50% 0%,
-        61% 35%,
-        98% 35%,
-        68% 57%,
-        79% 100%,
-        50% 75%,
-        21% 100%,
-        32% 57%,
-        2% 35%,
-        39% 35%
-    );
+        /* Rastro de estrelas que segue o cursor/toque */
+        .star {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: #000;
+            pointer-events: none;
+            z-index: 99999;
+            clip-path: polygon(
+                50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 100%,
+                50% 75%, 21% 100%, 32% 57%, 2% 35%, 39% 35%
+            );
+            animation: starMove 1s ease-out forwards;
+        }
 
-    animation: starMove 1s ease-out forwards;
-}
-
-
-@keyframes starMove{
-
-    0%{
-        opacity:1;
-        transform:scale(1) rotate(0deg);
-    }
-
-    100%{
-        opacity:0;
-        transform:
-        translateY(-50px)
-        scale(0)
-        rotate(180deg);
-    }
-
-}
-
-
-@keyframes sparkle{
-
-    0%{
-        opacity:1;
-        transform:scale(1) rotate(45deg);
-    }
-
-    100%{
-        opacity:0;
-        transform:scale(3) rotate(45deg);
-    }
-
-}
-
+        @keyframes starMove {
+            0% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50px) scale(0) rotate(180deg);
+            }
+        }
 
         /* Responsividade */
         @media screen and (max-width: 950px) {
-            .homepage-container {
-                padding: 0 3rem;
-            }
-            .name-title {
-                font-size: 72px;
-            }
-            .projects-trigger {
-                font-size: 1.85rem;
+            .track span,
+            .track a {
+                font-size: 48px;
             }
         }
 
         @media screen and (max-width: 768px) {
             body {
                 overflow: auto;
+                height: auto;
+                padding-top: 110px;
             }
-            .homepage-container {
-                flex-direction: column;
-                gap: 3rem;
-                padding: 4rem 2rem;
-                align-items: flex-start;
-                justify-content: flex-start;
-                height: 100%;
-            }
-            .name-title {
-                font-size: 54px;
-                letter-spacing: -1.5px;
-            }
-            .nav-links {
-                align-items: flex-start;
-                padding-top: 0;
+            .track span,
+            .track a {
+                font-size: 36px;
             }
         }
 
         @media screen and (max-width: 480px) {
-            .name-title {
-                font-size: 42px;
-                letter-spacing: -1px;
+            .track span,
+            .track a {
+                font-size: 26px;
             }
         }
     </style>
 </head>
 <body>
     <div class="text-carousel">
-  <div class="track">
-   <span>ERICA Y.</span>
-    <span>•</span>
-    <a href="./projetos.html">PROJETOS</a>
-    <span>•</span>
-    <a href="./sobre.html">SOBRE</a>
-    <span>•</span>
-     <a href="./contato.html">CONTATO</a>
-      <span>•</span>
-    
+        <div class="track">
+            <span>ERICA Y.</span>
+            <span>•</span>
+            <a href="./projetos.html">PROJETOS</a>
+            <span>•</span>
+            <a href="./sobre.html">SOBRE</a>
+            <span>•</span>
+            <a href="./contato.html">CONTATO</a>
+            <span>•</span>
 
-    <!-- Duplicado para criar loop infinito -->
-    <span>ERICA Y.</span>
-    <span>•</span>
-    <a href="./projetos.html">PROJETOS</a>
-    <span>•</span>
-    <a href="./sobre.html">SOBRE</a>
-    <span>•</span>
-     <a href="./contato.html">CONTATO</a>
-      <span>•</span>
-    
-  </div>
-</div>
-<script>
-let lastStar = 0;
+            <!-- Duplicado para criar loop infinito -->
+            <span>ERICA Y.</span>
+            <span>•</span>
+            <a href="./projetos.html">PROJETOS</a>
+            <span>•</span>
+            <a href="./sobre.html">SOBRE</a>
+            <span>•</span>
+            <a href="./contato.html">CONTATO</a>
+            <span>•</span>
+        </div>
+    </div>
 
-document.addEventListener("mousemove", createStar);
+    <script>
+        let lastStar = 0;
 
-document.addEventListener("touchmove", function(e){
+        document.addEventListener("mousemove", createStar);
 
-    const touch = e.touches[0];
+        document.addEventListener("touchmove", function (e) {
+            const touch = e.touches[0];
+            createStar({
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+        });
 
-    createStar({
-        clientX: touch.clientX,
-        clientY: touch.clientY
-    });
+        function createStar(e) {
+            const now = Date.now();
 
-});
+            // controla quantidade de estrelas
+            if (now - lastStar < 50) return;
+            lastStar = now;
 
+            const star = document.createElement("div");
+            star.className = "star";
 
-function createStar(e){
+            // posição
+            star.style.left = e.clientX + "px";
+            star.style.top = e.clientY + "px";
 
-    const now = Date.now();
+            // tamanho aleatório
+            const size = Math.random() * 14 + 5;
+            star.style.width = size + "px";
+            star.style.height = size + "px";
 
-    // controla quantidade de estrelas
-    if(now - lastStar < 50) return;
+            document.body.appendChild(star);
 
-    lastStar = now;
-
-
-    const star = document.createElement("div");
-    star.className = "star";
-
-
-    // posição
-    star.style.left = e.clientX + "px";
-    star.style.top = e.clientY + "px";
-
-
-    // tamanho aleatório
-   const size = Math.random() * 14 + 5;
-
-    star.style.width = size + "px";
-    star.style.height = size + "px";
-
-
-    // rotação aleatória
-    star.style.setProperty(
-        "--rotate",
-        Math.random() * 180 + "deg"
-    );
-
-
-    document.body.appendChild(star);
-
-
-    setTimeout(() => {
-        star.remove();
-    },1000);
-
-    star.style.transform += 
-` translate(${Math.random()*20-10}px, ${Math.random()*20-10}px)`;
-
-}
-</script>
-
-        
-
+            setTimeout(() => {
+                star.remove();
+            }, 1000);
+        }
+    </script>
 </body>
 </html>

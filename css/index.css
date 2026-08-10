@@ -1,6 +1,8 @@
-/* Estilos Específicos para a Página de Trajetória/Experiências (homepage.html) */
+/* Estilos específicos para uma página de Trajetória/Experiências (perfil + timeline).
+   Atualmente nenhum .html do projeto está usando este arquivo — nenhuma página tem
+   os elementos .profile-header, .timeline, .skills-grid etc. Mantido e organizado
+   para reaproveitamento futuro (ex.: uma página "Trajetória"). */
 
-/* Cabeçalho do Perfil (Profile Header) */
 .profile-header {
     display: flex;
     justify-content: space-between;
@@ -9,11 +11,13 @@
     padding-bottom: 3.5rem;
     border-bottom: 1px solid var(--border-color);
 }
-body { display: flex; flex-direction: column; min-height: 100vh; }
-.profile-hero { display: grid; grid-template-columns: 1fr 300px; gap: 4rem; }
-.skills-and-languages { display: grid; grid-template-columns: 1.5fr 1fr; gap: 5rem; }
-.skill-tag { padding: 0.5rem 1.1rem; background: #f5f5f5; border-radius: 20px; }
-/* ... (estilos de contato e media queries) */
+
+.profile-hero {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 4rem;
+    align-items: center;
+}
 
 .profile-intro {
     flex: 1;
@@ -75,10 +79,17 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     box-shadow: var(--shadow-lg);
 }
 
-/* Biografia (Bio Section) */
-.bio-section h2, .skills-section h2 {
+/* Biografia */
+.bio-section h2,
+.skills-section h2 {
     font-size: 1.75rem;
     margin-bottom: 1.5rem;
+}
+
+.skills-section h2 {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2rem;
 }
 
 .bio-content p {
@@ -87,49 +98,12 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     text-align: justify;
 }
 
-/* Grade de Habilidades (Skills Grid) */
+/* Grade de habilidades em cartões */
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
 }
-/* Centraliza apenas os títulos principais das seções */
-.skills-section h2 {
-    text-align: center;
-    width: 100%;
-    margin-bottom: 2rem; /* Espaço embaixo do título antes de começar a lista */
-}
-
-/* Faz as habilidades voltarem a ficar lado a lado de forma fluida */
-.skills-list {
-    display: flex;
-    flex-direction: row;     /* Força os itens a ficarem lado a lado */
-    flex-wrap: wrap;         /* Permite que quebrem de linha quando não couberem mais */
-    justify-content: center; /* Centraliza o bloco inteiro de habilidades na tela */
-    gap: 1rem;               /* Espaçamento igual entre cada caixinha */
-    max-width: 800px;        /* Limita a largura máxima para não espalhar demais em telas grandes */
-    margin: 0 auto 3rem auto; /* Centraliza a caixa inteira na tela e dá espaço para os Idiomas */
-}
-
-/* Estilo individual de cada tag de skill */
-.skills-list .skill-tag {
-    font-size: 1rem;
-    padding: 8px 16px;
-    background-color: rgba(0, 0, 0, 0.05); /* Um fundo sutil para parecer um botão (opcional) */
-    border-radius: 20px;
-    transition: all 0.25s ease;
-    cursor: pointer;
-    white-space: nowrap;     /* Impede que o texto de uma única skill quebre em duas linhas */
-}
-
-/* Efeito hover de crescimento centralizado */
-.skills-list .skill-tag:hover {
-    color: #73030D;
-    background-color: rgba(231, 60, 126, 0.1); /* Fundo levemente rosado no hover */
-    transform: scale(1.05);
-    font-weight: 600;
-}
-
 
 .skill-card {
     background-color: var(--bg-secondary);
@@ -159,46 +133,79 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     line-height: 1.5;
     margin-bottom: 0;
 }
+
+/* Duas colunas: nuvem de skills + idiomas */
 .skills-idiomas-container {
     display: flex;
-    flex-direction: row;      /* Garante o posicionamento lado a lado */
-    justify-content: space-between; /* Espalha as duas colunas nas extremidades */
-    align-items: flex-start;  /* Alinha os blocos pelo topo */
-    gap: 4rem;                /* Espaço de respiro entre a coluna esquerda e a direita */
-    max-width: 1100px;        /* Limita a largura total máxima na tela */
-    margin: 4rem auto;        /* Centraliza o bloco inteiro na página */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 4rem;
+    max-width: 1100px;
+    margin: 4rem auto;
     width: 100%;
 }
 
-/* Ajuste da largura de cada coluna */
 .coluna-skills {
-    flex: 2;                  /* Dá um pouco mais de espaço para as nuvens de tags (Habilidades) */
+    flex: 2;
 }
 
 .coluna-idiomas {
-    flex: 1;                  /* Coluna menor e mais compacta para os Idiomas */
-    min-width: 280px;         /* Evita que o bloco esmague em telas médias */
+    flex: 1;
+    min-width: 280px;
 }
 
-/* Alinhamento dos títulos para a esquerda em cada coluna */
-.coluna-skills h2, 
+.coluna-skills h2,
 .coluna-idiomas h2 {
     text-align: left;
     margin-bottom: 1.5rem;
 }
 
-/* Mantém as suas tags de habilidades fluidas e alinhadas dentro da coluna dela */
+/* Nuvem de tags de habilidades (fluida, alinhada à esquerda dentro da coluna) */
 .skills-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start; /* Alinha o início das tags à esquerda */
+    justify-content: flex-start;
     gap: 0.75rem;
 }
 
-/* Organização das linhas dos idiomas */
+.skills-list .skill-tag {
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-radius: 20px;
+    display: inline-block;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.skills-list .skill-tag:hover {
+    background-color: var(--accent-primary);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    font-weight: 600;
+}
+
+/* Sub-tags menores (ex.: ferramentas dentro de um item da timeline) */
+.sub-tag {
+    display: inline-block;
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Linhas de idiomas */
 .languages-box div {
     display: flex;
-    justify-content: space-between; /* Deixa o nome na esquerda e as bolinhas na direita */
+    justify-content: space-between;
     margin-bottom: 0.8rem;
     font-size: 1rem;
 }
@@ -271,7 +278,15 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     font-weight: 500;
 }
 
-/* Cartões Extras */
+.timeline-bullets {
+    margin-left: 1.25rem;
+}
+
+.timeline-bullets li {
+    margin-bottom: 0.4rem;
+}
+
+/* Cartões extras (destaque com barra colorida no topo) */
 .card-icon {
     font-size: 2rem;
     display: block;
@@ -282,50 +297,7 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     border-top: 4px solid var(--accent-primary);
 }
 
-/* Tags de Habilidades e Sub-tags de Experiência */
-.skill-tag {
-    background-color: rgba(255, 255, 255, 0.1); /* Um fundo leve e transparente */
-    color: #000000; /* Texto branco para contrastar com o gradiente */
-    padding: 8px 16px;
-    border-radius: 20px;
-    display: inline-block;
-    margin: 5px;
-    transition: all 0.3s ease; /* Faz a mudança de cor ser suave e elegante */
-    cursor: pointer; /* Transforma o mouse na mãozinha de clique */
-}
-
-/* Efeito ao passar o mouse (HOVER) */
-.skill-tag:hover {
-    /* Escolha uma cor marcante do seu gradiente do Figma */
-    background-color: #73030D; /* Muda o fundo para um tom de rosa/magenta */
-    color: #ffffff;            /* Mantém o texto branco */
-    transform: translateY(-3px); /* Faz a skill dar um leve "pulinho" para cima */
-    box-shadow: 0 5px 15px rgba(231, 60, 126, 0.4); /* Adiciona um brilho neon suave */
-}
-
-.sub-tag {
-    display: inline-block;
-    background-color: var(--bg-tertiary);
-    color: var(--text-secondary);
-    font-size: 0.75rem;
-    font-weight: 500;
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-    margin-right: 0.25rem;
-    margin-bottom: 0.25rem;
-}
-
-.timeline-bullets {
-    margin-left: 1.25rem;
-}
-
-.timeline-bullets li {
-    margin-bottom: 0.4rem;
-}
-
-
-/* Responsividade específica para a página */
+/* Responsividade */
 @media screen and (max-width: 850px) {
     .profile-header {
         flex-direction: column-reverse;
@@ -333,10 +305,19 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
         gap: 2.5rem;
         padding-bottom: 2.5rem;
     }
-    
+
+    .profile-hero {
+        grid-template-columns: 1fr;
+    }
+
     .avatar-wrapper {
         width: 180px;
         height: 180px;
+    }
+
+    .skills-idiomas-container {
+        flex-direction: column;
+        gap: 2.5rem;
     }
 }
 
@@ -344,16 +325,8 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     .skills-grid {
         grid-template-columns: 1fr;
     }
-    
-    .timeline::after {
-        left: 15px;
-    }
-    
-    .timeline-badge {
-        left: 9px;
-    }
-    
-    .timeline-item {
-        padding-left: 2.5rem;
-    }
+
+    .timeline::after { left: 15px; }
+    .timeline-badge { left: 9px; }
+    .timeline-item { padding-left: 2.5rem; }
 }
