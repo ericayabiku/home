@@ -2,222 +2,189 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Erica Correia Yabiku — Sobre</title>
     <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link rel="shortcut icon" href="./images/developmenticon.png">
     <style>
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-.reveal {
-    opacity: 0;
-    transform: translateY(80px);
-    transition:
-        opacity .8s ease,
-        transform .8s ease;
-}
+        .reveal {
+            opacity: 0;
+            transform: translateY(80px);
+            transition:
+                opacity .8s ease,
+                transform .8s ease;
+        }
 
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-/* Tags de Skill Minimalistas (com suporte a tema claro/escuro) */
-.skill-tag {
-    display: inline-block;
-    padding: 0.6rem 1.2rem;
-    background-color: var(--bg-secondary, #f5f5f5) !important;
-    border-radius: 30px;
-    font-size: 0.85rem;
-    color: var(--text-primary, #444444) !important;
-    font-weight: 400;
-    transition: all 0.25s ease;
-    cursor: default;
-    border: 1px solid var(--border-color, transparent);
-}
+        /* Tags de Skill Minimalistas */
+        .skill-tag {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--bg-secondary);
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            transition: var(--transition-smooth);
+            cursor: default;
+            border: 1px solid var(--border-color);
+        }
 
-.skill-tag:hover {
-    background-color: #73030D !important;
-    color: #FFFFFF !important;
-    transform: translateY(-2px);
-}
+        .skill-tag:hover {
+            background-color: var(--accent-primary);
+            color: #FFFFFF;
+            transform: translateY(-2px);
+        }
 
-/* Linhas da tabela de Idiomas */
-.lang-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.04));
-    font-size: 0.95rem;
-    color: var(--text-primary, #333333) !important;
-}
+        /* Linhas da tabela de Idiomas */
+        .lang-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
 
-.lang-row strong {
-    color: var(--text-primary) !important;
-}
+        .lang-row strong {
+            color: var(--text-primary);
+        }
 
-.lang-dots {
-    color: #73030D;
-    letter-spacing: 2px;
-    font-size: 1.1rem;
-}
+        .lang-dots {
+            color: var(--accent-primary);
+            letter-spacing: 2px;
+            font-size: 1.1rem;
+        }
 
-body.dark-theme .profile-hero h1,
-body.dark-theme h1 {
-    color: #FFFFFF !important;
-}
+        .about-main {
+            flex: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-body.dark-theme .skills-and-languages h2,
-body.dark-theme h2 {
-    color: #FFFFFF !important;
-}
+        /* Seção Hero (Foto e Texto Lado a Lado) */
+        .profile-hero {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            margin-bottom: 5rem;
+        }
 
-body.dark-theme .profile-tagline p {
-    color: #EAEAEA !important;
-}
+        .profile-intro {
+            display: flex;
+            flex-direction: column;
+        }
 
-.lang-btn {
-    background: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    color: var(--text-primary, #111111);
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    letter-spacing: 0.5px;
-    margin-left: 0.5rem;
-}
+        .profile-tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
 
-.lang-btn:hover {
-    border-color: #73030D;
-    color: #73030D;
-    background-color: rgba(115, 3, 13, 0.02);
-}
+        .profile-hero h1 {
+            font-size: 3.2rem;
+            font-weight: 600;
+            letter-spacing: -1.5px;
+            margin: 0 0 1rem 0;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
 
-.about-main {
-    flex: 1;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 6rem 2rem;
-    width: 100%;
-    box-sizing: border-box;
-}
+        .profile-meta {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
 
-/* Seção Hero (Foto e Texto Lado a Lado) */
-.profile-hero {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 5rem;
-    align-items: center;
-    margin-bottom: 5rem;
-}
+        .profile-tagline p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 1.2rem;
+        }
 
-.profile-intro {
-    display: flex;
-    flex-direction: column;
-}
+        /* Moldura da Foto com Proporção Redonda Perfeita */
+        .profile-avatar {
+            display: flex;
+            justify-content: center;
+        }
 
-.profile-tag {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #999999;
-    font-weight: 500;
-    margin-bottom: 1rem;
-}
+        .avatar-wrapper {
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
 
-.profile-hero h1 {
-    font-size: 3.2rem;
-    font-weight: 600;
-    letter-spacing: -1.5px;
-    margin: 0 0 1rem 0;
-    color: #111111;
-    line-height: 1.1;
-}
+        .avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-.profile-meta {
-    font-size: 0.95rem;
-    color: #666666;
-    margin-bottom: 2rem;
-}
+        /* Seção Inferior: Grid de Skills e Idiomas */
+        .skills-and-languages {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 6rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 4rem;
+        }
 
-.profile-tagline p {
-    font-size: 1.15rem;
-    line-height: 1.6;
-    color: #333333;
-    font-weight: 300;
-    margin-bottom: 1.2rem;
-}
+        .skills-and-languages h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 2rem 0;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
 
-/* Moldura da Foto com Proporção Redonda Perfeita */
-.profile-avatar {
-    display: flex;
-    justify-content: center;
-}
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
 
-.avatar-wrapper {
-    width: 320px;
-    height: 320px;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-}
+        /* Bloco de Idiomas */
+        .languages-box {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
 
-.avatar-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Seção Inferior: Grid de Skills e Idiomas */
-.skills-and-languages {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 6rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-    padding-top: 4rem;
-}
-
-.skills-and-languages h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0 0 2rem 0;
-    color: #111111;
-    letter-spacing: -0.5px;
-}
-
-.skills-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-}
-
-/* Bloco de Idiomas */
-.languages-box {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-}
-
-/* Responsividade para Celulares e Tablets */
-@media screen and (max-width: 900px) {
-    .about-main { padding: 4rem 1.5rem; }
-    .profile-hero { grid-template-columns: 1fr; gap: 3rem; }
-    .profile-avatar { order: -1; }
-    .avatar-wrapper { width: 240px; height: 240px; }
-    .profile-hero h1 { font-size: 2.4rem; }
-    .skills-and-languages { grid-template-columns: 1fr; gap: 4rem; }
-}
+        /* Responsividade para Celulares e Tablets */
+        @media screen and (max-width: 900px) {
+            .about-main { padding: 4rem 1.5rem; }
+            .profile-hero { grid-template-columns: 1fr; gap: 3rem; }
+            .profile-avatar { order: -1; }
+            .avatar-wrapper { width: 240px; height: 240px; }
+            .profile-hero h1 { font-size: 2.4rem; }
+            .skills-and-languages { grid-template-columns: 1fr; gap: 4rem; }
+        }
     </style>
 </head>
 <body>
@@ -232,122 +199,109 @@ body.dark-theme .profile-tagline p {
                     <li><a href="./sobre.html" class="active">Sobre</a></li>
                     <li><a href="./projetos.html">Projetos</a></li>
                     <li><a href="./contato.html">Contato</a></li>
-                <li><button id="lang-toggle" class="lang-btn">EN</button></li>
-                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+                    <li><button id="lang-toggle" class="lang-btn">EN</button></li>
+                    <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Conteúdo Principal Adaptado -->
- <main class="about-main">
-        
-    <section class="profile-hero reveal">
-        <div class="profile-intro">
-            <span class="profile-tag">UI / UX Design & Copywriting</span>
+    <!-- Conteúdo Principal -->
+    <main class="about-main">
 
-            <h1>Erica Correia Yabiku</h1>
-               
- <div class="profile-tagline">
-    <p data-pt="Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação."
-       data-en="I'm a UI/UX designer and copywriter with a background in operations management. I work at the intersection of Figma prototyping, creative direction, and storytelling — believing that design is, above all, communication.">
-        Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação.
-    </p>
+        <section class="profile-hero reveal">
+            <div class="profile-intro">
+                <span class="profile-tag">UI / UX Design & Copywriting</span>
 
-    <p data-pt="Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa."
-       data-en="My background in audiovisual production at SENAC feeds a narrative vision of design: every screen, every graphic piece tells a story. I have a growing interest in using artificial intelligence as a tool for creative expansion.">
-        Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa.
-    </p>
-</div>
-        </div>
+                <h1>Erica Correia Yabiku</h1>
 
-        <div class="profile-avatar">
-            <div class="avatar-wrapper">
-                <img src="./images/profilepic.png" alt="Foto de Perfil da Erica Correia Yabiku">
-            </div>
-        </div>
-    </section>
+                <div class="profile-tagline">
+                    <p data-pt="Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação."
+                       data-en="I'm a UI/UX designer and copywriter with a background in operations management. I work at the intersection of Figma prototyping, creative direction, and storytelling — believing that design is, above all, communication.">
+                        Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação.
+                    </p>
 
-
-    <p class="profile-meta reveal">
-        <span>
-            <strong>Localização:</strong> São Paulo - SP
-        </span>
-    </p>
-
-
-
-    <section class="skills-and-languages reveal">
-            
-        <div class="skills-block">
-            <h2>Skills</h2>
-
-            <div class="skills-list">
-                <span class="skill-tag">UI/UX Design</span>
-                <span class="skill-tag">Figma</span>
-                <span class="skill-tag">Copywriting</span>
-                <span class="skill-tag">Roteiro</span>
-                <span class="skill-tag">Produção Audiovisual</span>
-                <span class="skill-tag">Affinity</span>
-                <span class="skill-tag">Escrita Criativa</span>
-                <span class="skill-tag">Google/SEO</span>
-            </div>
-        </div>
-
-
-        <div class="languages-block">
-            <h2>Idiomas</h2>
-
-            <div class="languages-box">
-                <div class="lang-row">
-                    <span><strong>Português:</strong> Nativo</span>
-                    <span class="lang-dots">•••••</span>
-                </div>
-
-                <div class="lang-row">
-                    <span><strong>Inglês:</strong> Avançado</span>
-                    <span class="lang-dots">••••</span>
+                    <p data-pt="Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa."
+                       data-en="My background in audiovisual production at SENAC feeds a narrative vision of design: every screen, every graphic piece tells a story. I have a growing interest in using artificial intelligence as a tool for creative expansion.">
+                        Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa.
+                    </p>
                 </div>
             </div>
 
-        </div>
+            <div class="profile-avatar">
+                <div class="avatar-wrapper">
+                    <img src="./images/profilepic.png" alt="Foto de Perfil da Erica Correia Yabiku">
+                </div>
+            </div>
+        </section>
 
-    </section>
+        <p class="profile-meta reveal">
+            <span>
+                <strong>Localização:</strong> São Paulo - SP
+            </span>
+        </p>
 
-</main>
-<script>
+        <section class="skills-and-languages reveal">
 
-const reveals = document.querySelectorAll(".reveal");
+            <div class="skills-block">
+                <h2>Skills</h2>
 
+                <div class="skills-list">
+                    <span class="skill-tag">UI/UX Design</span>
+                    <span class="skill-tag">Figma</span>
+                    <span class="skill-tag">Copywriting</span>
+                    <span class="skill-tag">Roteiro</span>
+                    <span class="skill-tag">Produção Audiovisual</span>
+                    <span class="skill-tag">Affinity</span>
+                    <span class="skill-tag">Escrita Criativa</span>
+                    <span class="skill-tag">Google/SEO</span>
+                </div>
+            </div>
 
-const observer = new IntersectionObserver((entries)=>{
+            <div class="languages-block">
+                <h2>Idiomas</h2>
 
-    entries.forEach(entry=>{
+                <div class="languages-box">
+                    <div class="lang-row">
+                        <span><strong>Português:</strong> Nativo</span>
+                        <span class="lang-dots">•••••</span>
+                    </div>
 
-        if(entry.isIntersecting){
+                    <div class="lang-row">
+                        <span><strong>Inglês:</strong> Avançado</span>
+                        <span class="lang-dots">••••</span>
+                    </div>
+                </div>
+            </div>
 
-            entry.target.classList.add("active");
+        </section>
 
-        }
+    </main>
 
-    });
-
-}, {
-    threshold:0.15
-});
-
-
-reveals.forEach((element)=>{
-    observer.observe(element);
-});
-
-</script>
-    <script src="./script.js"></script>
-
-    <!-- Rodapé Minimalista -->
-    <footer style="text-align: center; padding: 2.5rem 0; border-top: 1px solid rgba(0,0,0,0.05); margin-top: auto;">
-        <p style="font-size: 0.8rem; color: #999999; margin: 0;">&copy; 2026 Erica Correia Yabiku.</p>
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2026 Erica Correia Yabiku.</p>
     </footer>
+
+    <script src="./script.js"></script>
+    <script>
+        // Fade-in dos blocos ao rolar a página
+        document.addEventListener("DOMContentLoaded", () => {
+            const reveals = document.querySelectorAll(".reveal");
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                    }
+                });
+            }, {
+                threshold: 0.15
+            });
+
+            reveals.forEach(element => observer.observe(element));
+        });
+    </script>
 
 </body>
 </html>
