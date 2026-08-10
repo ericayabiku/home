@@ -63,11 +63,16 @@
             background: #000;
             pointer-events: none;
             z-index: 99999;
+            transition: background-color 0.3s ease;
             clip-path: polygon(
                 50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 100%,
                 50% 75%, 21% 100%, 32% 57%, 2% 35%, 39% 35%
             );
             animation: starMove 1s ease-out forwards;
+        }
+
+        body.dark-theme .star {
+            background: #fff;
         }
 
         @keyframes starMove {
