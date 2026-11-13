@@ -78,6 +78,35 @@ body {
 .asset-title { font-size: 0.95rem; color: var(--text); }
 .asset-desc { font-size: 0.8rem; line-height: 1.5; color: var(--text-2); max-width: 520px; }
 
+/* ---------- Contato ---------- */
+.contact-section { align-items: end; padding-bottom: 96px; }
+
+.contact-right { grid-column: 3 / 5; padding-top: 0; }
+.contact-right .lead {
+    max-width: 480px;
+    margin-bottom: 40px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.contact-list { border-top: 1px solid var(--line); }
+.contact-row {
+    display: grid;
+    grid-template-columns: 130px 1fr auto;
+    align-items: center;
+    column-gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 1.05rem;
+    color: var(--text);
+}
+.contact-row.is-main { font-size: 1.3rem; }
+.contact-type { font-size: 0.75rem; color: var(--muted); }
+.contact-arrow { color: var(--muted); font-size: 1.1rem; transition: transform 0.25s var(--ease), color 0.2s ease; }
+
+a.contact-row { transition: color 0.2s ease; }
+a.contact-row:hover { color: var(--accent); }
+a.contact-row:hover .contact-arrow { color: var(--accent); transform: translate(3px, -3px); }
 a { color: inherit; text-decoration: none; }
 img, video { display: block; max-width: 100%; }
 button { font-family: inherit; }
