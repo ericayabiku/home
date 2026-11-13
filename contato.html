@@ -7,185 +7,81 @@
     <title>Erica Correia Yabiku — Contato</title>
     <link rel="stylesheet" type="text/css" href="./css/style.css">
     <link rel="shortcut icon" href="./images/developmenticon.png">
-    <style>
-        /* Estrutura geral da seção de contato */
-        .contact-section {
-            width: 100%;
-            min-height: calc(100vh - 160px);
-            display: block;
-            padding: 5rem 3rem;
-            box-sizing: border-box;
-        }
-
-        .contact-container {
-            max-width: 1140px;
-            margin: 0 auto;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 4fr 6fr;
-            gap: 5rem;
-            align-items: flex-start;
-        }
-
-        /* Coluna da esquerda (texto de apresentação) */
-        .contact-left {
-            display: flex;
-            flex-direction: column;
-            padding-top: 0.5rem;
-        }
-
-        .contact-left h2 {
-            font-family: var(--font-title);
-            font-size: 2.2rem;
-            font-weight: 600;
-            line-height: 1.2;
-            margin: 0 0 1.5rem 0;
-            letter-spacing: -1px;
-            color: var(--text-primary);
-        }
-
-        .contact-left p {
-            font-family: var(--font-body);
-            font-size: 1rem;
-            font-weight: 300;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            margin: 0;
-        }
-
-        /* Coluna da direita (lista de contatos) */
-        .contact-list {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .contact-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid var(--border-color);
-            text-decoration: none;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .contact-type {
-            font-family: var(--font-body);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 500;
-            color: var(--text-muted);
-            width: 160px;
-            text-align: left;
-            display: inline-block;
-        }
-
-        .contact-link-text {
-            font-family: var(--font-body);
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: var(--text-primary);
-            flex: 1;
-            text-align: left;
-            transition: color 0.3s ease;
-        }
-
-        .contact-arrow {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin-left: 10px;
-        }
-
-        /* Destaque de hover (não se aplica à linha de Localização) */
-        .contact-row:not(.no-hover):hover .contact-link-text {
-            color: var(--accent-primary);
-        }
-
-        /* Responsividade */
-        @media screen and (max-width: 900px) {
-            .contact-container {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-            .contact-left h2 {
-                font-size: 2rem;
-            }
-            .contact-type {
-                width: 120px;
-            }
-        }
-    </style>
 </head>
 <body>
 
-    <!-- Cabeçalho de Navegação Simplificado -->
+   
+
     <header>
         <div class="nav-container">
-            <div class="logo">Erica Y.</div>
-            <nav>
+            <a class="logo" href="./index.html">Erica Y.</a>
+            <span class="clock" id="clock" aria-hidden="true"></span>
+            <nav aria-label="Principal">
                 <ul>
-                    <li><a href="./index.html">Início</a></li>
-                    <li><a href="./sobre.html">Sobre</a></li>
-                    <li><a href="./projetos.html">Projetos</a></li>
-                    <li><a href="./contato.html" class="active">Contato</a></li>
-                    <li><button id="lang-toggle" class="lang-btn">EN</button></li>
-                    <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+                    <li><a href="./index.html" data-pt="Início" data-en="Home">Início</a></li>
+                    <li><a href="./sobre.html" data-pt="Sobre" data-en="About">Sobre</a></li>
+                    <li><a href="./projetos.html" data-pt="Projetos" data-en="Projects">Projetos</a></li>
+                    <li><a href="./contato.html" class="active" data-pt="Contato" data-en="Contact">Contato</a></li>
                 </ul>
             </nav>
+            <div class="controls">
+                <button id="lang-toggle" class="chip" type="button">EN</button>
+                <button id="theme-toggle" class="chip" type="button" aria-label="Alternar tema">☾</button>
+            </div>
         </div>
     </header>
 
-    <main class="contact-section">
-        <div class="contact-container">
-            <div class="contact-left">
-                <h2 data-pt="Vamos criar algo juntos?" data-en="Let's build something together?">Vamos criar algo juntos?</h2>
-                <p data-pt="Se você tem um projeto em mente, quer discutir uma colaboração em UI/UX, Copywriting ou Produção Audiovisual, sinta-se à vontade para me mandar uma mensagem."
-                   data-en="If you have a project in mind, want to discuss a collaboration in UI/UX, Copywriting, or Audiovisual Production, feel free to drop me a line.">
-                   Se você tem um projeto em mente, quer discutir uma colaboração em UI/UX, Copywriting ou Produção Audiovisual, sinta-se à vontade para me mandar uma mensagem.
-                </p>
-            </div>
+    <main>
+        <div class="wrap">
 
-            <div class="contact-right">
-                <div class="contact-list">
-
-                    <!-- Linha de E-mail -->
-                    <a href="mailto:ericayabiku@outlook.com" class="contact-row">
-                        <span class="contact-type" data-pt="E-mail" data-en="Email">E-mail</span>
-                        <span class="contact-link-text">ericayabiku@outlook.com</span>
-                        <span class="contact-arrow">&nearr;</span>
-                    </a>
-
-                    <!-- Linha do LinkedIn -->
-                    <a href="https://www.linkedin.com/in/erica-yabiku/" target="_blank" rel="noopener" class="contact-row">
-                        <span class="contact-type" data-pt="LinkedIn" data-en="LinkedIn">LinkedIn</span>
-                        <span class="contact-link-text">LinkedIn</span>
-                        <span class="contact-arrow">&nearr;</span>
-                    </a>
-
-                    <!-- Linha do WhatsApp -->
-                    <a href="https://wa.me/5511962070314" target="_blank" rel="noopener" class="contact-row">
-                        <span class="contact-type" data-pt="WhatsApp" data-en="WhatsApp">WhatsApp</span>
-                        <span class="contact-link-text">(11) 96207-0314</span>
-                        <span class="contact-arrow">&nearr;</span>
-                    </a>
-
-                    <!-- Linha de Localização Fixa -->
-                    <div class="contact-row no-hover">
-                        <span class="contact-type" data-pt="Localização" data-en="Location">Localização</span>
-                        <span class="contact-link-text" data-pt="São Paulo, SP — Parada Inglesa" data-en="Sao Paulo, Brazil">São Paulo, SP — Parada Inglesa</span>
-                    </div>
-
+            <section class="page-head contact-section">
+                <div class="c-title">
+                    <h1 class="display md"
+                        data-pt="Vamos criar<br>algo juntos?"
+                        data-en="Let's build<br>something together?">Vamos criar<br>algo juntos?</h1>
                 </div>
-            </div>
+
+                <div class="contact-right">
+                    <p class="lead"
+                       data-pt="Se você tem um projeto em mente, quer discutir uma colaboração em UI/UX, Copywriting ou Produção Audiovisual, sinta-se à vontade para me mandar uma mensagem."
+                       data-en="If you have a project in mind, want to discuss a collaboration in UI/UX, Copywriting, or Audiovisual Production, feel free to drop me a line.">Se você tem um projeto em mente, quer discutir uma colaboração em UI/UX, Copywriting ou Produção Audiovisual, sinta-se à vontade para me mandar uma mensagem.</p>
+
+                    <div class="contact-list">
+                        <a href="mailto:ericayabiku@outlook.com" class="contact-row">
+                            <span class="contact-type" data-pt="E-mail" data-en="Email">E-mail</span>
+                            <span>ericayabiku@outlook.com</span>
+                            <span class="contact-arrow">&nearr;</span>
+                        </a>
+
+                        <a href="https://www.linkedin.com/in/erica-yabiku/" target="_blank" rel="noopener" class="contact-row">
+                            <span class="contact-type">LinkedIn</span>
+                            <span>erica-yabiku</span>
+                            <span class="contact-arrow">&nearr;</span>
+                        </a>
+
+                        <a href="https://wa.me/5511962070314" target="_blank" rel="noopener" class="contact-row">
+                            <span class="contact-type">WhatsApp</span>
+                            <span>(11) 96207-0314</span>
+                            <span class="contact-arrow">&nearr;</span>
+                        </a>
+
+                        <div class="contact-row">
+                            <span class="contact-type" data-pt="Localização" data-en="Location">Localização</span>
+                            <span data-pt="São Paulo, SP — Parada Inglesa" data-en="Sao Paulo, Brazil">São Paulo, SP — Parada Inglesa</span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </main>
 
-    <!-- Rodapé Unificado -->
     <footer>
-        <p>&copy; 2026 Erica Correia Yabiku.</p>
+        <div class="wrap foot">
+            <span>&copy; 2026 Erica Correia Yabiku.</span>
+            <span data-pt="UI/UX Designer &amp; Copywriter" data-en="UI/UX Designer &amp; Copywriter">UI/UX Designer &amp; Copywriter</span>
+        </div>
     </footer>
 
     <script src="./script.js"></script>

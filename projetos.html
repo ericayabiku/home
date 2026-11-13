@@ -7,502 +7,342 @@
     <title>Erica Yabiku — Projetos</title>
     <link rel="stylesheet" type="text/css" href="./css/style.css">
     <link rel="shortcut icon" href="./images/developmenticon.png">
-    <style>
-        body {
-            background-color: var(--bg-primary);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        main {
-            flex: 1;
-            padding-top: 3rem;
-            padding-bottom: 5rem;
-        }
-
-        /* Feed vertical de projetos (uma coluna) */
-        .projects-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 6rem;
-            max-width: 680px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        .project-card {
-            width: 100%;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        /* Moldura da imagem: nunca corta a foto (object-fit: contain) */
-        .project-image-wrapper {
-            position: relative;
-            width: 100%;
-            height: 650px;
-            border-radius: var(--border-radius-md);
-            overflow: hidden;
-            cursor: pointer;
-            background-color: var(--bg-tertiary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            box-shadow: none;
-        }
-
-        .project-image-wrapper img {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            display: block;
-            transition: var(--transition-smooth);
-        }
-
-        .project-image-wrapper:hover img {
-            transform: scale(1.02);
-        }
-
-        /* Legenda que aparece por cima da imagem no hover */
-        .project-caption-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(115, 3, 13, 0.95);
-            color: #FFFFFF;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            text-align: center;
-            opacity: 0;
-            transition: var(--transition-smooth);
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .project-image-wrapper:hover .project-caption-overlay {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .project-caption-overlay p {
-            font-family: var(--font-body);
-            font-size: 0.8rem;
-            font-weight: 300;
-            line-height: 1.5;
-            color: #FFFFFF;
-            margin-bottom: 0;
-            letter-spacing: 0.5px;
-        }
-
-        /* Textos de cada projeto */
-        .project-category {
-            font-family: var(--font-body);
-            font-size: 0.75rem;
-            font-weight: 300;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 0.75rem;
-        }
-
-        .project-details h3 {
-            font-family: var(--font-body);
-            font-size: 1.35rem;
-            font-weight: 600;
-            margin-bottom: 0.35rem;
-            color: var(--text-primary);
-        }
-
-        .project-details p {
-            font-family: var(--font-body);
-            font-size: 0.95rem;
-            font-weight: 300;
-            line-height: 1.6;
-            color: var(--text-secondary);
-        }
-
-        .project-details iframe {
-            max-width: 100%;
-            height: auto;
-            aspect-ratio: 16 / 9;
-            border: 1px solid var(--border-color);
-        }
-
-        /* Efeito de fade-in ao rolar a página */
-        .efeito-scroll {
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-            will-change: opacity;
-        }
-
-        .efeito-scroll.visivel {
-            opacity: 1;
-        }
-
-        /* Modal do carrossel de ilustrações (#modal), controlado por script.js */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-
-        .modal-img {
-            max-width: 80%;
-            max-height: 80%;
-            border-radius: var(--border-radius-sm);
-            display: block;
-        }
-
-        .fechar {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 40px;
-            color: #FFFFFF;
-            cursor: pointer;
-        }
-
-        .modal-prev,
-        .modal-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: #FFFFFF;
-            font-size: 2rem;
-            border: none;
-            padding: 15px 20px;
-            cursor: pointer;
-            user-select: none;
-            transition: background-color 0.3s;
-            z-index: 2001;
-        }
-
-        .modal-prev:hover,
-        .modal-next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        .modal-prev { left: 20px; }
-        .modal-next { right: 20px; }
-
-        /* Lightbox para expandir as fotos dos cards de projeto (#lightbox) */
-        .lightbox {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(115, 3, 13, 0.97);
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .lightbox.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .lightbox-content {
-            max-width: 90%;
-            max-height: 80%;
-            border-radius: var(--border-radius-sm);
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-            object-fit: contain;
-        }
-
-        .lightbox.active .lightbox-content {
-            transform: scale(1);
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 2rem;
-            right: 3rem;
-            color: #FFFFFF;
-            font-size: 2.5rem;
-            font-weight: 200;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            user-select: none;
-        }
-
-        .lightbox-close:hover {
-            color: var(--text-muted);
-            transform: scale(1.1);
-        }
-
-        .lightbox-caption {
-            margin-top: 1.5rem;
-            color: #EFECE6;
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            font-weight: 300;
-            max-width: 600px;
-            text-align: center;
-            letter-spacing: 0.5px;
-        }
-
-        /* Responsividade */
-        @media screen and (max-width: 768px) {
-            main {
-                padding-top: 2rem;
-            }
-
-            .projects-grid {
-                max-width: 100%;
-                gap: 4rem;
-            }
-
-            .project-image-wrapper {
-                height: 480px;
-            }
-        }
-    </style>
 </head>
 <body>
 
-    <!-- Cabeçalho de Navegação -->
+  
+
     <header>
         <div class="nav-container">
-            <div class="logo">Erica Y.</div>
-            <nav>
+            <a class="logo" href="./index.html">Erica Y.</a>
+            <span class="clock" id="clock" aria-hidden="true"></span>
+            <nav aria-label="Principal">
                 <ul>
-                    <li><a href="./index.html">Início</a></li>
-                    <li><a href="./sobre.html">Sobre</a></li>
-                    <li><a href="./projetos.html" class="active">Projetos</a></li>
-                    <li><a href="./contato.html">Contato</a></li>
-                    <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+                    <li><a href="./index.html" data-pt="Início" data-en="Home">Início</a></li>
+                    <li><a href="./sobre.html" data-pt="Sobre" data-en="About">Sobre</a></li>
+                    <li><a href="./projetos.html" class="active" data-pt="Projetos" data-en="Projects">Projetos</a></li>
+                    <li><a href="./contato.html" data-pt="Contato" data-en="Contact">Contato</a></li>
                 </ul>
             </nav>
+            <div class="controls">
+                <button id="lang-toggle" class="chip" type="button">EN</button>
+                <button id="theme-toggle" class="chip" type="button" aria-label="Alternar tema">☾</button>
+            </div>
         </div>
     </header>
 
     <main>
-        <div class="section-title">
-            <h2>Projetos</h2>
-        </div>
+        <div class="wrap">
 
-        <div class="projects-grid">
+            <!-- ============ LISTA DE PROJETOS ============ -->
+            <div id="list">
 
-            <!-- Projeto 1 -->
-            <article class="project-card efeito-scroll">
-                <div class="project-image-wrapper" tabindex="0">
-                    <img src="./images/coisas_convida.png" alt="Cardápio do Evento Coisas Convida">
-                    <div class="project-caption-overlay">
-                        <p>Cardápio feito para evento privado House of Coisas e Aguikimchi</p>
+                <section class="hero">
+                    <h1 class="display" data-pt="Projetos" data-en="Projects">Projetos</h1>
+                    <p class="lead"
+                       data-pt="Design gráfico, produção audiovisual, ilustração e protótipos de interface. Escolha um projeto para ver os detalhes."
+                       data-en="Graphic design, audiovisual production, illustration and interface prototypes. Pick a project to see the details.">
+                        Design gráfico, produção audiovisual, ilustração e protótipos de interface. Escolha um projeto para ver os detalhes.
+                    </p>
+                </section>
+
+                <section class="cards" aria-label="Todos os projetos">
+
+                    <article class="card">
+                        <a href="#coisas-convida">
+                            <div class="media"><img src="./images/coisas_convida.png" alt="Cardápio do evento Coisas Convida"></div>
+                            <h3>Coisas Convida</h3>
+                            <p data-pt="Programação visual e design de cardápio para um jantar colaborativo na House of Coisas."
+                               data-en="Visual programming and menu design for a collaborative dinner at House of Coisas.">Programação visual e design de cardápio para um jantar colaborativo na House of Coisas.</p>
+                            <span class="more" data-pt="Ver projeto" data-en="View project">Ver projeto</span>
+                        </a>
+                    </article>
+
+                    <article class="card">
+                        <a href="#antrosujo">
+                            <div class="media">
+                                <video autoplay loop muted playsinline>
+                                    <source src="./images/Composição 1_9.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                            <h3>Antrosujo</h3>
+                            <p data-pt="Motion graphics para a label de música eletrônica Antrosujo."
+                               data-en="Motion graphics for the electronic music label Antrosujo.">Motion graphics para a label de música eletrônica Antrosujo.</p>
+                            <span class="more" data-pt="Ver projeto" data-en="View project">Ver projeto</span>
+                        </a>
+                    </article>
+
+                    <article class="card">
+                        <a href="#a-ultima-gota">
+                            <div class="media"><img src="./images/a_ultima_gota.png" alt="Pôster de A Última Gota"></div>
+                            <h3>A Última Gota</h3>
+                            <p data-pt="Direção de arte e roteiro de curta-metragem autoral no SENAC Lapa Scipião."
+                               data-en="Art direction and screenplay for an original short film at SENAC Lapa Scipião.">Direção de arte e roteiro de curta-metragem autoral no SENAC Lapa Scipião.</p>
+                            <span class="more" data-pt="Ver projeto" data-en="View project">Ver projeto</span>
+                        </a>
+                    </article>
+
+                    <article class="card">
+                        <a href="#casa-comigo">
+                            <div class="media ph"><span>UI/UX &middot; Figma</span></div>
+                            <h3>Casa Comigo App</h3>
+                            <p data-pt="Prototipagem do app Casa Comigo no Figma."
+                               data-en="Prototype of the Casa Comigo app in Figma.">Prototipagem do app Casa Comigo no Figma.</p>
+                            <span class="more" data-pt="Ver projeto" data-en="View project">Ver projeto</span>
+                        </a>
+                    </article>
+
+                    <article class="card">
+                        <a href="#ilustracao">
+                            <div class="media"><img src="./images/corpo1.png" alt="Ilustração de corpo feminino"></div>
+                            <h3 data-pt="Ilustração" data-en="Illustration">Ilustração</h3>
+                            <p data-pt="Corpos e silhuetas femininas em Procreate e Affinity Designer."
+                               data-en="Female bodies and silhouettes in Procreate and Affinity Designer.">Corpos e silhuetas femininas em Procreate e Affinity Designer.</p>
+                            <span class="more" data-pt="Ver projeto" data-en="View project">Ver projeto</span>
+                        </a>
+                    </article>
+
+                    <article class="card">
+                        <a href="#imobiliaria-pineschi">
+                            <div class="media ph"><span>UI/UX &middot; Figma</span></div>
+                            <h3 data-pt="Imobiliária Pineschi" data-en="Pineschi Real Estate">Imobiliária Pineschi</h3>
+                            <p data-pt="Protótipo de site imobiliário, versões web e mobile."
+                               data-en="Real estate website prototype, web and mobile versions.">Protótipo de site imobiliário, versões web e mobile.</p>
+                            <span class="more" data-pt="Ver projeto" data-en="View project">Ver projeto</span>
+                        </a>
+                    </article>
+
+                </section>
+            </div>
+
+            <!-- ============ DETALHES (abertos por #hash) ============ -->
+
+            <article class="detail" id="coisas-convida">
+                <section class="page-head">
+                    <div class="c-title">
+                        <a class="arrow" href="#" aria-label="Voltar para projetos">&larr;</a>
+                        <h2 class="display md">Coisas Convida</h2>
                     </div>
-                </div>
-                <div class="project-details">
-                    <span class="project-category">Design Gráfico & Identidade</span>
-                    <h3>Coisas Convida</h3>
-                    <p>Programação visual e design de cardápio desenvolvidos para o jantar colaborativo especial Aguikimchi x Dery Lima, promovido na House of Coisas.</p>
-                </div>
-            </article>
-
-                <article class="project-card efeito-scroll">
-                    <div class="project-image-wrapper" tabindex="0">
-                    <video autoplay loop muted playsinline>
-        <source src="./images/Composição 1_9.mp4" type="video/mp4">
-        Seu navegador não suporta a reprodução de vídeos.
-    </video>
-
-                        <div class="project-caption-overlay">
-                            <p>Motion Graphic para Label de música eletrônica Antrosujo</p>
-                        
+                    <div class="c-a">
+                        <div class="meta">
+                            <span class="label" data-pt="Categoria" data-en="Category">Categoria</span>
+                            <ul class="lines"><li data-pt="Design Gráfico &amp; Identidade" data-en="Graphic Design &amp; Identity">Design Gráfico &amp; Identidade</li></ul>
                         </div>
                     </div>
-                    <div class="project-details">
-                        <span class="project-category">Produção Audiovisual</span>
-                        <p>Motion Graphic para Label de música eletrônica Antrosujo</p>
-                            <p>Ferramentas: Adobe Illustrator, After Effects, Claude AI</p>
-                        
+                    <div class="c-b desc">
+                        <span class="label" data-pt="Descrição" data-en="Description">Descrição</span>
+                        <p data-pt="Programação visual e design de cardápio desenvolvidos para o jantar colaborativo especial Aguikimchi x Dery Lima, promovido na House of Coisas."
+                           data-en="Visual programming and menu design developed for the special collaborative dinner Aguikimchi x Dery Lima, hosted at House of Coisas.">Programação visual e design de cardápio desenvolvidos para o jantar colaborativo especial Aguikimchi x Dery Lima, promovido na House of Coisas.</p>
                     </div>
-                </article>
+                </section>
+                <div class="detail-media">
+                    <figure>
+                        <img src="./images/coisas_convida.png" alt="Cardápio do evento Coisas Convida" data-lightbox="coisas">
+                        <figcaption>
+                            <span class="count">(01)</span>
+                            <span class="cap" data-pt="Cardápio feito para evento privado House of Coisas e Aguikimchi"
+                                  data-en="Menu made for a private event by House of Coisas and Aguikimchi">Cardápio feito para evento privado House of Coisas e Aguikimchi</span>
+                        </figcaption>
+                    </figure>
+                </div>
+            </article>
 
-                      <article class="project-card efeito-scroll">
-                    <div class="project-image-wrapper" tabindex="0">
-                    <video autoplay loop muted playsinline>
-        <source src="./images/antrosujostorie1.mp4" type="video/mp4">
-        
-    </video>
-
-                        <div class="project-caption-overlay">
-                            <p>Motion Graphic para Label de música eletrônica Antrosujo</p>
-                        
+            <article class="detail" id="antrosujo">
+                <section class="page-head">
+                    <div class="c-title">
+                        <a class="arrow" href="#" aria-label="Voltar para projetos">&larr;</a>
+                        <h2 class="display md">Antrosujo</h2>
+                    </div>
+                    <div class="c-a">
+                        <div class="meta">
+                            <span class="label" data-pt="Categoria" data-en="Category">Categoria</span>
+                            <ul class="lines"><li data-pt="Produção Audiovisual" data-en="Audiovisual Production">Produção Audiovisual</li></ul>
+                        </div>
+                        <div class="meta">
+                            <span class="label" data-pt="Ferramentas" data-en="Tools">Ferramentas</span>
+                            <ul class="lines">
+                                <li>Adobe Illustrator</li>
+                                <li>After Effects</li>
+                                <li>Claude AI</li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="project-details">
-                        <span class="project-category">Produção Audiovisual</span>
-                        <p>Motion Graphic para Label de música eletrônica Antrosujo</p>
-                            <p>Ferramentas: Adobe Illustrator, After Effects, Claude AI</p>
-                        
+                    <div class="c-b desc">
+                        <span class="label" data-pt="Descrição" data-en="Description">Descrição</span>
+                        <p data-pt="Motion graphics para a label de música eletrônica Antrosujo."
+                           data-en="Motion graphics for the electronic music label Antrosujo.">Motion graphics para a label de música eletrônica Antrosujo.</p>
                     </div>
-                </article>
-
-            
-
-            <!-- Projeto 2 -->
-            <article class="project-card efeito-scroll">
-                <div class="project-image-wrapper" tabindex="0">
-                    <img src="./images/a_ultima_gota.png" alt="Pôster de A Última Gota">
-                    <div class="project-caption-overlay">
-                        <p>Capa de curta-metragem produzida no SENAC Lapa Scipião</p>
-                    </div>
-                </div>
-                <div class="project-details">
-                    <span class="project-category">Produção Audiovisual</span>
-                    <h3>A Última Gota</h3>
-                    <p>Direção de arte e roteirização de projeto de curta-metragem autoral desenvolvido durante a especialização no SENAC Lapa Scipião.</p>
+                </section>
+                <div class="detail-media">
+                    <figure>
+                        <video loop muted playsinline>
+                            <source src="./images/Composição 1_9.mp4" type="video/mp4">
+                        </video>
+                        <figcaption><span class="count">(01)</span></figcaption>
+                    </figure>
+                    <figure>
+                        <video loop muted playsinline>
+                            <source src="./images/antrosujostorie1.mp4" type="video/mp4">
+                        </video>
+                        <figcaption><span class="count">(02)</span></figcaption>
+                    </figure>
                 </div>
             </article>
 
-            <!-- Projeto 3 (protótipo Figma) -->
-            <article class="project-card efeito-scroll">
-                <div class="project-details">
-                    <iframe
-                        width="800" height="450"
-                        src="https://embed.figma.com/proto/Fh19daKQpreNgvFh9wHE87/CASA-COMIGO-PAG.--Community-?node-id=606-305&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=11%3A19&embed-host=share"
-                        allowfullscreen></iframe>
-                    <span class="project-category">UI/UX</span>
-                    <h3>Casa Comigo App</h3>
-                    <p>Prototipagem do app Casa Comigo (ferramenta: Figma).</p>
-                </div>
-            </article>
-
-            <!-- Projeto 4 (carrossel de ilustrações) -->
-            <article class="project-card efeito-scroll">
-                <div class="carousel">
-                    <button class="prev">&#10094;</button>
-                    <div class="slides">
-                        <img src="./images/corpo1.png" class="slide active" alt="Ilustração de corpo feminino 1">
-                        <img src="./images/corpo2.png" class="slide" alt="Ilustração de corpo feminino 2">
-                        <img src="./images/corpo3.png" class="slide" alt="Ilustração de corpo feminino 3">
+            <article class="detail" id="a-ultima-gota">
+                <section class="page-head">
+                    <div class="c-title">
+                        <a class="arrow" href="#" aria-label="Voltar para projetos">&larr;</a>
+                        <h2 class="display md">A Última Gota</h2>
                     </div>
-                    <button class="next">&#10095;</button>
-                </div>
-                <div class="project-details">
-                    <span class="project-category">Ilustração</span>
-                    <h3>Ilustração</h3>
-                    <p>Ilustração de corpos e silhuetas femininas. (ferramentas: Procreate, Affinity Designer)</p>
+                    <div class="c-a">
+                        <div class="meta">
+                            <span class="label" data-pt="Categoria" data-en="Category">Categoria</span>
+                            <ul class="lines"><li data-pt="Produção Audiovisual" data-en="Audiovisual Production">Produção Audiovisual</li></ul>
+                        </div>
+                    </div>
+                    <div class="c-b desc">
+                        <span class="label" data-pt="Descrição" data-en="Description">Descrição</span>
+                        <p data-pt="Direção de arte e roteirização de projeto de curta-metragem autoral desenvolvido durante a especialização no SENAC Lapa Scipião."
+                           data-en="Art direction and screenwriting for an original short film developed during the specialization at SENAC Lapa Scipião.">Direção de arte e roteirização de projeto de curta-metragem autoral desenvolvido durante a especialização no SENAC Lapa Scipião.</p>
+                    </div>
+                </section>
+                <div class="detail-media">
+                    <figure>
+                        <img src="./images/a_ultima_gota.png" alt="Pôster de A Última Gota" data-lightbox="gota">
+                        <figcaption>
+                            <span class="count">(01)</span>
+                            <span class="cap" data-pt="Capa de curta-metragem produzida no SENAC Lapa Scipião"
+                                  data-en="Short film cover produced at SENAC Lapa Scipião">Capa de curta-metragem produzida no SENAC Lapa Scipião</span>
+                        </figcaption>
+                    </figure>
                 </div>
             </article>
 
-             <article class="project-card efeito-scroll">
-                <div class="project-details">
-                    <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/proto/hPPWz9D4JLhrqIk7PAAsth/Pineschi-%E2%80%94-Design-System?node-id=6-3&p=f&scaling=min-zoom&content-scaling=fixed&page-id=6%3A2&starting-point-node-id=6%3A3&show-proto-sidebar=1&embed-host=share" allowfullscreen></iframe>
-                    <span class="project-category">UI/UX</span>
-                    <h3>Imobiliária Pineschi</h3>
-                    <p>Prototipagem site imobiliário versão web e mobile (ferramenta: Figma).</p>
+            <article class="detail" id="casa-comigo">
+                <section class="page-head">
+                    <div class="c-title">
+                        <a class="arrow" href="#" aria-label="Voltar para projetos">&larr;</a>
+                        <h2 class="display md">Casa Comigo App</h2>
+                    </div>
+                    <div class="c-a">
+                        <div class="meta">
+                            <span class="label" data-pt="Categoria" data-en="Category">Categoria</span>
+                            <ul class="lines"><li>UI/UX</li></ul>
+                        </div>
+                        <div class="meta">
+                            <span class="label" data-pt="Ferramentas" data-en="Tools">Ferramentas</span>
+                            <ul class="lines"><li>Figma</li></ul>
+                        </div>
+                    </div>
+                    <div class="c-b desc">
+                        <span class="label" data-pt="Descrição" data-en="Description">Descrição</span>
+                        <p data-pt="Prototipagem do app Casa Comigo (ferramenta: Figma)."
+                           data-en="Prototype of the Casa Comigo app (tool: Figma).">Prototipagem do app Casa Comigo (ferramenta: Figma).</p>
+                    </div>
+                </section>
+                <div class="detail-media">
+                    <div class="embed">
+                        <iframe
+                            title="Protótipo Casa Comigo"
+                            src="https://embed.figma.com/proto/Fh19daKQpreNgvFh9wHE87/CASA-COMIGO-PAG.--Community-?node-id=606-305&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=11%3A19&embed-host=share"
+                            allowfullscreen></iframe>
+                    </div>
+                </div>
+            </article>
+
+            <article class="detail" id="ilustracao">
+                <section class="page-head">
+                    <div class="c-title">
+                        <a class="arrow" href="#" aria-label="Voltar para projetos">&larr;</a>
+                        <h2 class="display md" data-pt="Ilustração" data-en="Illustration">Ilustração</h2>
+                    </div>
+                    <div class="c-a">
+                        <div class="meta">
+                            <span class="label" data-pt="Categoria" data-en="Category">Categoria</span>
+                            <ul class="lines"><li data-pt="Ilustração" data-en="Illustration">Ilustração</li></ul>
+                        </div>
+                        <div class="meta">
+                            <span class="label" data-pt="Ferramentas" data-en="Tools">Ferramentas</span>
+                            <ul class="lines">
+                                <li>Procreate</li>
+                                <li>Affinity Designer</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="c-b desc">
+                        <span class="label" data-pt="Descrição" data-en="Description">Descrição</span>
+                        <p data-pt="Ilustração de corpos e silhuetas femininas."
+                           data-en="Illustrations of female bodies and silhouettes.">Ilustração de corpos e silhuetas femininas.</p>
+                    </div>
+                </section>
+                <div class="detail-media">
+                    <figure>
+                        <img src="./images/corpo1.png" alt="Ilustração de corpo feminino 1" data-lightbox="ilustracao">
+                        <figcaption><span class="count">(01)</span></figcaption>
+                    </figure>
+                    <figure>
+                        <img src="./images/corpo2.png" alt="Ilustração de corpo feminino 2" data-lightbox="ilustracao">
+                        <figcaption><span class="count">(02)</span></figcaption>
+                    </figure>
+                    <figure>
+                        <img src="./images/corpo3.png" alt="Ilustração de corpo feminino 3" data-lightbox="ilustracao">
+                        <figcaption><span class="count">(03)</span></figcaption>
+                    </figure>
+                </div>
+            </article>
+
+            <article class="detail" id="imobiliaria-pineschi">
+                <section class="page-head">
+                    <div class="c-title">
+                        <a class="arrow" href="#" aria-label="Voltar para projetos">&larr;</a>
+                        <h2 class="display md" data-pt="Imobiliária Pineschi" data-en="Pineschi Real Estate">Imobiliária Pineschi</h2>
+                    </div>
+                    <div class="c-a">
+                        <div class="meta">
+                            <span class="label" data-pt="Categoria" data-en="Category">Categoria</span>
+                            <ul class="lines"><li>UI/UX</li></ul>
+                        </div>
+                        <div class="meta">
+                            <span class="label" data-pt="Ferramentas" data-en="Tools">Ferramentas</span>
+                            <ul class="lines"><li>Figma</li></ul>
+                        </div>
+                    </div>
+                    <div class="c-b desc">
+                        <span class="label" data-pt="Descrição" data-en="Description">Descrição</span>
+                        <p data-pt="Prototipagem de site imobiliário, versão web e mobile (ferramenta: Figma)."
+                           data-en="Real estate website prototype, web and mobile versions (tool: Figma).">Prototipagem de site imobiliário, versão web e mobile (ferramenta: Figma).</p>
+                    </div>
+                </section>
+                <div class="detail-media">
+                    <div class="embed">
+                        <iframe
+                            title="Protótipo Imobiliária Pineschi"
+                            src="https://embed.figma.com/proto/hPPWz9D4JLhrqIk7PAAsth/Pineschi-%E2%80%94-Design-System?node-id=6-3&p=f&scaling=min-zoom&content-scaling=fixed&page-id=6%3A2&starting-point-node-id=6%3A3&show-proto-sidebar=1&embed-host=share"
+                            allowfullscreen></iframe>
+                    </div>
                 </div>
             </article>
 
         </div>
     </main>
 
-    <!-- Modal isolado do carrossel de ilustrações -->
-    <div id="modal" class="modal">
-        <span class="fechar">&times;</span>
-        <button class="modal-prev">&#10094;</button>
-        <img id="imgGrande" class="modal-img" alt="">
-        <button class="modal-next">&#10095;</button>
+    <!-- Lightbox das imagens dos projetos -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+        <button class="lb-close" type="button" aria-label="Fechar">&times;</button>
+        <button class="lb-prev" type="button" aria-label="Anterior">&lsaquo;</button>
+        <img class="lightbox-img" alt="">
+        <div class="lightbox-caption"></div>
+        <button class="lb-next" type="button" aria-label="Próxima">&rsaquo;</button>
     </div>
 
-    <!-- Lightbox para expandir as fotos dos cards de projeto -->
-    <div id="lightbox" class="lightbox">
-        <span class="lightbox-close">&times;</span>
-        <img class="lightbox-content" id="lightbox-img" alt="Imagem Expandida">
-        <div class="lightbox-caption" id="lightbox-caption"></div>
-    </div>
-
-    <!-- Rodapé -->
     <footer>
-        <p>&copy; 2026 Erica Correia Yabiku. Todos os direitos reservados.</p>
-        <small>Desenvolvido por Erica Correia Yabiku &bull; UI/UX Designer & Copywriter</small>
+        <div class="wrap foot">
+            <span>&copy; 2026 Erica Correia Yabiku.</span>
+            <span data-pt="UI/UX Designer &amp; Copywriter" data-en="UI/UX Designer &amp; Copywriter">UI/UX Designer &amp; Copywriter</span>
+        </div>
     </footer>
 
     <script src="./script.js"></script>
-    <script>
-        // Fade-in dos cards de projeto ao rolar a página
-        document.addEventListener("DOMContentLoaded", () => {
-            const elementos = document.querySelectorAll('.efeito-scroll');
-
-            const observador = new IntersectionObserver((entradas, obs) => {
-                entradas.forEach(entrada => {
-                    if (entrada.isIntersecting) {
-                        entrada.target.classList.add('visivel');
-                        // Dispara apenas uma vez para não ficar piscando ao subir a página
-                        obs.unobserve(entrada.target);
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: "0px 0px -50px 0px"
-            });
-
-            elementos.forEach(el => observador.observe(el));
-        });
-
-        // Lightbox para expandir as imagens dos cards de projeto
-        document.addEventListener("DOMContentLoaded", () => {
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            const lightboxCaption = document.getElementById('lightbox-caption');
-            const closeBtn = lightbox.querySelector('.lightbox-close');
-
-            function closeLightbox() {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-
-            document.querySelectorAll('.project-image-wrapper').forEach(wrapper => {
-                wrapper.addEventListener('click', () => {
-                    const img = wrapper.querySelector('img');
-                    const captionEl = wrapper.querySelector('.project-caption-overlay p');
-
-                    lightboxImg.src = img.src;
-                    lightboxImg.alt = img.alt;
-                    lightboxCaption.textContent = captionEl ? captionEl.textContent : '';
-
-                    lightbox.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                });
-            });
-
-            closeBtn.addEventListener('click', closeLightbox);
-
-            lightbox.addEventListener('click', (e) => {
-                if (e.target === lightbox) closeLightbox();
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-                    closeLightbox();
-                }
-            });
-        });
-    </script>
-
 </body>
 </html>

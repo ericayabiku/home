@@ -7,301 +7,97 @@
     <title>Erica Correia Yabiku — Sobre</title>
     <link rel="stylesheet" type="text/css" href="./css/style.css">
     <link rel="shortcut icon" href="./images/developmenticon.png">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-body);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(80px);
-            transition:
-                opacity .8s ease,
-                transform .8s ease;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Tags de Skill Minimalistas */
-        .skill-tag {
-            display: inline-block;
-            padding: 0.6rem 1.2rem;
-            background-color: var(--bg-secondary);
-            border-radius: 30px;
-            font-size: 0.85rem;
-            color: var(--text-primary);
-            font-weight: 400;
-            transition: var(--transition-smooth);
-            cursor: default;
-            border: 1px solid var(--border-color);
-        }
-
-        .skill-tag:hover {
-            background-color: var(--accent-primary);
-            color: #FFFFFF;
-            transform: translateY(-2px);
-        }
-
-        /* Linhas da tabela de Idiomas */
-        .lang-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.95rem;
-            color: var(--text-primary);
-        }
-
-        .lang-row strong {
-            color: var(--text-primary);
-        }
-
-        .lang-dots {
-            color: var(--accent-primary);
-            letter-spacing: 2px;
-            font-size: 1.1rem;
-        }
-
-        .about-main {
-            flex: 1;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 6rem 2rem;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        /* Seção Hero (Foto e Texto Lado a Lado) */
-        .profile-hero {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 5rem;
-            align-items: center;
-            margin-bottom: 5rem;
-        }
-
-        .profile-intro {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .profile-tag {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-
-        .profile-hero h1 {
-            font-size: 3.2rem;
-            font-weight: 600;
-            letter-spacing: -1.5px;
-            margin: 0 0 1rem 0;
-            color: var(--text-primary);
-            line-height: 1.1;
-        }
-
-        .profile-meta {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        .profile-tagline p {
-            font-size: 1.15rem;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            font-weight: 300;
-            margin-bottom: 1.2rem;
-        }
-
-        /* Moldura da Foto com Proporção Redonda Perfeita */
-        .profile-avatar {
-            display: flex;
-            justify-content: center;
-        }
-
-        .avatar-wrapper {
-            width: 320px;
-            height: 320px;
-            border-radius: 50%;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-        }
-
-        .avatar-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Seção Inferior: Grid de Skills e Idiomas */
-        .skills-and-languages {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 6rem;
-            border-top: 1px solid var(--border-color);
-            padding-top: 4rem;
-        }
-
-        .skills-and-languages h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 0 0 2rem 0;
-            color: var(--text-primary);
-            letter-spacing: -0.5px;
-        }
-
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        /* Bloco de Idiomas */
-        .languages-box {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-
-        /* Responsividade para Celulares e Tablets */
-        @media screen and (max-width: 900px) {
-            .about-main { padding: 4rem 1.5rem; }
-            .profile-hero { grid-template-columns: 1fr; gap: 3rem; }
-            .profile-avatar { order: -1; }
-            .avatar-wrapper { width: 240px; height: 240px; }
-            .profile-hero h1 { font-size: 2.4rem; }
-            .skills-and-languages { grid-template-columns: 1fr; gap: 4rem; }
-        }
-    </style>
 </head>
 <body>
 
-    <!-- Cabeçalho de Navegação Simplificado -->
+    
+
     <header>
         <div class="nav-container">
-            <div class="logo">Erica Y.</div>
-            <nav>
+            <a class="logo" href="./index.html">Erica Y.</a>
+            <span class="clock" id="clock" aria-hidden="true"></span>
+            <nav aria-label="Principal">
                 <ul>
-                    <li><a href="./index.html">Início</a></li>
-                    <li><a href="./sobre.html" class="active">Sobre</a></li>
-                    <li><a href="./projetos.html">Projetos</a></li>
-                    <li><a href="./contato.html">Contato</a></li>
-                    <li><button id="lang-toggle" class="lang-btn">EN</button></li>
-                    <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+                    <li><a href="./index.html" data-pt="Início" data-en="Home">Início</a></li>
+                    <li><a href="./sobre.html" class="active" data-pt="Sobre" data-en="About">Sobre</a></li>
+                    <li><a href="./projetos.html" data-pt="Projetos" data-en="Projects">Projetos</a></li>
+                    <li><a href="./contato.html" data-pt="Contato" data-en="Contact">Contato</a></li>
                 </ul>
             </nav>
+            <div class="controls">
+                <button id="lang-toggle" class="chip" type="button">EN</button>
+                <button id="theme-toggle" class="chip" type="button" aria-label="Alternar tema">☾</button>
+            </div>
         </div>
     </header>
 
-    <!-- Conteúdo Principal -->
-    <main class="about-main">
+    <main>
+        <div class="wrap">
 
-        <section class="profile-hero reveal">
-            <div class="profile-intro">
-                <span class="profile-tag">UI / UX Design & Copywriting</span>
+            <section class="page-head">
+                <div class="c-title">
+                    <h1 class="display md">Erica Correia<br>Yabiku</h1>
+                </div>
 
-                <h1>Erica Correia Yabiku</h1>
+                <div class="c-a">
+                    <div class="meta">
+                        <span class="label">Skills</span>
+                        <ul class="lines">
+                            <li>UI/UX Design</li>
+                            <li>Figma</li>
+                            <li>Copywriting</li>
+                            <li data-pt="Roteiro" data-en="Screenwriting">Roteiro</li>
+                            <li data-pt="Produção Audiovisual" data-en="Audiovisual Production">Produção Audiovisual</li>
+                            <li>Affinity</li>
+                            <li data-pt="Escrita Criativa" data-en="Creative Writing">Escrita Criativa</li>
+                            <li>Google/SEO</li>
+                        </ul>
+                    </div>
+                    <div class="meta">
+                        <span class="label" data-pt="Localização" data-en="Location">Localização</span>
+                        <ul class="lines"><li data-pt="São Paulo - SP" data-en="São Paulo, Brazil">São Paulo - SP</li></ul>
+                    </div>
+                </div>
 
-                <div class="profile-tagline">
+                <div class="c-b desc">
+                    <span class="label" data-pt="Descrição" data-en="Description">Descrição</span>
                     <p data-pt="Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação."
-                       data-en="I'm a UI/UX designer and copywriter with a background in operations management. I work at the intersection of Figma prototyping, creative direction, and storytelling — believing that design is, above all, communication.">
-                        Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação.
-                    </p>
-
+                       data-en="I'm a UI/UX designer and copywriter with a background in operations management. I work at the intersection of Figma prototyping, creative direction, and storytelling — believing that design is, above all, communication.">Sou UI/UX designer e copywriter com background em gestão operacional. Trabalho na intersecção entre prototipagem no Figma, direção criativa e storytelling — acreditando que design é, antes de tudo, comunicação.</p>
                     <p data-pt="Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa."
-                       data-en="My background in audiovisual production at SENAC feeds a narrative vision of design: every screen, every graphic piece tells a story. I have a growing interest in using artificial intelligence as a tool for creative expansion.">
-                        Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa.
-                    </p>
+                       data-en="My background in audiovisual production at SENAC feeds a narrative vision of design: every screen, every graphic piece tells a story. I have a growing interest in using artificial intelligence as a tool for creative expansion.">Minha formação em produção audiovisual no SENAC alimenta uma visão narrativa do design: cada tela, cada peça gráfica conta uma história. Tenho interesse crescente no uso de inteligência artificial como ferramenta de expansão criativa.</p>
                 </div>
-            </div>
+            </section>
 
-            <div class="profile-avatar">
-                <div class="avatar-wrapper">
-                    <img src="./images/profilepic.png" alt="Foto de Perfil da Erica Correia Yabiku">
-                </div>
-            </div>
-        </section>
+            <section class="about-second">
+                <figure>
+                    <img src="./images/profilepic.png" alt="Foto de perfil de Erica Correia Yabiku">
+                </figure>
 
-        <p class="profile-meta reveal">
-            <span>
-                <strong>Localização:</strong> São Paulo - SP
-            </span>
-        </p>
-
-        <section class="skills-and-languages reveal">
-
-            <div class="skills-block">
-                <h2>Skills</h2>
-
-                <div class="skills-list">
-                    <span class="skill-tag">UI/UX Design</span>
-                    <span class="skill-tag">Figma</span>
-                    <span class="skill-tag">Copywriting</span>
-                    <span class="skill-tag">Roteiro</span>
-                    <span class="skill-tag">Produção Audiovisual</span>
-                    <span class="skill-tag">Affinity</span>
-                    <span class="skill-tag">Escrita Criativa</span>
-                    <span class="skill-tag">Google/SEO</span>
-                </div>
-            </div>
-
-            <div class="languages-block">
-                <h2>Idiomas</h2>
-
-                <div class="languages-box">
-                    <div class="lang-row">
-                        <span><strong>Português:</strong> Nativo</span>
-                        <span class="lang-dots">•••••</span>
-                    </div>
-
-                    <div class="lang-row">
-                        <span><strong>Inglês:</strong> Avançado</span>
-                        <span class="lang-dots">••••</span>
+                <div class="about-side">
+                    <span class="label" data-pt="Idiomas" data-en="Languages">Idiomas</span>
+                    <div class="lang-list">
+                        <div class="lang-row">
+                            <span data-pt="Português" data-en="Portuguese">Português</span>
+                            <span class="lang-level" data-pt="Nativo" data-en="Native">Nativo</span>
+                        </div>
+                        <div class="lang-row">
+                            <span data-pt="Inglês" data-en="English">Inglês</span>
+                            <span class="lang-level" data-pt="Avançado" data-en="Advanced">Avançado</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-        </section>
-
+        </div>
     </main>
 
-    <!-- Rodapé -->
     <footer>
-        <p>&copy; 2026 Erica Correia Yabiku.</p>
+        <div class="wrap foot">
+            <span>&copy; 2026 Erica Correia Yabiku.</span>
+            <span data-pt="UI/UX Designer &amp; Copywriter" data-en="UI/UX Designer &amp; Copywriter">UI/UX Designer &amp; Copywriter</span>
+        </div>
     </footer>
 
     <script src="./script.js"></script>
-    <script>
-        // Fade-in dos blocos ao rolar a página
-        document.addEventListener("DOMContentLoaded", () => {
-            const reveals = document.querySelectorAll(".reveal");
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("active");
-                    }
-                });
-            }, {
-                threshold: 0.15
-            });
-
-            reveals.forEach(element => observer.observe(element));
-        });
-    </script>
-
 </body>
 </html>
