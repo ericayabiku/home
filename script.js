@@ -1,168 +1,151 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // === SELETORES DO CARROSSEL DA PÁGINA ===
-    const slides = document.querySelectorAll(".carousel .slide");
-    const prevBtn = document.querySelector(".carousel .prev");
-    const nextBtn = document.querySelector(".carousel .next");
-    
-    // === SELETORES DO MODAL (LIGHTBOX) ===
-    const lightbox = document.getElementById("modal") || document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("imgGrande") || document.getElementById("lightbox-img");
-    const closeBtn = document.querySelector(".fechar") || document.querySelector(".lightbox-close");
-    const modalPrevBtn = document.querySelector(".modal-prev");
-    const modalNextBtn = document.querySelector(".modal-next");
-    
-    let currentSlide = 0;
-
-    // FUNÇÃO CENTRAL: Altera a foto ativa e atualiza o modal caso esteja aberto
-    function showSlide(index) {
-        if (slides.length === 0) return;
-
-        // Remove a classe ativa de todos os slides da página
-        slides.forEach(slide => slide.classList.remove("active"));
-        
-        // Sistema de carrossel infinito (volta ao início ou fim)
-        if (index >= slides.length) currentSlide = 0;
-        else if (index < 0) currentSlide = slides.length - 1;
-        else currentSlide = index;
-
-        // Ativa o slide atual no fundo da página
-        slides[currentSlide].classList.add("active");
-
-        // Se o lightbox estiver aberto, atualiza a imagem interna dele imediatamente
-        if (lightbox && (lightbox.classList.contains("active") || lightbox.style.display === "flex" || lightbox.style.display === "block")) {
-            if (lightboxImg) {
-                lightboxImg.src = slides[currentSlide].src;
-                lightboxImg.alt = slides[currentSlide].alt;
-            }
-        }
+    const $ = (sel, ctx = document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+ 
+    /* =========================================================
+       TEMA CLARO / ESCURO
+       ========================================================= */
+    const themeBtn = $("#theme-toggle");
+ 
+    function applyTheme(theme) {
+        document.body.classList.toggle("dark-theme", theme === "dark");
+        if (themeBtn) themeBtn.textContent = theme === "dark" ? "☀" : "☾";
+        localStorage.setItem("theme", theme);
     }
-
-    // EVENTOS: Cliques nas setas do carrossel padrão da página
-    if (nextBtn) nextBtn.addEventListener("click", () => showSlide(currentSlide + 1));
-    if (prevBtn) prevBtn.addEventListener("click", () => showSlide(currentSlide - 1));
-
-    // EVENTOS: Abre o lightbox sincronizado ao clicar em qualquer imagem do carrossel
-    slides.forEach((slide, index) => {
-        slide.addEventListener("click", () => {
-            currentSlide = index; // Armazena a posição correta da foto clicada
-            
-            if (lightbox) {
-                // Adaptação para abrir usando classe utilitária do CSS ou display flex
-                if (lightbox.classList.contains("lightbox")) {
-                    lightbox.classList.add("active");
-                } else {
-                    lightbox.style.display = "flex";
-                }
-                document.body.style.overflow = "hidden"; // Bloqueia o scroll da página de fundo
-                showSlide(currentSlide);
-            }
-        });
-    });
-
-    // EVENTOS: Cliques nas setas de navegação internas do Modal
-    if (modalNextBtn) {
-        modalNextBtn.addEventListener("click", (e) => {
-            e.stopPropagation(); // Evita que o modal feche por um clique fantasma de fundo
-            showSlide(currentSlide + 1);
+ 
+    applyTheme(localStorage.getItem("theme") || "light");
+ 
+    if (themeBtn) {
+        themeBtn.addEventListener("click", () => {
+            applyTheme(document.body.classList.contains("dark-theme") ? "light" : "dark");
         });
     }
-
-    if (modalPrevBtn) {
-        modalPrevBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            showSlide(currentSlide - 1);
-        });
-    }
-
-    // FUNÇÃO INTERNA: Fecha o lightbox de forma limpa
-    function closeLightbox() {
-        if (lightbox) {
-            lightbox.classList.remove("active");
-            lightbox.style.display = "none";
-        }
-        document.body.style.overflow = ""; // Restaura a rolagem da página
-    }
-
-    // EVENTOS: Formas de fechar o Modal (botão X, área externa ou tecla ESC)
-    if (closeBtn) closeBtn.addEventListener("click", closeLightbox);
-    
-    if (lightbox) {
-        lightbox.addEventListener("click", (e) => {
-            if (e.target === lightbox) closeLightbox();
-        });
-    }
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeLightbox();
-    });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const langToggleBtn = document.getElementById("lang-toggle");
-    
-    // Verifica se o usuário já tinha uma preferência salva, senão assume Português ('pt')
+ 
+    /* =========================================================
+       IDIOMA PT / EN
+       Qualquer elemento com data-pt e data-en é traduzido.
+       ========================================================= */
+    const langBtn = $("#lang-toggle");
     let currentLang = localStorage.getItem("preferredLanguage") || "pt";
-
-    // Função que aplica o idioma na interface
+ 
     function applyLanguage(lang) {
-        // Altera o atributo oficial de idioma do HTML para SEO
         document.documentElement.lang = lang === "pt" ? "pt-br" : "en";
-
-        // Busca todos os elementos da página que possuem tradução configurada
-        const translatableElements = document.querySelectorAll("[data-pt][data-en]");
-        
-        translatableElements.forEach(el => {
-            // Altera o conteúdo baseado no idioma selecionado
+        $$("[data-pt][data-en]").forEach(el => {
             el.innerHTML = el.getAttribute(`data-${lang}`);
         });
-
-        // Atualiza o texto visual do botão indicador
-        if (langToggleBtn) {
-            langToggleBtn.textContent = lang === "pt" ? "EN" : "PT";
-        }
-
-        // Salva a escolha do usuário na memória local do navegador
+        if (langBtn) langBtn.textContent = lang === "pt" ? "EN" : "PT";
         localStorage.setItem("preferredLanguage", lang);
         currentLang = lang;
     }
-
-    // Executa a tradução assim que a página carrega
+ 
     applyLanguage(currentLang);
-
-    // Evento de clique para alternar o idioma
-    if (langToggleBtn) {
-        langToggleBtn.addEventListener("click", () => {
-            const nextLang = currentLang === "pt" ? "en" : "pt";
-            applyLanguage(nextLang);
+ 
+    if (langBtn) {
+        langBtn.addEventListener("click", () => {
+            applyLanguage(currentLang === "pt" ? "en" : "pt");
+        });
+    }
+ 
+    /* =========================================================
+       RELÓGIO (horário de São Paulo)
+       ========================================================= */
+    const clock = $("#clock");
+ 
+    if (clock) {
+        const fmt = new Intl.DateTimeFormat("pt-BR", {
+            timeZone: "America/Sao_Paulo",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        });
+        const tick = () => { clock.textContent = fmt.format(new Date()) + " SP"; };
+        tick();
+        setInterval(tick, 1000);
+    }
+ 
+    /* =========================================================
+       PÁGINA DE PROJETOS: lista <-> detalhe via #hash
+       (ex.: projetos.html#coisas-convida)
+       ========================================================= */
+    const list = $("#list");
+    const details = $$(".detail");
+ 
+    if (list && details.length) {
+        const route = () => {
+            const id = decodeURIComponent(location.hash.slice(1));
+            const target = details.find(d => d.id === id);
+ 
+            details.forEach(d => {
+                const isOpen = d === target;
+                d.classList.toggle("open", isOpen);
+                $$("video", d).forEach(v => {
+                    if (isOpen) v.play().catch(() => {});
+                    else v.pause();
+                });
+            });
+ 
+            list.hidden = Boolean(target);
+            window.scrollTo(0, 0);
+        };
+ 
+        window.addEventListener("hashchange", route);
+        route();
+    }
+ 
+    /* =========================================================
+       LIGHTBOX (imagens com data-lightbox="grupo")
+       ========================================================= */
+    const lightbox = $("#lightbox");
+ 
+    if (lightbox) {
+        const lbImg = $(".lightbox-img", lightbox);
+        const lbCap = $(".lightbox-caption", lightbox);
+        const prev = $(".lb-prev", lightbox);
+        const next = $(".lb-next", lightbox);
+        let group = [];
+        let index = 0;
+ 
+        function show(i) {
+            index = (i + group.length) % group.length;
+            const img = group[index];
+            lbImg.src = img.currentSrc || img.src;
+            lbImg.alt = img.alt;
+            lbCap.textContent = img.alt || "";
+            prev.hidden = next.hidden = group.length < 2;
+        }
+ 
+        function open(img) {
+            group = $$(`img[data-lightbox="${img.dataset.lightbox}"]`);
+            lightbox.classList.add("active");
+            document.body.style.overflow = "hidden";
+            show(group.indexOf(img));
+        }
+ 
+        function close() {
+            lightbox.classList.remove("active");
+            document.body.style.overflow = "";
+        }
+ 
+        document.addEventListener("click", e => {
+            const img = e.target.closest("img[data-lightbox]");
+            if (img) open(img);
+        });
+ 
+        prev.addEventListener("click", e => { e.stopPropagation(); show(index - 1); });
+        next.addEventListener("click", e => { e.stopPropagation(); show(index + 1); });
+        $(".lb-close", lightbox).addEventListener("click", close);
+ 
+        lightbox.addEventListener("click", e => {
+            if (e.target === lightbox) close();
+        });
+ 
+        document.addEventListener("keydown", e => {
+            if (!lightbox.classList.contains("active")) return;
+            if (e.key === "Escape") close();
+            if (e.key === "ArrowRight" && group.length > 1) show(index + 1);
+            if (e.key === "ArrowLeft" && group.length > 1) show(index - 1);
         });
     }
 });
-const themeToggleBtn = document.getElementById("theme-toggle");
-
-// Verifica se o usuário já salvou alguma preferência de tema antes
-const savedTheme = localStorage.getItem("theme") || "light";
-
-// Aplica o tema salvo logo ao carregar a página
-if (savedTheme === "dark") {
-    document.body.classList.add("dark-theme");
-    if (themeToggleBtn) themeToggleBtn.textContent = "☀️"; // Ícone para voltar ao dia
-} else {
-    document.body.classList.remove("dark-theme");
-    if (themeToggleBtn) themeToggleBtn.textContent = "🌙"; // Ícone para ir para a noite
-}
-
-// Evento de clique para alternar o tema
-if (themeToggleBtn) {
-    themeToggleBtn.addEventListener("click", () => {
-        document.body.classList.toggle("dark-theme");
-        
-        // Verifica qual classe está ativa após o clique para salvar no LocalStorage
-        if (document.body.classList.contains("dark-theme")) {
-            localStorage.setItem("theme", "dark");
-            themeToggleBtn.textContent = "☀️";
-        } else {
-            localStorage.setItem("theme", "light");
-            themeToggleBtn.textContent = "🌙";
-        }
-    });
-}
+ 
