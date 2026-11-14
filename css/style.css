@@ -34,13 +34,11 @@ body.dark-theme {
     --text-2: #9AA6BC;
     --muted: #6B7890;
     --line: rgba(234, 240, 250, 0.16);
-    --guide: rgba(70, 130, 220, 0.10);
     --accent: #8DB8FF;
     --btn-bg: #EAF0FA;
     --btn-text: #070B16;
     --header-bg: rgba(7, 11, 22, 0.86);
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
 [hidden] { display: none !important; }
 
