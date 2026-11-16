@@ -5,6 +5,25 @@
    Referências: Moonstone (grade de 4 colunas, cards escalonados)
    e Inner Echo (título grande, metadados, galeria assimétrica)
    ========================================================== */
+   /* ---------- Destaque da home ---------- */
+.featured {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 48px;
+}
+.featured-media { width: 100%; margin: 0; }
+.featured-media video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-2);
+}
+.featured-info { text-align: center; padding-top: 22px; }
+.featured-info .label { margin-bottom: 6px; }
+.featured-info h2 { font-size: 1.6rem; font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; margin: 0 0 18px; }
+.featured-info .lines { display: flex; justify-content: center; gap: 18px; }
 
 :root {
     --bg: #FFFFFF;
@@ -385,6 +404,7 @@ footer { position: relative; z-index: 1; border-top: 1px solid var(--line); back
 
     .about-second figure, .about-side { grid-column: 1 / -1; }
     .about-side { margin-top: 32px; }
+        .featured { padding-top: 36px; }
 }
 
 @media screen and (max-width: 640px) {
