@@ -294,11 +294,33 @@ a.arrow:hover { color: var(--text); }
     border: 1px solid var(--line);
 }
 
+/* Projeto com vídeo principal + vídeos verticais */
+.video-stage { margin-bottom: 40px; }
+.video-stage figure { margin: 0; }
+.video-stage video { width: 100%; height: auto; background: var(--bg-2); }
+.detail-media.vertical { max-width: 880px; margin: 0 auto; }
+
 figcaption { display: flex; align-items: baseline; gap: 16px; padding-top: 10px; color: var(--muted); }
 .count { font-size: 1.5rem; font-weight: 300; }
 .cap { font-size: 0.72rem; line-height: 1.4; }
 
 /* ---------- Sobre ---------- */
+.about-title { padding: clamp(40px, 8vw, 90px) 0 clamp(28px, 4vw, 48px); }
+.about-grid {
+    display: grid;
+    grid-template-columns: minmax(220px, 340px) 1fr;
+    column-gap: clamp(32px, 5vw, 72px);
+    align-items: start;
+    padding-bottom: 96px;
+}
+.about-photo { margin: 0; }
+.about-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: var(--bg-2); }
+.about-info { display: flex; flex-direction: column; gap: 36px; max-width: 640px; }
+.about-desc p { max-width: 560px; font-size: 0.86rem; }
+.about-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+.about-cols .meta + .meta { margin-top: 0; }
+.about-cols .lines { columns: 2; column-gap: var(--gap); }
+
 .about-second {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -404,11 +426,15 @@ footer { position: relative; z-index: 1; border-top: 1px solid var(--line); back
 
     .about-second figure, .about-side { grid-column: 1 / -1; }
     .about-side { margin-top: 32px; }
+    .about-grid { grid-template-columns: 1fr; row-gap: 32px; }
+    .about-photo { max-width: 280px; }
         .featured { padding-top: 36px; }
 }
 
 @media screen and (max-width: 640px) {
     .detail-media { grid-template-columns: 1fr; }
+    .detail-media.vertical { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .about-cols { grid-template-columns: 1fr; }
     .contact-row { grid-template-columns: 100px 1fr auto; }
     .foot { flex-direction: column; gap: 6px; }
 }
