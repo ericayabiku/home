@@ -302,6 +302,7 @@ a.arrow:hover { color: var(--text); }
 .video-stage.vertical video { width: auto; max-width: 100%; max-height: 85vh; margin: 0 auto; }
 .video-stage.vertical figcaption { justify-content: center; }
 .detail-media.vertical { max-width: 880px; margin: 0 auto; }
+.detail-media.vertical.trio { max-width: 1100px; grid-template-columns: repeat(3, 1fr); }
 
 figcaption { display: flex; align-items: baseline; gap: 16px; padding-top: 10px; color: var(--muted); }
 .count { font-size: 1.5rem; font-weight: 300; }
@@ -437,6 +438,7 @@ footer { position: relative; z-index: 1; border-top: 1px solid var(--line); back
 @media screen and (max-width: 640px) {
     .detail-media { grid-template-columns: 1fr; }
     .detail-media.vertical { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .detail-media.vertical.trio { grid-template-columns: repeat(3, 1fr); gap: 12px; }
     .about-cols { grid-template-columns: 1fr; }
     .contact-row { grid-template-columns: 100px 1fr auto; }
     .foot { flex-direction: column; gap: 6px; }
