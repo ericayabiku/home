@@ -165,6 +165,21 @@ nav ul { list-style: none; display: flex; gap: 14px; }
 nav a { font-size: 0.75rem; color: var(--muted); transition: color 0.2s ease; }
 nav a:hover, nav a.active { color: var(--text); }
 
+/* ---------- ASCII Lab no menu ---------- */
+nav a.nav-lab { display: inline-flex; white-space: nowrap; align-items: center; gap: 6px; color: var(--accent); font-weight: 500; }
+nav a.nav-lab:hover { color: var(--text); }
+.nav-badge {
+    font-size: 0.58rem; line-height: 1; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 3px 6px; border-radius: 999px;
+    background: var(--accent); color: var(--bg);
+    animation: navBadgePulse 2.4s var(--ease) infinite;
+}
+@keyframes navBadgePulse {
+    0%, 100% { box-shadow: 0 0 0 0 var(--accent); }
+    60% { box-shadow: 0 0 0 5px transparent; }
+}
+@media (prefers-reduced-motion: reduce) { .nav-badge { animation: none; } }
+
 .controls { justify-self: end; display: flex; gap: 8px; }
 
 .chip {
@@ -475,3 +490,142 @@ footer { position: relative; z-index: 1; border-top: 1px solid var(--line); back
     .media img, .media video { transition: none; }
     html { scroll-behavior: auto; }
 }
+
+/* =========================================================
+   INTERAÇÕES (repaginada 2026-11)
+   ========================================================= */
+
+/* ---------- Entrada no scroll ---------- */
+.rv-on .rv {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+    transition-delay: var(--rv-d, 0s);
+}
+.rv-on .rv.in { opacity: 1; transform: none; }
+
+/* ---------- Cards ---------- */
+.card .media { position: relative; }
+.card .media::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: var(--accent);
+    opacity: 0;
+    mix-blend-mode: multiply;
+    transition: opacity 0.5s var(--ease);
+    pointer-events: none;
+}
+.card a:hover .media::after { opacity: 0.12; }
+.card .media img, .card .media video { transition: transform 0.9s var(--ease); }
+.card a:hover .media img,
+.card a:hover .media video { transform: scale(1.05); }
+.card h3 { transition: color 0.3s ease; }
+.card a:hover h3 { color: var(--accent); }
+
+/* ---------- Sublinhado deslizante no menu ---------- */
+nav a { position: relative; }
+nav a::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: -4px;
+    height: 1px; background: currentColor;
+    transform: scaleX(0); transform-origin: right;
+    transition: transform 0.45s var(--ease);
+}
+nav a:hover::after, nav a.active::after { transform: scaleX(1); transform-origin: left; }
+
+/* ---------- Botões magnéticos ---------- */
+.magnetic { transition: transform 0.5s var(--ease), opacity 0.2s ease; will-change: transform; }
+
+/* ---------- Filtro de projetos ---------- */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; padding-top: clamp(24px, 3vw, 36px); }
+.filter {
+    font-size: 0.72rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: none;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.filter:hover { color: var(--text); border-color: var(--text); }
+.filter.on { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.card.is-hidden { display: none; }
+#list:not([hidden]) { animation: enter 0.6s var(--ease) both; }
+
+/* ---------- Vídeo no lightbox ---------- */
+.lightbox-video { max-width: 88vw; max-height: 82vh; background: #000; }
+.vid-expand {
+    position: absolute; top: 10px; right: 10px; z-index: 2;
+    width: 34px; height: 34px;
+    display: grid; place-items: center;
+    border: 0; border-radius: 50%;
+    background: rgba(7, 11, 22, 0.6);
+    color: #EAF0FA;
+    font-size: 0.95rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s var(--ease);
+}
+.vid-wrap { position: relative; }
+.vid-wrap:hover .vid-expand, .vid-expand:focus-visible { opacity: 1; }
+.vid-expand:hover { transform: scale(1.1); }
+@media (hover: none) { .vid-expand { opacity: 1; } }
+
+/* ---------- Transição entre páginas ---------- */
+.curtain {
+    position: fixed; inset: 0; z-index: 5000;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    pointer-events: none;
+}
+.curtain.cover { transform: scaleY(1); transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1); }
+.curtain.start { transform: scaleY(1); transform-origin: top; }
+.curtain.reveal { transform: scaleY(0); transform-origin: top; transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1) 0.05s; }
+
+/* ---------- Cursor personalizado ---------- */
+.has-cursor, .has-cursor a, .has-cursor button, .has-cursor summary { cursor: none; }
+.has-cursor input, .has-cursor textarea { cursor: text; }
+.cur-dot, .cur-ring {
+    position: fixed; top: 0; left: 0; z-index: 6000;
+    pointer-events: none;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.cur-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--accent); }
+.cur-ring {
+    width: 36px; height: 36px; margin: -18px 0 0 -18px;
+    border: 1px solid var(--accent);
+    display: grid; place-items: center;
+}
+.cur-ring span {
+    font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--bg); opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.cur-ring i {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: var(--accent);
+    transform: scale(0);
+    transition: transform 0.45s var(--ease);
+    z-index: -1;
+}
+.cur-on .cur-dot, .cur-on .cur-ring { opacity: 1; }
+.cur-ring { transition: opacity 0.3s ease, width 0.45s var(--ease), height 0.45s var(--ease), margin 0.45s var(--ease); }
+.cur-link .cur-ring { width: 56px; height: 56px; margin: -28px 0 0 -28px; }
+.cur-label .cur-ring { width: 84px; height: 84px; margin: -42px 0 0 -42px; }
+.cur-label .cur-ring i { transform: scale(1); }
+.cur-label .cur-ring span { opacity: 1; }
+.cur-label .cur-dot { opacity: 0; }
+.cur-down .cur-ring { width: 28px; height: 28px; margin: -14px 0 0 -14px; }
+
+@media (prefers-reduced-motion: reduce) {
+    .rv-on .rv { opacity: 1; transform: none; transition: none; }
+    nav a::after, .card .media::after, .filter, .magnetic { transition: none; }
+    #list:not([hidden]) { animation: none; }
+    .curtain { display: none; }
+}
+.has-cursor video[controls], .has-cursor iframe, .has-cursor select { cursor: auto; }
+.cur-off .cur-dot, .cur-off .cur-ring { opacity: 0; }

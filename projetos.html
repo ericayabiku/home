@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Erica Yabiku — Projetos</title>
-    <link rel="stylesheet" type="text/css" href="./css/style.css?v=5">
+    <link rel="stylesheet" type="text/css" href="./css/style.css?v=6">
     <link rel="shortcut icon" href="./images/developmenticon.png">
 </head>
 <body>
@@ -20,6 +20,7 @@
                     <li><a href="./index.html" data-pt="Início" data-en="Home">Início</a></li>
                     <li><a href="./sobre.html" data-pt="Sobre" data-en="About">Sobre</a></li>
                     <li><a href="./projetos.html" class="active" data-pt="Projetos" data-en="Projects">Projetos</a></li>
+                    <li><a href="./lab.html" class="nav-lab">ASCII Lab <span class="nav-badge" data-pt="novo" data-en="new">novo</span></a></li>
                     <li><a href="./contato.html" data-pt="Contato" data-en="Contact">Contato</a></li>
                 </ul>
             </nav>
@@ -45,9 +46,17 @@
                     </p>
                 </section>
 
+                <div class="filters" role="group" aria-label="Filtrar projetos">
+                    <button type="button" class="filter on" data-filter="all" data-pt="Todos" data-en="All">Todos</button>
+                    <button type="button" class="filter" data-filter="motion">Motion</button>
+                    <button type="button" class="filter" data-filter="tipografia" data-pt="Tipografia" data-en="Typography">Tipografia</button>
+                    <button type="button" class="filter" data-filter="design">Design</button>
+                    <button type="button" class="filter" data-filter="interativo" data-pt="Interativo" data-en="Interactive">Interativo</button>
+                </div>
+
                 <section class="cards" aria-label="Todos os projetos">
 
-                    <article class="card">
+                    <article class="card" data-cat="interativo">
                         <a href="./lab.html">
                             <div class="media">
                                 <video autoplay loop muted playsinline poster="./images/ascii_lab_capa.jpg">
@@ -61,7 +70,7 @@
                         </a>
                     </article>
 
-                    <article class="card">
+                    <article class="card" data-cat="motion">
                         <a href="#pulp-fiction">
                             <div class="media">
                                 <video autoplay loop muted playsinline poster="./images/pulp_fiction_capa.jpg">
@@ -75,7 +84,7 @@
                         </a>
                     </article>
 
-                    <article class="card">
+                    <article class="card" data-cat="motion">
                         <a href="#rorschach">
                             <div class="media">
                                 <video autoplay loop muted playsinline>
@@ -89,7 +98,7 @@
                         </a>
                     </article>
 
-                    <article class="card">
+                    <article class="card" data-cat="tipografia">
                         <a href="#poema">
                             <div class="media">
                                 <video autoplay loop muted playsinline>
@@ -103,7 +112,7 @@
                         </a>
                     </article>
                     
-                    <article class="card">
+                    <article class="card" data-cat="motion">
                         <a href="#bubbles">
                             <div class="media">
                                 <video autoplay loop muted playsinline>
@@ -117,7 +126,7 @@
                         </a>
                     </article>
 
-                    <article class="card">
+                    <article class="card" data-cat="motion">
                         <a href="#flores">
                             <div class="media">
                                 <video autoplay loop muted playsinline>
@@ -131,7 +140,7 @@
                         </a>
                     </article>
 
-                    <article class="card">
+                    <article class="card" data-cat="design">
                         <a href="#a-parte-que-falta">
                             <div class="media"><img src="./images/prancheta_1_emocoes.png" alt="A Parte que Falta: expressões do personagem"></div>
                             <h3>A Parte que Falta</h3>
@@ -141,7 +150,7 @@
                         </a>
                     </article>
 
-                    <article class="card">
+                    <article class="card" data-cat="design">
                         <a href="#coisas-convida">
                             <div class="media"><img src="./images/coisas_convida.png" alt="Cardápio do evento Coisas Convida"></div>
                             <h3>Coisas Convida</h3>
@@ -151,7 +160,7 @@
                         </a>
                     </article>
 
-                    <article class="card">
+                    <article class="card" data-cat="motion">
                         <a href="#antrosujo">
                             <div class="media">
                                 <video autoplay loop muted playsinline>
@@ -165,7 +174,7 @@
                         </a>
                     </article>
 
-                    <article class="card">
+                    <article class="card" data-cat="motion">
                         <a href="#a-ultima-gota">
                             <div class="media"><img src="./images/a_ultima_gota.png" alt="Pôster de A Última Gota"></div>
                             <h3>A Última Gota</h3>
@@ -177,7 +186,7 @@
 
                
 
-                    <article class="card">
+                    <article class="card" data-cat="design">
                         <a href="#ilustracao">
                             <div class="media"><img src="./images/bailarina.svg" alt="Ilustração de bailarina em carvão e pastel seco, vetorizada"></div>
                             <h3 data-pt="Ilustração" data-en="Illustration">Ilustração</h3>
@@ -690,6 +699,7 @@
         <button class="lb-close" type="button" aria-label="Fechar">&times;</button>
         <button class="lb-prev" type="button" aria-label="Anterior">&lsaquo;</button>
         <img class="lightbox-img" alt="">
+        <video class="lightbox-video" controls playsinline hidden></video>
         <div class="lightbox-caption"></div>
         <button class="lb-next" type="button" aria-label="Próxima">&rsaquo;</button>
     </div>
@@ -701,6 +711,6 @@
         </div>
     </footer>
 
-    <script src="./script.js?v=5"></script>
+    <script src="./script.js?v=6"></script>
 </body>
 </html>
