@@ -5,21 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =========================================================
        TEMA CLARO / ESCURO
        ========================================================= */
-    const themeBtn = $("#theme-toggle");
-
-    function applyTheme(theme) {
-        document.body.classList.toggle("dark-theme", theme === "dark");
-        if (themeBtn) themeBtn.textContent = theme === "dark" ? "☀" : "☾";
-        localStorage.setItem("theme", theme);
-    }
-
-    applyTheme(localStorage.getItem("theme") || "light");
-
-    if (themeBtn) {
-        themeBtn.addEventListener("click", () => {
-            applyTheme(document.body.classList.contains("dark-theme") ? "light" : "dark");
-        });
-    }
+    /* o site agora é só escuro (céu galáctico) */
+    document.body.classList.add("dark-theme");
+    $("#theme-toggle")?.remove();
 
     /* =========================================================
        IDIOMA PT / EN
@@ -506,23 +494,31 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* parallax leve com o mouse */
-    if (fine && !reduce) {
+    /* deriva lenta (como se flutuassem no espaço) + parallax leve com o mouse */
+    if (!reduce) {
         let tx = 0, ty = 0, x = 0, y = 0;
-        const pxs = tiles.map(t => ({
+        const pxs = tiles.map((t, i) => ({
             el: t.querySelector(".tile-px"),
-            d: parseFloat(t.style.getPropertyValue("--d")) || 1
+            d: parseFloat(t.style.getPropertyValue("--d")) || 1,
+            ph: i * 1.7,
+            sp: 0.8 + (i % 4) * 0.15
         }));
-        document.addEventListener("mousemove", e => {
-            tx = e.clientX / window.innerWidth - 0.5;
-            ty = e.clientY / window.innerHeight - 0.5;
-        });
-        const loop = () => {
+        if (fine) {
+            document.addEventListener("mousemove", e => {
+                tx = e.clientX / window.innerWidth - 0.5;
+                ty = e.clientY / window.innerHeight - 0.5;
+            });
+        }
+        const loop = now => {
             x += (tx - x) * 0.06;
             y += (ty - y) * 0.06;
             if (desktop.matches) {
-                pxs.forEach(({ el, d }) => {
-                    el.style.transform = `translate(${(-x * 36 * d).toFixed(2)}px, ${(-y * 26 * d).toFixed(2)}px)`;
+                const k = now * 0.00025;
+                pxs.forEach(({ el, d, ph, sp }) => {
+                    const fx = Math.sin(k * sp + ph) * 7;
+                    const fy = Math.cos(k * sp * 0.8 + ph * 1.3) * 9;
+                    const rot = Math.sin(k * sp * 0.6 + ph) * 1.2;
+                    el.style.transform = `translate(${(fx - x * 36 * d).toFixed(2)}px, ${(fy - y * 26 * d).toFixed(2)}px) rotate(${rot.toFixed(2)}deg)`;
                 });
             }
             requestAnimationFrame(loop);

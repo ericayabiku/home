@@ -45,18 +45,19 @@
 .featured-info .lines { display: flex; justify-content: center; gap: 18px; }
 
 :root {
-    /* Paleta creme + tomate (2026-11) */
-    --bg: #F1EBDD;
-    --bg-2: #E8E0CE;
-    --text: #1C1A16;
-    --text-2: #5E584C;
-    --muted: #8C8474;
-    --line: rgba(28, 26, 22, 0.14);
-    --guide: rgba(226, 70, 42, 0.07);
-    --accent: #E2462A;
-    --btn-bg: #1C1A16;
-    --btn-text: #F1EBDD;
-    --header-bg: rgba(241, 235, 221, 0.86);
+    /* Paleta céu galáctico (site só no escuro) — 2026-11 */
+    --bg: #07070F;
+    --bg-2: rgba(255, 255, 255, 0.05);
+    --text: #ECEAF6;
+    --text-2: #A6A3BC;
+    --muted: #7D7A94;
+    --line: rgba(236, 234, 246, 0.14);
+    --guide: rgba(183, 156, 255, 0.05);
+    --accent: #B79CFF;
+    --btn-bg: #ECEAF6;
+    --btn-text: #07070F;
+    --header-bg: rgba(7, 7, 15, 0.45);
+    --shadow: rgba(0, 0, 0, 0.55);
 
     --font: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --max: 1360px;
@@ -67,17 +68,19 @@
 
 /* Modo escuro — ativado via body.dark-theme */
 body.dark-theme {
-    --bg: #1C1A16;
-    --bg-2: #26231D;
-    --text: #F1EBDD;
-    --text-2: #B3AA98;
-    --muted: #8C8474;
-    --line: rgba(241, 235, 221, 0.16);
-    --guide: rgba(255, 106, 77, 0.07);
-    --accent: #FF6A4D;
-    --btn-bg: #F1EBDD;
-    --btn-text: #1C1A16;
-    --header-bg: rgba(28, 26, 22, 0.86);
+    /* Paleta céu galáctico (modo escuro, padrão) */
+    --bg: #07070F;
+    --bg-2: rgba(255, 255, 255, 0.05);
+    --text: #ECEAF6;
+    --text-2: #A6A3BC;
+    --muted: #7D7A94;
+    --line: rgba(236, 234, 246, 0.14);
+    --guide: rgba(183, 156, 255, 0.05);
+    --accent: #B79CFF;
+    --btn-bg: #ECEAF6;
+    --btn-text: #07070F;
+    --header-bg: rgba(7, 7, 15, 0.45);
+    --shadow: rgba(0, 0, 0, 0.55);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -296,8 +299,8 @@ a.arrow:hover { color: var(--text); }
     display: flex;
     align-items: flex-end;
     padding: 16px;
-    background: linear-gradient(165deg, #E2462A 0%, #8E2414 100%);
-    color: #FBE3DC;
+    background: linear-gradient(165deg, #6B4FD8 0%, #241A55 100%);
+    color: #E6DEFF;
     font-size: 0.72rem;
 }
 
@@ -408,16 +411,16 @@ a.contact-row:hover { color: var(--accent); }
     align-items: center;
     justify-content: center;
     gap: 14px;
-    background: rgba(28, 26, 22, 0.95);
+    background: rgba(5, 5, 12, 0.94);
 }
 .lightbox.active { display: flex; }
 .lightbox-img { max-width: 88vw; max-height: 82vh; object-fit: contain; }
-.lightbox-caption { font-size: 0.75rem; color: #B3AA98; min-height: 1em; }
+.lightbox-caption { font-size: 0.75rem; color: #A6A3BC; min-height: 1em; }
 .lightbox button {
     position: absolute;
     background: none;
     border: none;
-    color: #F1EBDD;
+    color: #ECEAF6;
     cursor: pointer;
     font-size: 1.6rem;
     font-weight: 300;
@@ -428,7 +431,7 @@ a.contact-row:hover { color: var(--accent); }
 .lightbox .lb-next  { right: 8px; top: 50%; transform: translateY(-50%); }
 
 /* ---------- Rodapé ---------- */
-footer { position: relative; z-index: 1; border-top: 1px solid var(--line); background: var(--bg); }
+footer { position: relative; z-index: 1; border-top: 1px solid var(--line); background: transparent; }
 .foot {
     display: flex;
     justify-content: space-between;
@@ -561,8 +564,8 @@ nav a:hover::after, nav a.active::after { transform: scaleX(1); transform-origin
     width: 34px; height: 34px;
     display: grid; place-items: center;
     border: 0; border-radius: 50%;
-    background: rgba(28, 26, 22, 0.6);
-    color: #F1EBDD;
+    background: rgba(5, 5, 12, 0.6);
+    color: #ECEAF6;
     font-size: 0.95rem;
     cursor: pointer;
     opacity: 0;
@@ -696,7 +699,7 @@ body.home main { animation: none; }
     .tile:hover .tile-in,
     .tile:focus-visible .tile-in {
         transform: scale(var(--s, 2));
-        box-shadow: 0 18px 50px rgba(28, 26, 22, 0.22);
+        box-shadow: 0 18px 50px var(--shadow);
     }
     .tile:focus-visible { outline: none; }
     .tile-cap {
@@ -730,3 +733,17 @@ body.home main { animation: none; }
 @media (prefers-reduced-motion: reduce) {
     .tile-in, .tile-in video, .tile-cap { transition: none; }
 }
+
+/* =========================================================
+   CÉU DE FUNDO (sky.js)
+   ========================================================= */
+.sky {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+header, main, footer, .home-line { position: relative; z-index: 1; }
+header { position: sticky; z-index: 1000; }
+body.home .home-line { position: fixed; z-index: 5; }
+@media (max-width: 760px) { body.home .home-line { position: static; } }
