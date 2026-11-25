@@ -147,4 +147,23 @@ document.addEventListener("DOMContentLoaded", () => {
             if (e.key === "ArrowLeft" && group.length > 1) show(index - 1);
         });
     }
+
+    /* =========================================================
+       SOM DO DESTAQUE (vídeo começa mudo; botão liga/desliga)
+       ========================================================= */
+    $$(".sound-toggle").forEach(btn => {
+        const video = btn.closest("figure")?.querySelector("video");
+        if (!video) return;
+        const sync = () => {
+            const on = !video.muted;
+            btn.textContent = on ? "🔊" : "🔈";
+            btn.setAttribute("aria-label", on ? "Desativar som" : "Ativar som");
+        };
+        btn.addEventListener("click", () => {
+            video.muted = !video.muted;
+            if (!video.muted) video.play().catch(() => {});
+            sync();
+        });
+        sync();
+    });
 });

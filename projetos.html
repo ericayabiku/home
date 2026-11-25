@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Erica Yabiku — Projetos</title>
-    <link rel="stylesheet" type="text/css" href="./css/style.css?v=4">
+    <link rel="stylesheet" type="text/css" href="./css/style.css?v=5">
     <link rel="shortcut icon" href="./images/developmenticon.png">
 </head>
 <body>
@@ -46,6 +46,20 @@
                 </section>
 
                 <section class="cards" aria-label="Todos os projetos">
+
+                    <article class="card">
+                        <a href="#pulp-fiction">
+                            <div class="media">
+                                <video autoplay loop muted playsinline poster="./images/pulp_fiction_capa.jpg">
+                                    <source src="./images/pulp-fiction.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                            <h3>Pulp Fiction</h3>
+                            <p data-pt="Releitura de uma cena de Pulp Fiction em arte ASCII animada, desenhada só com 0 e 1."
+                               data-en="A reinterpretation of a Pulp Fiction scene as animated ASCII art, drawn only with 0s and 1s.">Releitura de uma cena de Pulp Fiction em arte ASCII animada, desenhada só com 0 e 1.</p>
+                            <span class="more" data-pt="Ver projeto" data-en="View project">Ver projeto</span>
+                        </a>
+                    </article>
 
                     <article class="card">
                         <a href="#rorschach">
@@ -165,6 +179,42 @@
             </div>
 
             <!-- ============ DETALHES (abertos por #hash) ============ -->
+
+            <article class="detail" id="pulp-fiction">
+                <section class="page-head">
+                    <div class="c-title">
+                        <a class="arrow" href="#" aria-label="Voltar para projetos">&larr;</a>
+                        <h2 class="display md">Pulp Fiction</h2>
+                    </div>
+                    <div class="c-a">
+                        <div class="meta">
+                            <span class="label" data-pt="Categoria" data-en="Category">Categoria</span>
+                            <ul class="lines"><li data-pt="Motion Design / Arte ASCII" data-en="Motion Design / ASCII Art">Motion Design / Arte ASCII</li></ul>
+                        </div>
+                        <div class="meta">
+                            <span class="label" data-pt="Ferramentas" data-en="Tools">Ferramentas</span>
+                            <ul class="lines"><li data-pt="Gerador ASCII autoral" data-en="Custom ASCII generator">Gerador ASCII autoral</li></ul>
+                        </div>
+                    </div>
+                    <div class="c-b desc">
+                        <span class="label" data-pt="Descrição" data-en="Description">Descrição</span>
+                        <p data-pt="Releitura de uma cena de Pulp Fiction em arte ASCII animada. Cada quadro do filme é redesenhado só com 0 e 1, em branco sobre preto, num gerador que eu mesma criei. O código binário vira luz e sombra, e a cena aparece no meio dos números."
+                           data-en="A reinterpretation of a Pulp Fiction scene as animated ASCII art. Every frame is redrawn using only 0s and 1s, white on black, in a generator I built myself. The binary code becomes light and shadow, and the scene emerges from the numbers.">Releitura de uma cena de Pulp Fiction em arte ASCII animada. Cada quadro do filme é redesenhado só com 0 e 1, em branco sobre preto, num gerador que eu mesma criei. O código binário vira luz e sombra, e a cena aparece no meio dos números.</p>
+                    </div>
+                </section>
+
+                <div class="video-stage">
+                    <figure>
+                        <video loop playsinline controls preload="metadata" poster="./images/pulp_fiction_capa.jpg">
+                            <source src="./images/pulp-fiction.mp4" type="video/mp4">
+                        </video>
+                        <figcaption>
+                            <span class="count">(01)</span>
+                            <span class="cap">Pulp Fiction</span>
+                        </figcaption>
+                    </figure>
+                </div>
+            </article>
 
             <article class="detail" id="rorschach">
                 <section class="page-head">
@@ -637,6 +687,6 @@
         </div>
     </footer>
 
-    <script src="./script.js?v=4"></script>
+    <script src="./script.js?v=5"></script>
 </body>
 </html>
