@@ -369,6 +369,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (native) { root.classList.remove("cur-on", "cur-link", "cur-label"); return; }
             root.classList.add("cur-on");
 
+            if (t.closest(".collage")) { root.classList.remove("cur-link", "cur-label"); return; }
+
             const card = t.closest(".card a");
             if (card) {
                 const lab = card.getAttribute("href").includes("lab.html");
@@ -430,3 +432,101 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.persisted) curtain.className = "curtain";
     });
 })();
+
+/* =========================================================
+   HOME: COLAGEM (abertura, hover com vídeo, parallax)
+   ========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+    const collage = document.querySelector(".collage");
+    if (!collage) return;
+
+    const tiles = Array.from(collage.querySelectorAll(".tile"));
+    const desktop = window.matchMedia("(min-width: 761px)");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    /* origem do zoom: puxa para o centro da tela, para a imagem ampliada não sair da página */
+    tiles.forEach(t => {
+        const x = parseFloat(t.style.getPropertyValue("--x"));
+        const y = parseFloat(t.style.getPropertyValue("--y"));
+        t.style.setProperty("--ox", x < 30 ? "0%" : x > 70 ? "100%" : "50%");
+        t.style.setProperty("--oy", y < 36 ? "0%" : y > 66 ? "100%" : "50%");
+    });
+
+    /* quanto cada imagem cresce no hover: até ~55% da altura ou ~42% da largura da tela */
+    const sizeUp = () => {
+        if (!desktop.matches) return;
+        tiles.forEach(t => {
+            const w = t.offsetWidth, h = t.offsetHeight;
+            if (!w || !h) return;
+            const s = Math.max(1.5, Math.min(window.innerHeight * 0.55 / h, window.innerWidth * 0.42 / w));
+            t.style.setProperty("--s", s.toFixed(3));
+        });
+    };
+    sizeUp();
+    window.addEventListener("load", sizeUp);
+    window.addEventListener("resize", sizeUp);
+
+    /* abertura: todas empilhadas no centro, depois se espalham */
+    if (!reduce && desktop.matches) {
+        const box = collage.getBoundingClientRect();
+        const cx = box.left + box.width / 2;
+        const cy = box.top + box.height / 2;
+        tiles.forEach((t, i) => {
+            const r = t.getBoundingClientRect();
+            const dx = cx - (r.left + r.width / 2);
+            const dy = cy - (r.top + r.height / 2);
+            const rot = (i % 2 ? 1 : -1) * (3 + (i * 7) % 6);
+            t.querySelector(".tile-px").animate([
+                { transform: `translate(${dx}px, ${dy}px) scale(0.55) rotate(${rot}deg)`, opacity: 0 },
+                { transform: `translate(${dx}px, ${dy}px) scale(0.55) rotate(${rot}deg)`, opacity: 1, offset: 0.25 },
+                { transform: "none", opacity: 1 }
+            ], { duration: 1500, delay: 150 + i * 55, easing: "cubic-bezier(0.76, 0, 0.24, 1)", fill: "backwards" });
+        });
+    } else if (!reduce) {
+        tiles.forEach((t, i) => t.animate(
+            [{ opacity: 0, transform: "translateY(24px)" }, { opacity: 1, transform: "none" }],
+            { duration: 700, delay: i * 60, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "backwards" }
+        ));
+    }
+
+    /* hover: carrega e toca o preview do vídeo */
+    if (fine) {
+        tiles.forEach(t => {
+            const v = t.querySelector("video[data-src]");
+            if (!v) return;
+            t.addEventListener("mouseenter", () => {
+                if (!v.src) v.src = v.dataset.src;
+                v.play().then(() => t.classList.add("playing")).catch(() => {});
+            });
+            t.addEventListener("mouseleave", () => {
+                t.classList.remove("playing");
+                v.pause();
+            });
+        });
+    }
+
+    /* parallax leve com o mouse */
+    if (fine && !reduce) {
+        let tx = 0, ty = 0, x = 0, y = 0;
+        const pxs = tiles.map(t => ({
+            el: t.querySelector(".tile-px"),
+            d: parseFloat(t.style.getPropertyValue("--d")) || 1
+        }));
+        document.addEventListener("mousemove", e => {
+            tx = e.clientX / window.innerWidth - 0.5;
+            ty = e.clientY / window.innerHeight - 0.5;
+        });
+        const loop = () => {
+            x += (tx - x) * 0.06;
+            y += (ty - y) * 0.06;
+            if (desktop.matches) {
+                pxs.forEach(({ el, d }) => {
+                    el.style.transform = `translate(${(-x * 36 * d).toFixed(2)}px, ${(-y * 26 * d).toFixed(2)}px)`;
+                });
+            }
+            requestAnimationFrame(loop);
+        };
+        requestAnimationFrame(loop);
+    }
+});
