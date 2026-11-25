@@ -694,7 +694,17 @@ body.home main { animation: none; }
     .tile-px { height: 100%; will-change: transform; }
     .tile-in {
         transform-origin: var(--ox, 50%) var(--oy, 50%);
-        transition: transform 0.7s var(--ease), box-shadow 0.7s var(--ease);
+        /* o blur demora um tiquinho pra sair: assim, ao passar de uma miniatura pra outra, não pisca tudo nítido */
+        transition: transform 0.7s var(--ease), box-shadow 0.7s var(--ease), filter 0.5s ease 0.12s;
+    }
+    /* quando uma miniatura está em destaque, as outras desfocam */
+    .collage:has(.tile:hover) .tile:not(:hover) .tile-in,
+    .collage:has(.tile:focus-visible) .tile:not(:focus-visible) .tile-in {
+        filter: blur(6px);
+        transition: transform 0.7s var(--ease), box-shadow 0.7s var(--ease), filter 0.5s ease 0s;
+    }
+    .tile:hover .tile-in, .tile:focus-visible .tile-in {
+        transition: transform 0.7s var(--ease), box-shadow 0.7s var(--ease), filter 0.3s ease 0s;
     }
     .tile:hover .tile-in,
     .tile:focus-visible .tile-in {
