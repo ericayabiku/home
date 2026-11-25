@@ -19,8 +19,8 @@
     const small = window.matchMedia("(max-width: 760px)").matches;
 
     const FOG_SCALE = 0.35;        // a neblina é desenhada em 35% do tamanho e ampliada
-    const REFOG = reduce ? 0.003 : 0.006;   // quanto a neblina volta por quadro
-    const BRUSH = small ? 30 : 26; // largura do risco que desembaça (px)
+    const REFOG = reduce ? 0.0022 : 0.0035; // quanto a neblina volta por quadro
+    const FINGER = small ? 20 : 22;         // raio do "dedo" (px): ~44px de largura
 
     let W = 0, H = 0, dpr = 1, fw = 0, fh = 0;
     let fogBase = null;            // foto borrada + véu (pré-renderizada)
@@ -112,34 +112,49 @@
         fx.width = Math.round(W * dpr); fx.height = Math.round(H * dpr);
         xctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         mctx.setTransform(FOG_SCALE, 0, 0, FOG_SCALE, 0, 0);
-        lines.width = fx.width; lines.height = fx.height;
-        lctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        beads.width = fx.width; beads.height = fx.height;
+        bctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        tmp.width = fw; tmp.height = fh;
         if (img.complete && img.naturalWidth) buildFog();
         buildDrops();
         buildRunners();
     }
 
-    /* riscos brilhantes ficam numa camada própria que também some devagar */
-    const lines = document.createElement("canvas");
-    const lctx = lines.getContext("2d");
+    /* gotinhas que o dedo empurra pras bordas do risco */
+    const beads = document.createElement("canvas");
+    const bctx = beads.getContext("2d");
+    const tmp = document.createElement("canvas");   // ajuda a "derreter" as bordas da parte limpa
+    const tctx = tmp.getContext("2d");
 
-    /* ---------- desenhar ---------- */
+    /* ---------- o dedo ---------- */
     let last = null, drew = false;
     function stroke(x0, y0, x1, y1) {
-        // desembaça
-        mctx.strokeStyle = "#000";
-        mctx.lineCap = mctx.lineJoin = "round";
-        mctx.lineWidth = BRUSH;
-        mctx.shadowColor = "#000"; mctx.shadowBlur = 10;
-        mctx.beginPath(); mctx.moveTo(x0, y0); mctx.lineTo(x1, y1); mctx.stroke();
-        mctx.shadowBlur = 0;
-        // linha clara e brilhante no meio do risco
-        lctx.lineCap = lctx.lineJoin = "round";
-        lctx.strokeStyle = "rgba(255, 255, 255, 0.9)";
-        lctx.lineWidth = 1.6;
-        lctx.shadowColor = "rgba(255, 255, 255, 0.9)"; lctx.shadowBlur = 6;
-        lctx.beginPath(); lctx.moveTo(x0, y0); lctx.lineTo(x1, y1); lctx.stroke();
-        lctx.shadowBlur = 0;
+        const dx = x1 - x0, dy = y1 - y0, len = Math.hypot(dx, dy);
+        const steps = Math.max(1, Math.ceil(len / 3));
+        const nx = len ? -dy / len : 0, ny = len ? dx / len : 1;   // direção perpendicular ao risco
+        for (let k = 0; k <= steps; k++) {
+            const t = k / steps, x = x0 + dx * t, y = y0 + dy * t;
+            // ponta do dedo: limpa 100%, com a borda levemente irregular
+            const r = FINGER * (0.92 + 0.16 * Math.sin(x * 0.07 + y * 0.05) * Math.cos(y * 0.09));
+            mctx.fillStyle = "#000";
+            mctx.beginPath(); mctx.arc(x, y, r, 0, Math.PI * 2); mctx.fill();
+            // o dedo leva junto as gotas paradas que estavam no caminho
+            const dc = dropsTex.getContext("2d");
+            dc.save(); dc.globalCompositeOperation = "destination-out";
+            dc.beginPath(); dc.arc(x, y, r * 0.95, 0, Math.PI * 2); dc.fill(); dc.restore();
+            bctx.save(); bctx.globalCompositeOperation = "destination-out";
+            bctx.beginPath(); bctx.arc(x, y, r * 0.8, 0, Math.PI * 2); bctx.fill(); bctx.restore();
+            // a água empurrada vira gotinhas nas bordas
+            if (rnd() < 0.55) {
+                const side = rnd() < 0.5 ? -1 : 1, off = r + 1 + rnd() * 5;
+                drop(bctx, x + nx * off * side + (rnd() - 0.5) * 3, y + ny * off * side + (rnd() - 0.5) * 3, 0.7 + rnd() * 1.8, 0.9);
+            }
+        }
+        // de vez em quando a água acumulada na borda de baixo escorre
+        if (!reduce && len > 2 && rnd() < 0.02 && runners.length < (small ? 7 : 12)) {
+            const lowX = x1 + nx * (ny > 0 ? FINGER : -FINGER), lowY = y1 + Math.abs(ny) * FINGER;
+            runners.push({ x: lowX, y: lowY, r: 2.2 + rnd() * 1.8, v: 0, wait: 20 + rnd() * 60, fromFinger: true });
+        }
         if (!drew) { drew = true; hint && hint.classList.add("gone"); }
     }
 
@@ -163,17 +178,38 @@
 
     /* ---------- quadro a quadro ---------- */
     function frame() {
-        // a neblina volta devagar
-        mctx.save(); mctx.setTransform(1, 0, 0, 1, 0, 0);
-        mctx.globalCompositeOperation = "destination-out";
-        mctx.fillStyle = `rgba(0,0,0,${REFOG})`;
-        mctx.fillRect(0, 0, fw, fh);
-        mctx.restore();
-        lctx.save(); lctx.setTransform(1, 0, 0, 1, 0, 0);
-        lctx.globalCompositeOperation = "destination-out";
-        lctx.fillStyle = `rgba(0,0,0,${REFOG * 1.4})`;
-        lctx.fillRect(0, 0, lines.width, lines.height);
-        lctx.restore();
+        tick++;
+        // a neblina volta devagar (aplicada a cada 4 quadros: passos muito pequenos o canvas ignora)
+        if (tick % 4 === 0) {
+            mctx.save(); mctx.setTransform(1, 0, 0, 1, 0, 0);
+            mctx.globalCompositeOperation = "destination-out";
+            mctx.fillStyle = `rgba(0,0,0,${REFOG * 4})`;
+            mctx.fillRect(0, 0, fw, fh);
+            mctx.restore();
+        }
+        // bordas da parte limpa embaçam primeiro (um leve desfoque na máscara a cada poucos quadros)
+        if (tick % 6 === 0) {
+            tctx.clearRect(0, 0, fw, fh);
+            tctx.filter = "blur(0.7px)";
+            tctx.drawImage(mask, 0, 0);
+            tctx.filter = "none";
+            mctx.save(); mctx.setTransform(1, 0, 0, 1, 0, 0);
+            mctx.clearRect(0, 0, fw, fh);
+            mctx.drawImage(tmp, 0, 0);
+            mctx.restore();
+        }
+        // gotinhas das bordas secam bem devagar; de vez em quando caem gotinhas novas no vidro
+        if (tick % 4 === 0) {
+            bctx.save(); bctx.setTransform(1, 0, 0, 1, 0, 0);
+            bctx.globalCompositeOperation = "destination-out";
+            bctx.fillStyle = "rgba(0,0,0,0.01)";
+            bctx.fillRect(0, 0, beads.width, beads.height);
+            bctx.restore();
+        }
+        if (!reduce && tick % 20 === 0) {
+            const dc = dropsTex.getContext("2d");
+            for (let q = 0; q < 3; q++) drop(dc, rnd() * W, rnd() * H, 0.6 + rnd() * 1.4, 0.7);
+        }
 
         // gotas que escorrem: param, escorregam, param de novo, e deixam rastro limpo
         xctx.clearRect(0, 0, W, H);
@@ -186,14 +222,17 @@
                 d.y += d.v;
                 d.x += (rnd() - 0.5) * 0.6;
                 mctx.strokeStyle = "#000"; mctx.lineCap = "round";
-                mctx.lineWidth = d.r * 1.1;
+                mctx.lineWidth = d.r * 0.8;
                 mctx.beginPath(); mctx.moveTo(d.x, py); mctx.lineTo(d.x, d.y); mctx.stroke();
                 if (rnd() < 0.012) { d.wait = 30 + rnd() * 120; d.v = 0; }
             }
-            if (d.y - d.r > H) runners[i] = makeRunner(true);
+            if (d.y - d.r > H) {
+                if (d.fromFinger) { runners.splice(i, 1); return; }
+                runners[i] = makeRunner(true);
+            }
             drop(xctx, d.x, d.y, d.r, 0.95);
         });
-        xctx.drawImage(lines, 0, 0, W, H);
+        xctx.drawImage(beads, 0, 0, W, H);
 
         // neblina = foto borrada menos as partes limpas
         if (fogBase) {
@@ -206,7 +245,7 @@
         }
     }
 
-    let raf = 0;
+    let raf = 0, tick = 0;
     const loop = () => { frame(); raf = requestAnimationFrame(loop); };
     function start() { cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); }
     document.addEventListener("visibilitychange", () => {
