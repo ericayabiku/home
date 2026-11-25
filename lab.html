@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASCII Lab — Erica Yabiku</title>
+<link rel="shortcut icon" href="./images/developmenticon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: ferramenta de estúdio, silenciosa, o preview é a estrela
+   IDEA: um painel de controles de gerador, como o do print de referência
+   PICTURE: a própria mandala ASCII animada, grande, no palco escuro
+   COLOUR and TYPE: palco preto, painel claro/escuro neutro, acento verde #00ff40; Inter + JetBrains Mono
+   LAYOUT: palco à esquerda, painel de 340px à direita; empilha abaixo de 760px */
+:root{color-scheme:light dark;--bg:light-dark(#f3f3f1,#161618);--panel:light-dark(#fbfbfa,#1c1c1f);--ink:light-dark(#141416,#ececee);--mute:light-dark(#6c6c72,#9a9aa2);--line:light-dark(#e2e2df,#2c2c31);--field:light-dark(#efefec,#26262a);--acc:#00c838;--stage:#0b0b0c}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,system-ui,sans-serif;overflow-x:clip}
+.app{display:grid;grid-template-columns:minmax(0,1fr) clamp(250px,40%,340px);height:100vh}
+.stage{background:var(--stage);display:flex;flex-direction:column;min-height:0;color:#d8d8dc}
+.bar{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid #222;flex-wrap:wrap}
+.bar .back{color:#9a9aa2;text-decoration:none;font-size:13px}.bar .back:hover{color:#fff}
+.bar b{font:700 13px "JetBrains Mono",monospace;color:#fff}
+.bar .fr{font:500 12px "JetBrains Mono",monospace;color:#9a9aa2;margin-left:auto;white-space:nowrap}
+.cw{flex:1;position:relative;min-height:0}
+canvas#cv{position:absolute;border-radius:4px;box-shadow:0 0 0 1px #262629}
+canvas#cv.tr{background:repeating-conic-gradient(#1d1d20 0 25%,#141416 0 50%) 0 0/24px 24px}
+.panel{background:var(--panel);border-left:1px solid var(--line);overflow-y:auto;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line);font-weight:600}
+details{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"▾";color:var(--mute)}details:not([open]) summary::after{content:"▸"}
+.rows{padding:0 16px 14px;display:grid;gap:10px}
+.row{display:grid;grid-template-columns:minmax(0,104px) minmax(0,1fr) 44px;align-items:center;gap:8px}
+.row.w{grid-template-columns:minmax(0,104px) minmax(0,1fr)}
+.row label{color:var(--mute);font-size:12.5px}
+.row output{font:500 12px "JetBrains Mono",monospace;text-align:right;white-space:nowrap}
+input[type=range]{width:100%;accent-color:var(--ink);height:28px;margin:0}
+select,input[type=text]{width:100%;font:inherit;font-size:13px;padding:7px 8px;border-radius:6px;border:1px solid var(--line);background:var(--field);color:var(--ink);min-height:34px}
+input[type=color]{width:100%;height:34px;border:1px solid var(--line);border-radius:6px;background:var(--field);padding:2px;cursor:pointer}
+.seg{display:flex;background:var(--field);border-radius:7px;padding:3px;gap:3px}
+.seg button{flex:1;border:0;background:none;color:var(--mute);font:inherit;font-size:12.5px;padding:6px 3px;border-radius:5px;font-size:12px;white-space:nowrap;cursor:pointer;min-height:30px}
+.seg button.on{background:var(--ink);color:var(--panel)}
+.btn{font:inherit;font-weight:500;font-size:13px;padding:9px 12px;border-radius:7px;border:1px solid var(--line);background:var(--field);color:var(--ink);cursor:pointer;min-height:38px}
+.btn.pri{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:wait}
+.btn.sm{min-height:30px;padding:5px 10px;font-size:12px}
+.pb{background:#1f1f22;border-color:#333;color:#eee}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.note{font-size:12px;color:var(--mute);margin:0}
+#msg{font-size:12.5px;min-height:18px;color:var(--ink)}
+.prog{height:4px;background:var(--field);border-radius:2px;overflow:hidden}.prog i{display:block;height:100%;width:0;background:var(--acc)}
+.row label{overflow-wrap:anywhere}
+.seg.multi{flex-wrap:wrap}.seg.multi button{flex:1 1 30%}
+.row.col .seg{flex-wrap:wrap}.row.col .seg button{flex:1 1 auto;padding-inline:8px}
+.row.col{grid-template-columns:minmax(0,1fr);gap:6px}
+.fs .app{grid-template-columns:1fr}.fs .panel,.fs .bar{display:none}.fs .stage{height:100vh}.fs canvas#cv{box-shadow:none;border-radius:0}
+@media(max-width:520px){.app{grid-template-columns:1fr;height:auto}.stage{height:72vh}.panel{border-left:0}}
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="stage">
+    <div class="bar">
+      <a class="back" href="./index.html">&larr; Erica Y.</a>
+      <b>ASCII LAB</b>
+      <button class="btn sm pb" id="playBtn" type="button">Pausar</button>
+      <button class="btn sm pb" id="fsBtn" type="button" data-pt="Tela cheia (F)" data-en="Fullscreen (F)">Tela cheia (F)</button>
+      <span class="fr" id="fr">frame 0 / 450</span>
+      <button class="btn sm pb" id="langBtn" type="button">EN</button>
+      <button class="btn sm pb" id="themeBtn" type="button" aria-label="Tema">☾</button>
+    </div>
+    <div class="cw" id="cw"><canvas id="cv" width="1080" height="1920"></canvas></div>
+  </section>
+  <aside class="panel">
+    <div class="ph"><span data-pt="Controles" data-en="Controls">Controles</span><span style="display:flex;gap:6px"><button class="btn sm" id="randBtn" type="button" data-pt="Aleatório" data-en="Random">Aleatório</button><button class="btn sm" id="resetBtn" type="button" data-pt="Resetar" data-en="Reset">Resetar</button></span></div>
+    <div id="ctl"></div>
+    <details open><summary>Presets</summary><div class="rows">
+      <div class="row w"><label for="pname" data-pt="Nome" data-en="Name">Nome</label><input type="text" id="pname" placeholder="Meu preset"></div>
+      <div class="row w"><label for="plist" data-pt="Salvos" data-en="Saved">Salvos</label><select id="plist"></select></div>
+      <div class="grid2"><button class="btn" id="psave" type="button" data-pt="Salvar preset" data-en="Save preset">Salvar preset</button><button class="btn" id="pdel" type="button" data-pt="Apagar" data-en="Delete">Apagar</button></div>
+    </div></details>
+    <details open><summary data-pt="Sobre o ASCII Lab" data-en="About ASCII Lab">Sobre o ASCII Lab</summary><div class="rows">
+      <p class="note" data-pt="Um gerador de arte ASCII criado por Érica Yabiku. Esta é uma versão para testar: crie à vontade, use sua câmera e brinque com as formas. O download fica só na versão de estúdio." data-en="An ASCII art generator built by Érica Yabiku. This is a playground version: create freely, use your camera and play with the shapes. Downloads are only available in the studio version.">Um gerador de arte ASCII criado por Érica Yabiku. Esta é uma versão para testar: crie à vontade, use sua câmera e brinque com as formas. O download fica só na versão de estúdio.</p>
+      <a class="btn pri" href="./contato.html" data-pt="Gostou? Fale comigo" data-en="Like it? Get in touch">Gostou? Fale comigo</a>
+      <div id="msg" role="status"></div>
+    </div></details>
+  </aside>
+</div>
+<script>
+{
+const FPS=30,TAU=Math.PI*2;
+const DEF={size:'1080x1920',playing:true,rot:1,pulse:3,loop:true,loopF:450,sym:22,cx:3.8,sharp:100,dens:30,shape:'petals',look:'flat',scale:1.3,grid:70,cs:'binary',word:'',custom:'*+·',colorMode:'solid',c1:'#00ff40',c2:'#ff2e7e',bgMode:'solid',bg:'#000000',morph:false,mset:['petals','rings','spiral','star','lattice'],hold:60,trans:30,mstyle:'melt',mvary:false,src:'shapes',vFit:'fill',vPan:0,vZoom:1,vCrop:true,vAuto:true,vInv:false,vMix:0,vIn:0,vOut:0,tPal:'iron',tSmooth:4,tBg:true,tMotion:60,vMirror:true,camId:''};
+const LS=()=>P.morph&&P.mset.length?P.mset.length*(P.hold+P.trans):P.loopF;
+let vReady=false,vFrames=0,vCropR=null;
+let camReady=false,camStream=null,videoURL='';
+const VON=()=>(P.src==='video'&&vReady)||(P.src==='camera'&&camReady);
+const CAM=()=>P.src==='camera';
+const LL=()=>CAM()&&camReady?Infinity:VON()?vFrames:LS();
+const isV=()=>P.src==='video'||P.src==='camera',isFile=()=>P.src==='video';
+let P={...DEF};
+const CS={binary:'10',numbers:'7142350689',blocks:'░▒▓█',classic:'.:-=+*#%@',dots:'·•●',letters:'ilcoxeaswm'};
+const MORD=['petals','rings','spiral','star','lattice'];
+const MANDALAS=new Set(['petals','rings','spiral','star','lattice']),RADIAL=new Set([...MANDALAS,'sunflower']),SYMS=new Set([...MANDALAS,'tunnel','sphere']);
+const SPEC=[
+ ['Fonte',[
+  {k:'src',t:'seg',l:'Fonte',o:[['shapes','Formas'],['camera','Câmera']]},
+  {k:'camId',t:'select',l:'Câmera',o:[['','Câmera padrão']],show:CAM},
+  {k:'vMirror',t:'seg',l:'Espelhar',o:[[false,'Off'],[true,'On']],show:CAM},
+  {k:'vFit',t:'seg',l:'Enquadrar',o:[['fill','Preencher'],['fit','Encaixar']],show:isV},
+  {k:'vPan',t:'range',l:'Posição horizontal',min:-1,max:1,step:.05,show:()=>isV()&&P.vFit==='fill'},
+  {k:'vZoom',t:'range',l:'Zoom',min:.5,max:3,step:.05,show:isV},
+  {k:'vAuto',t:'seg',l:'Contraste automático',o:[[false,'Off'],[true,'On']],show:isV},
+  {k:'vInv',t:'seg',l:'Inverter claro/escuro',o:[[false,'Off'],[true,'On']],show:isV},
+  {k:'vMix',t:'range',l:'Mistura com a forma',min:0,max:100,step:1,show:isV}]],
+ ['Animação',[
+  {k:'playing',t:'seg',l:'Animação',o:[[false,'Pausar'],[true,'Play']]},
+  {k:'rot',t:'range',l:'Rotação',min:-10,max:10,step:1},
+  {k:'pulse',t:'range',l:'Pulso',min:0,max:10,step:.5},
+  {k:'loop',t:'seg',l:'Loop perfeito',o:[[false,'Off'],[true,'On']]},
+  {k:'loopF',t:'range',l:'Duração (frames)',min:30,max:900,step:15,show:()=>!P.morph}]],
+ ['Transformar mandalas',[
+  {k:'morph',t:'seg',l:'Transformar',o:[[false,'Off'],[true,'On']]},
+  {k:'mset',t:'multi',l:'Formas na sequência',o:[['petals','Pétalas'],['rings','Anéis'],['spiral','Espiral'],['star','Estrela'],['lattice','Treliça']],show:()=>P.morph},
+  {k:'hold',t:'range',l:'Pausa em cada forma',min:0,max:300,step:5,show:()=>P.morph},
+  {k:'trans',t:'range',l:'Transição',min:5,max:150,step:5,show:()=>P.morph},
+  {k:'mstyle',t:'seg',l:'Estilo',o:[['melt','Derreter'],['wave','Onda']],show:()=>P.morph},
+  {k:'mvary',t:'seg',l:'Variar simetria',o:[[false,'Off'],[true,'On']],show:()=>P.morph}]],
+ ['Geometria e estilo',[
+  {k:'sym',t:'range',l:'Simetria',min:2,max:32,step:1,show:()=>P.morph||SYMS.has(P.shape)},
+  {k:'cx',t:'range',l:'Complexidade',min:1,max:10,step:.1},
+  {k:'sharp',t:'range',l:'Nitidez',min:0,max:100,step:1},
+  {k:'dens',t:'range',l:'Densidade',min:0,max:100,step:1},
+  {k:'shape',t:'select',l:'Forma',o:[['__g','Mandalas'],['petals','Pétalas'],['rings','Anéis'],['spiral','Espiral'],['star','Estrela'],['lattice','Treliça'],['__g','Outras formas'],['waves','Ondas'],['tunnel','Túnel'],['sphere','Esfera 3D'],['heart','Coração'],['sunflower','Girassol'],['ripples','Ondulação na água'],['plasma','Plasma'],['contours','Curvas de nível'],['rain','Chuva Matrix'],['bigword','Palavra gigante']],show:()=>!P.morph},
+  {k:'look',t:'seg',l:'Look',o:[['flat','Flat'],['glow','Glow']]}]],
+ ['ASCII',[
+  {k:'scale',t:'range',l:'Escala',min:.3,max:3,step:.05},
+  {k:'grid',t:'range',l:'Resolução da grade',min:20,max:160,step:1},
+  {k:'cs',t:'select',l:'Caracteres',o:[['wordfull','Palavra inteira'],['word','Palavra em sequência'],['binary','Binário (0 1)'],['numbers','Números'],['blocks','Blocos ░▒▓█'],['classic','Clássico .:-=+*#'],['dots','Pontos ·•●'],['letters','Letras'],['custom','Personalizado']]},
+  {k:'word',t:'text',l:'Palavra',ph:'Digite sua palavra…',show:()=>P.cs==='word'||P.cs==='wordfull'},
+  {k:'custom',t:'text',l:'Seus caracteres',show:()=>P.cs==='custom'}]],
+ ['Cor',[
+  {k:'colorMode',t:'seg',l:'Modo',o:[['solid','Sólida'],['gradient','Gradiente'],['rainbow','Arco-íris'],['video','Da câmera'],['thermal','Térmica']]},
+  {k:'tPal',t:'seg',l:'Paleta térmica',o:[['iron','Ferro'],['rainbow','Arco-íris'],['white','Branco quente']],show:()=>P.colorMode==='thermal'},
+  {k:'tBg',t:'seg',l:'Imagem térmica de fundo',o:[[false,'Off'],[true,'On']],show:()=>P.colorMode==='thermal'},
+  {k:'tSmooth',t:'range',l:'Suavizar',min:0,max:12,step:1,show:()=>P.colorMode==='thermal'&&isV()},
+  {k:'tMotion',t:'range',l:'Calor de movimento',min:0,max:100,step:1,show:()=>P.colorMode==='thermal'&&isV()},
+  {k:'c1',t:'color',l:'Cor (centro)',show:()=>P.colorMode==='solid'||P.colorMode==='gradient'},
+  {k:'c2',t:'color',l:'Cor (borda)',show:()=>P.colorMode==='gradient'}]],
+ ['Fundo e formato',[
+  {k:'bgMode',t:'seg',l:'Fundo',o:[['none','Nenhum'],['solid','Sólido']]},
+  {k:'bg',t:'color',l:'Cor do fundo',show:()=>P.bgMode==='solid'},
+  {k:'size',t:'select',l:'Tamanho',o:[['1080x1920','Reels 1080×1920'],['1080x1350','Feed 1080×1350'],['1080x1080','Quadrado 1080×1080'],['1920x1080','Horizontal 1920×1080']]}]]
+];
+const EN={"Fonte": "Source", "Formas": "Shapes", "Câmera": "Camera", "Câmera padrão": "Default camera", "Espelhar": "Mirror", "Enquadrar": "Framing", "Preencher": "Fill", "Encaixar": "Fit", "Posição horizontal": "Horizontal position", "Contraste automático": "Auto contrast", "Inverter claro/escuro": "Invert light/dark", "Mistura com a forma": "Blend with shape", "Animação": "Animation", "Pausar": "Pause", "Rotação": "Rotation", "Velocidade": "Speed", "Pulso": "Pulse", "Loop perfeito": "Perfect loop", "Duração (frames)": "Duration (frames)", "Grava (frames)": "Length (frames)", "Transformar mandalas": "Morph mandalas", "Transformar": "Morph", "Formas na sequência": "Shapes in sequence", "Pausa em cada forma": "Hold on each shape", "Transição": "Transition", "Estilo": "Style", "Derreter": "Melt", "Onda": "Wave", "Variar simetria": "Vary symmetry", "Geometria e estilo": "Geometry & style", "Simetria": "Symmetry", "Complexidade": "Complexity", "Nitidez": "Sharpness", "Densidade": "Density", "Forma": "Shape", "Mandalas": "Mandalas", "Outras formas": "Other shapes", "Pétalas": "Petals", "Anéis": "Rings", "Espiral": "Spiral", "Estrela": "Star", "Treliça": "Lattice", "Ondas": "Waves", "Túnel": "Tunnel", "Esfera 3D": "3D sphere", "Coração": "Heart", "Girassol": "Sunflower", "Ondulação na água": "Water ripples", "Plasma": "Plasma", "Curvas de nível": "Contour lines", "Chuva Matrix": "Matrix rain", "Palavra gigante": "Giant word", "Escala": "Scale", "Resolução da grade": "Grid resolution", "Caracteres": "Characters", "Palavra inteira": "Whole word", "Palavra em sequência": "Word in sequence", "Binário (0 1)": "Binary (0 1)", "Números": "Numbers", "Blocos ░▒▓█": "Blocks ░▒▓█", "Clássico .:-=+*#": "Classic .:-=+*#", "Pontos ·•●": "Dots ·•●", "Letras": "Letters", "Personalizado": "Custom", "Palavra": "Word", "Digite sua palavra…": "Type your word…", "Seus caracteres": "Your characters", "Cor": "Color", "Modo": "Mode", "Sólida": "Solid", "Gradiente": "Gradient", "Arco-íris": "Rainbow", "Da câmera": "From camera", "Térmica": "Thermal", "Paleta térmica": "Thermal palette", "Ferro": "Iron", "Branco quente": "White hot", "Imagem térmica de fundo": "Thermal background", "Suavizar": "Smooth", "Calor de movimento": "Motion heat", "Cor (centro)": "Color (center)", "Cor (borda)": "Color (edge)", "Fundo e formato": "Background & format", "Fundo": "Background", "Nenhum": "None", "Sólido": "Solid", "Cor do fundo": "Background color", "Tamanho": "Size", "Reels 1080×1920": "Reels 1080×1920", "Feed 1080×1350": "Feed 1080×1350", "Quadrado 1080×1080": "Square 1080×1080", "Horizontal 1920×1080": "Landscape 1920×1080", "câmera ao vivo": "live camera", "Meu preset": "My preset", "— escolher —": "— choose —", "Preset salvo: ": "Preset saved: ", "Preset apagado.": "Preset deleted.", "Este navegador não deixa guardar presets aqui.": "This browser can't store presets here.", "Câmera ao vivo. Use “Tela cheia” (tecla F) para projetar.": "Live camera. Use “Fullscreen” (F key) to project.", "cam_err": "Couldn't open the camera. Check the browser permission and try again."};
+let LANG=(()=>{try{return localStorage.getItem("preferredLanguage")==="en"?"en":"pt"}catch(e){return"pt"}})();
+const tr=t=>LANG==="en"?(EN[t]??t):t;
+const $=id=>document.getElementById(id);
+const cv=$('cv'),ctx=cv.getContext('2d'),tx=document.createElement('canvas'),tc=tx.getContext('2d');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- UI ---------- */
+function ctrl(c){
+  const id='c_'+c.k;let inp;
+  if(c.t==='range')inp=`<input type="range" id="${id}" min="${c.min}" max="${c.max}" step="${c.step}"><output id="o_${c.k}"></output>`;
+  if(c.t==='select'){let h='',og=false;for(const[v,l]of c.o){if(v==='__g'){h+=(og?'</optgroup>':'')+`<optgroup label="${esc(tr(l))}">`;og=true}else h+=`<option value="${v}">${esc(tr(l))}</option>`}inp=`<select id="${id}">${h}${og?'</optgroup>':''}</select>`}
+  if(c.t==='seg')inp=`<div class="seg" id="${id}">${c.o.map(([v,l])=>`<button type="button" data-v='${JSON.stringify(v)}'>${esc(tr(l))}</button>`).join('')}</div>`;
+  if(c.t==='multi')inp=`<div class="seg multi" id="${id}">${c.o.map(([v,l])=>`<button type="button" data-v='${JSON.stringify(v)}' aria-pressed="false">${esc(tr(l))}</button>`).join('')}</div>`;
+  if(c.t==='file')inp=`<div><label class="btn" for="c_vfile_in" style="display:inline-flex;align-items:center">Carregar vídeo</label><input type="file" id="c_vfile_in" accept="video/*" style="position:absolute;width:1px;height:1px;opacity:0"><p class="note" id="vinfo" style="margin-top:6px">Nenhum vídeo carregado. Ele é processado só no seu navegador.</p></div>`;
+  if(c.t==='color')inp=`<input type="color" id="${id}">`;
+  if(c.t==='text')inp=`<input type="text" id="${id}" maxlength="24"${c.ph?` placeholder="${esc(tr(c.ph))}"`:''}>`;
+  return `<div class="row${c.t==='range'?'':' w'}${(c.t==='seg'&&c.o.length>2)||c.t==='multi'?' col':''}" id="r_${c.k}"><label for="${id}">${esc(tr(c.l))}</label>${inp}</div>`;
+}
+const ALL=SPEC.flatMap(s=>s[1]);
+let camOpts='';
+function fmt(c,v){return['loopF','hold','trans','vIn','vOut'].includes(c.k)?v+' f':(c.step<1?(+v).toFixed(c.step<.1?2:1):v)}
+function sync(){
+  for(const c of ALL){
+    const el=$('c_'+c.k),v=P[c.k];
+    if(c.t==='range'){el.value=v;$('o_'+c.k).textContent=fmt(c,v)}
+    else if(c.t==='multi')el.querySelectorAll('button').forEach(b=>{const on=v.includes(JSON.parse(b.dataset.v));b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+    else if(c.t==='seg')el.querySelectorAll('button').forEach(b=>b.classList.toggle('on',JSON.parse(b.dataset.v)===v));
+    else if(document.activeElement!==el)el.value=v;
+    if(c.show)$('r_'+c.k).style.display=c.show()?'':'none';
+  }
+  $('r_rot').querySelector('label').textContent=tr(P.shape==='rain'?'Velocidade':'Rotação');
+  $('r_loopF').querySelector('label').textContent=tr(P.loop?'Duração (frames)':'Grava (frames)');
+  $('playBtn').textContent=P.playing?tr('Pausar'):'Play';
+  cv.classList.toggle('tr',P.bgMode==='none');
+}
+function buildUI(){
+$('ctl').innerHTML=SPEC.map(([t,cs])=>`<details open><summary>${esc(tr(t))}</summary><div class="rows">${cs.map(ctrl).join('')}</div></details>`).join('');
+if(camOpts){$('c_camId').innerHTML=camOpts}
+for(const c of ALL){
+  const el=$('c_'+c.k);
+  if(c.t==='multi')el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const v=JSON.parse(b.dataset.v),order=c.o.map(o=>o[0]);let a=P[c.k].includes(v)?P[c.k].filter(x=>x!==v):[...P[c.k],v];if(!a.length)return;P[c.k]=order.filter(x=>a.includes(x));changed(c.k)});
+  else if(c.t==='seg')el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;P[c.k]=JSON.parse(b.dataset.v);changed(c.k)});
+  else el.addEventListener('input',()=>{P[c.k]=c.t==='range'?+el.value:el.value;changed(c.k)});
+}
+}
+buildUI();
+function changed(k){if(k==='size')resize();if(k==='src'||k==='camId')setSource();sync();if(!P.playing)draw()}
+
+/* ---------- canvas size / fit ---------- */
+function resize(){const[w,h]=P.size.split('x').map(Number);cv.width=tx.width=w;cv.height=tx.height=h;fit()}
+function fit(){
+  const b=$('cw').getBoundingClientRect(),pad=16,W=b.width-pad*2,H=b.height-pad*2;
+  const s=Math.min(W/cv.width,H/cv.height);
+  cv.style.width=cv.width*s+'px';cv.style.height=cv.height*s+'px';
+  cv.style.left=(b.width-cv.width*s)/2+'px';cv.style.top=(b.height-cv.height*s)/2+'px';
+}
+const ro=new ResizeObserver(fit);ro.observe($('cw'));
+
+/* ---------- the field ---------- */
+function field(r,a,th,ph,pl,c,N,shape){
+  switch(shape){
+    case 'petals':{const x=r*c-pl*.3,n=Math.floor(x),rr=x-n,aa=(n&1)?1-a:a;
+      return (Math.sqrt(Math.max(0,1-(2*rr-1)**2))-aa)*2-.1}
+    case 'rings':return Math.cos(TAU*r*c-ph+Math.cos(Math.PI*a)*1.4);
+    case 'spiral':return Math.cos(N*th+TAU*r*c*.6-ph);
+    case 'star':{const x=r*c*.6-pl*.2,rr=x-Math.floor(x);return((1-a)**1.6-rr)*2}
+    case 'lattice':return Math.sin(a*c*3+r*c*5-ph)*Math.cos(r*c*4+a*4+ph*.5);
+  }
+  return 0;
+}
+const hash=(i,s)=>{const x=Math.sin(i*127.1+s*311.7)*43758.5453;return x-Math.floor(x)};
+const hf=(x,y)=>{const q=x*x+y*y-1;return q*q*q-x*x*y*y*y};
+let mask=null,maskKey='';
+function getMask(W,H){
+  const word=(P.word||'ascii').trim()||'ascii',key=word+W+'x'+H+P.scale;
+  if(key===maskKey)return mask;
+  const mw=Math.ceil(W/4),mh=Math.ceil(H/4),m=document.createElement('canvas');m.width=mw;m.height=mh;
+  const g=m.getContext('2d');g.font='800 100px Inter, Arial Black, sans-serif';
+  const fs=100*mw*.8/Math.max(1,g.measureText(word).width)*(P.scale/1.3);
+  g.font=`800 ${fs}px Inter, Arial Black, sans-serif`;g.textAlign='center';g.textBaseline='middle';g.fillStyle='#fff';g.fillText(word,mw/2,mh/2);
+  mask={w:mw,h:mh,d:g.getImageData(0,0,mw,mh).data};maskKey=key;return mask;
+}
+let SEEDS={x:[],y:[],k:.1};
+function buildSeeds(p,Rk,Pk){const k=.11*Math.min(1.6,Math.max(.45,70/P.grid)),flow=p*Math.max(1,Pk)*3,n0=Math.ceil(flow),nn=Math.ceil((1.35/k)**2)+n0,x=[],y=[];
+  for(let n=n0;n<nn;n++){const e=n-flow;if(e<=0)continue;const r=k*Math.sqrt(e),t=e*2.39996323+TAU*p*Rk;x.push(r*Math.cos(t));y.push(r*Math.sin(t))}
+  SEEDS={x,y,k}}
+function field2(sh,nx,ny,x,y,i,j,rows,p,Rk,Pk,c,N,W,H,cell){
+  const T=TAU*p,P1=Math.max(1,Pk);
+  switch(sh){
+    case 'waves':return Math.sin(ny*c*1.6+Math.sin(nx*1.6-T*P1)*1.4+T*Rk);
+    case 'tunnel':{const rr=Math.hypot(nx,ny)+.06;if(rr<.14)return -2;return Math.cos(TAU*(c*.25/rr+p*P1))*.7+Math.cos(N*Math.atan2(ny,nx)+T*Rk)*.5}
+    case 'sphere':{const sx=nx/1.25,sy=ny/1.25,d=sx*sx+sy*sy;if(d>1)return -3;const z=Math.sqrt(1-d),lon=Math.atan2(sx,z)+T*Rk,lat=Math.asin(sy);
+      return (Math.cos(lon*N)*.5+Math.cos(lat*c*2.2)*.5)*(.4+.6*z)*1.6}
+    case 'heart':{const beat=Math.pow(Math.max(0,Math.sin(T*P1)),6),s=1.15*(1+.08*beat),hx=nx/s,hy=-ny/s+.15;
+      if(hf(hx/1.2,hy/1.2)>0)return -1;let lo=.01,hi=1.2;for(let n=0;n<12;n++){const md=(lo+hi)/2;if(hf(hx/md,hy/md)>0)lo=md;else hi=md}
+      if(hi>1)return -1;if(hi>.93)return 1;return Math.cos(TAU*(hi*c*.8-p*P1))}
+    case 'sunflower':{let d2=1e9;const X=SEEDS.x,Y=SEEDS.y;for(let n=0;n<X.length;n++){const ex=nx-X[n],ey=ny-Y[n],q=ex*ex+ey*ey;if(q<d2)d2=q}
+      return 1-2*Math.sqrt(d2)/(SEEDS.k*(.8+c*.12))}
+    case 'ripples':{let v=0;for(const[sx,sy]of[[-.6,-1.2],[.7,.1],[-.3,1.4]])v+=Math.cos(TAU*(Math.hypot(nx-sx,ny-sy)*c*.9-p*P1));return v/1.6}
+    case 'plasma':return(Math.sin(nx*c*.9+T*Rk)+Math.sin(ny*c*.8-T*Pk)+Math.sin((nx+ny)*c*.6+T)+Math.sin(Math.hypot(nx,ny)*c*1.1-T*Pk))/2.2;
+    case 'contours':{const h=Math.sin(nx*1.3+Math.sin(ny*1.1+T*Rk))+Math.cos(ny*1.6+Math.cos(nx*.9-T*Rk))+.5*Math.sin((nx-ny)*2.1+T);return Math.cos(TAU*(h*c*.35-p*Pk))}
+    case 'rain':{let b=-1;const sp=Math.max(1,Math.abs(Rk));for(let q=0;q<2;q++){const k=1+Math.floor(hash(i,q+7)*sp*1.99),head=((hash(i,q)+p*k)%1)*1.4-.2,d=head-j/rows,tr=.08+.25*hash(i,q+3)*(c/5);if(d>=0&&d<tr)b=Math.max(b,1-2*d/tr)}return b}
+    case 'bigword':{const m=getMask(W,H),sx=(x+Math.sin(ny*1.2+T*P1)*cell*1.5)/4,sy=y/4;
+      const px=Math.max(0,Math.min(m.w-1,sx|0)),py=Math.max(0,Math.min(m.h-1,sy|0)),a=m.d[(py*m.w+px)*4+3]/255;
+      return a*2-1+(a>.5?.35*Math.cos(TAU*(ny*.25*c/3.8-p*P1)):0)}
+  }
+  return 0;
+}
+const TPAL={iron:[[0,0,0],[25,0,95],[105,0,155],[190,20,110],[235,70,20],[255,150,0],[255,220,40],[255,255,230]],
+  rainbow:[[0,0,70],[0,30,255],[0,190,255],[0,240,120],[180,255,0],[255,220,0],[255,100,0],[255,0,0],[255,255,255]],
+  white:[[0,0,0],[255,255,255]]};
+let lutName='',LUT=[],LUTS=[];
+function lut(){if(lutName===P.tPal)return;lutName=P.tPal;const st=TPAL[P.tPal]||TPAL.iron,n=st.length-1;LUT=[];LUTS=[];
+  for(let i=0;i<256;i++){const t=i/255*n,a=Math.min(n-1,Math.floor(t)),f=t-a,c=[0,1,2].map(q=>st[a][q]+(st[a+1][q]-st[a][q])*f|0);LUT.push(c);LUTS.push(`rgb(${c[0]},${c[1]},${c[2]})`)}}
+const hg=document.createElement('canvas'),hgc=hg.getContext('2d');
+let heatGrid=new Float32Array(1);
+function hexRGB(h){const n=parseInt(h.slice(1),16);return[n>>16,n>>8&255,n&255]}
+function render(f,forceBg){
+  const W=cv.width,H=cv.height,N=P.sym,L=LS(),von=VON();if(von)grabVideo(W,H);
+  let ph,rot;
+  if(P.loop){const p=(f%L)/L;ph=TAU*Math.round(P.pulse)*p;rot=Math.round(P.rot)*(TAU/N)*p}
+  else{const t=f/FPS;ph=P.pulse*t*.7;rot=P.rot*t*.05}
+  const morphOn=P.morph&&P.mset.length>0,needShape=!von||P.vMix>0;
+  const pl=Math.sin(ph),breath=1-.05*pl,mand=morphOn||MANDALAS.has(P.shape),rad=!von&&(morphOn||RADIAL.has(P.shape));
+  let mA,mB,NA=N,NB=N,cA=P.cx,cB=P.cx,rA=rot,rB=rot,tM=0;
+  if(morphOn){
+    const ms=P.mset,n=ms.length,seg=P.hold+P.trans,fm=f%L,ix=Math.floor(fm/seg),loc=fm-ix*seg;
+    mA=ms[ix%n];mB=ms[(ix+1)%n];
+    const q=loc<P.hold?0:(loc-P.hold)/P.trans;tM=q<.5?4*q*q*q:1-Math.pow(-2*q+2,3)/2;
+    if(P.mvary){const dN=[0,-6,5,-3,7],dC=[1,1.3,.8,1.15,.9],ka=MORD.indexOf(mA),kb=MORD.indexOf(mB);
+      NA=Math.max(3,N+dN[ka]);NB=Math.max(3,N+dN[kb]);cA=P.cx*dC[ka];cB=P.cx*dC[kb];
+      const pf=P.loop?(f%L)/L:f/L,rf=(P.loop?Math.round(P.rot):P.rot)*TAU*pf;rA=rB=rf}
+    else{rA=rB=rot}
+  }
+  const evalM=(sh,NN,cc,rr0,r,dx,dy)=>{const th=Math.atan2(dy,dx)+rr0,sc=TAU/NN,m=((th%sc)+sc)%sc,a=Math.abs(m/sc*2-1);return field(r,a,th,ph,pl,cc,NN,sh)};
+  const pp=P.loop?(f%L)/L:f/L,Rk=P.loop?Math.round(P.rot):P.rot,Pk=P.loop?Math.round(P.pulse):P.pulse;
+  const full=P.cs==='wordfull',isW=P.cs==='word'||full,wd=[...((P.word||'ascii').replace(/\s+/g,'')||'ascii')],chars=isW?wd:[...(P.cs==='custom'?(P.custom||'*'):CS[P.cs])],nc=chars.length;
+  const cols=P.grid,cell=W/cols,rows=Math.ceil(H/cell),u=W*.3*P.scale,sec=TAU/N;
+  const k=2+P.sharp*.4,th0=(50-P.dens)/50*.8,c=P.cx;
+  const A=hexRGB(P.c1),B=hexRGB(P.c2);
+  tc.clearRect(0,0,W,H);
+  tc.font=`700 ${cell*1.02}px "JetBrains Mono",monospace`;tc.textAlign='center';tc.textBaseline='middle';
+  if(P.colorMode==='solid'||(P.colorMode==='video'&&!von))tc.fillStyle=P.c1;
+  const wstr=wd.join(''),stepX=full?tc.measureText(wstr).width+cell*.8:cell,colsN=full?Math.ceil(W/stepX)+1:cols;
+  if(P.shape==='sunflower')buildSeeds(pp,Rk,Pk);
+  const therm=P.colorMode==='thermal',tmix=von&&therm?P.tMotion/100:0;if(therm){lut();if(heatGrid.length<colsN*rows)heatGrid=new Float32Array(colsN*rows);heatGrid.fill(0)}
+  const cx=W/2,cy=H/2,hueOff=P.loop?((f%L)/L)*360:f*2;
+  for(let j=0;j<rows;j++){
+    const y=(j+.5)*cell,dy=y-cy;
+    const ox=full&&(j&1)?stepX/2:0;
+    for(let i=0;i<colsN;i++){
+      const x=(i+.5)*stepX-ox,dx=x-cx;
+      const r=Math.hypot(dx,dy)/u*(mand?breath:1);
+      if(rad&&r>1.45)continue;
+      let v=0,vp=0,vv=0;
+      if(von){const px=Math.min(vSW-1,Math.max(0,x/4|0)),py=Math.min(vSH-1,Math.max(0,y/4|0));vp=(py*vSW+px)*4;
+        let l0=vData[vp]*.299+vData[vp+1]*.587+vData[vp+2]*.114,lum=l0<7?0:Math.min(1,Math.max(0,(l0-vLo)/(vHi-vLo)));if(P.vInv)lum=1-lum;if(tmix>0){const mh=mHeat[vp>>2]||0;lum=lum*(1-tmix)+Math.min(1,mh*(.6+lum))*tmix}vv=v=lum*2-1}
+      if(!needShape){}
+      else if(morphOn){
+        if(tM<=0)v=evalM(mA,NA,cA,rA,r,dx,dy);else if(tM>=1)v=evalM(mB,NB,cB,rB,r,dx,dy);
+        else{const va=evalM(mA,NA,cA,rA,r,dx,dy),vb=evalM(mB,NB,cB,rB,r,dx,dy);
+          let w;if(P.mstyle==='wave'){const R=-.25+tM*1.95,z=Math.min(1,Math.max(0,(r-R+.18)/.36));w=1-z*z*(3-2*z)}else w=tM;
+          v=va+(vb-va)*w}}
+      else if(mand){const th=Math.atan2(dy,dx)+rot,m=((th%sec)+sec)%sec,a=Math.abs(m/sec*2-1);v=field(r,a,th,ph,pl,c,N,P.shape)}
+      else v=field2(P.shape,dx/u,dy/u,x,y,i,j,rows,pp,Rk,Pk,c,N,W,H,cell);
+      if(von&&needShape)v=vv+P.vMix/100*.9*v;
+      let b=1/(1+Math.exp(-k*(v-th0)));
+      if(rad)b*=Math.min(1,Math.max(0,(1.3-r)/.3));
+      let heat=0;if(therm){heat=von?(v+1)/2:1/(1+Math.exp(-3*(v-th0)))*(rad?Math.min(1,Math.max(0,(1.3-r)/.3)):1);heatGrid[j*colsN+i]=heat}
+      if(b<.12)continue;
+      const ch=full?wstr:isW?wd[(j*cols+i)%nc]:chars[Math.min(nc-1,Math.floor((b-.12)/.88*nc))];
+      if(P.colorMode==='gradient'){const t=Math.min(1,r/1.2);tc.fillStyle=`rgb(${A[0]+(B[0]-A[0])*t|0},${A[1]+(B[1]-A[1])*t|0},${A[2]+(B[2]-A[2])*t|0})`}
+      else if(P.colorMode==='video'&&von){const g=Math.min(3,255/Math.max(40,vHi))*1.15;tc.fillStyle=`rgb(${Math.min(255,vData[vp]*g)|0},${Math.min(255,vData[vp+1]*g)|0},${Math.min(255,vData[vp+2]*g)|0})`}
+      else if(therm)tc.fillStyle=LUTS[Math.min(255,Math.max(0,heat*255|0))];
+      else if(P.colorMode==='rainbow')tc.fillStyle=`hsl(${(r*300+hueOff)%360|0} 95% 58%)`;
+      tc.fillText(ch,x,y);
+    }
+  }
+  ctx.clearRect(0,0,W,H);
+  if(P.bgMode==='solid'||forceBg){ctx.fillStyle=P.bgMode==='solid'?P.bg:'#000';ctx.fillRect(0,0,W,H)}
+  if(therm&&P.tBg){
+    if(hg.width!==colsN||hg.height!==rows){hg.width=colsN;hg.height=rows}
+    const im=hgc.createImageData(colsN,rows),d=im.data;
+    for(let q=0;q<colsN*rows;q++){const c=LUT[Math.min(255,heatGrid[q]*255|0)];d[q*4]=c[0];d[q*4+1]=c[1];d[q*4+2]=c[2];d[q*4+3]=255}
+    hgc.putImageData(im,0,0);
+    ctx.save();ctx.globalAlpha=.55;ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.filter=`blur(${cell*.6}px)`;ctx.drawImage(hg,full?-stepX/2:0,0,colsN*stepX,rows*cell);ctx.restore();
+  }
+  if(P.look==='glow'){
+    ctx.save();ctx.globalCompositeOperation='lighter';ctx.filter=`blur(${cell*.9}px)`;ctx.drawImage(tx,0,0);ctx.filter=`blur(${cell*.3}px)`;ctx.drawImage(tx,0,0);ctx.restore();
+  }
+  ctx.drawImage(tx,0,0);
+  {const fs=Math.round(Math.min(W,H)*.034);ctx.save();ctx.font=`600 ${fs}px Inter, Arial, sans-serif`;ctx.textAlign='right';ctx.textBaseline='bottom';ctx.shadowColor='rgba(0,0,0,.85)';ctx.shadowBlur=fs*.5;ctx.fillStyle='rgba(255,255,255,.9)';ctx.fillText('ericayabiku · ASCII Lab',W-fs,H-fs*.8);ctx.restore()}
+}
+
+/* ---------- video source ---------- */
+const vid=document.createElement('video');vid.playsInline=true;vid.muted=true;vid.loop=true;vid.preload='auto';
+const sc=document.createElement('canvas'),sx=sc.getContext('2d',{willReadFrequently:true});
+let vData=null,vSW=1,vSH=1,vLo=0,vHi=255,mHeat=new Float32Array(0),mPrev=new Float32Array(0),mFid=-1;
+function grabVideo(W,H){
+  vSW=Math.ceil(W/4);vSH=Math.ceil(H/4);if(sc.width!==vSW||sc.height!==vSH){sc.width=vSW;sc.height=vSH}
+  sx.fillStyle='#000';sx.fillRect(0,0,vSW,vSH);
+  const vw=vid.videoWidth||1,vh=vid.videoHeight||1,r=P.src==='video'&&P.vCrop&&vCropR?vCropR:{x:0,y:0,w:vw,h:vh};
+  const k=(P.vFit==='fit'?Math.min(vSW/r.w,vSH/r.h):Math.max(vSW/r.w,vSH/r.h))*P.vZoom,dw=r.w*k,dh=r.h*k;
+  const dx=(vSW-dw)/2-(dw>vSW?P.vPan*(dw-vSW)/2:0),dy=(vSH-dh)/2;
+  const th=P.colorMode==='thermal';
+  if(th&&P.tSmooth>0)sx.filter=`blur(${P.tSmooth*.5}px)`;
+  if(CAM()&&P.vMirror)sx.setTransform(-1,0,0,1,vSW,0);
+  try{sx.drawImage(vid,r.x,r.y,r.w,r.h,dx,dy,dw,dh)}catch(e){}
+  sx.setTransform(1,0,0,1,0,0);sx.filter='none';
+  vData=sx.getImageData(0,0,vSW,vSH).data;
+  if(th&&P.tMotion>0){
+    const n=vSW*vSH,fid=Math.round(vid.currentTime*FPS);
+    if(mHeat.length!==n){mHeat=new Float32Array(n);mPrev=new Float32Array(n);mFid=-1}
+    if(fid!==mFid){const first=mFid<0;
+      for(let q=0;q<n;q++){const o=q*4,l=vData[o]*.299+vData[o+1]*.587+vData[o+2]*.114,d=first?0:Math.abs(l-mPrev[q])/255*7;mHeat[q]=Math.min(1,Math.max(d,mHeat[q]*.86));mPrev[q]=l}
+      mFid=fid}
+  }
+  const hist=new Uint32Array(256);let n=0;
+  for(let o=0;o<vData.length;o+=16){const l=(vData[o]*.299+vData[o+1]*.587+vData[o+2]*.114)|0;if(l>6){hist[l]++;n++}}
+  let acc=0,lo=0,hi=255;if(n>50){for(let i=0;i<256;i++){acc+=hist[i];if(acc>n*.03){lo=i;break}}acc=0;for(let i=255;i>=0;i--){acc+=hist[i];if(acc>n*.02){hi=i;break}}}
+  if(P.vAuto&&hi-lo>20){vLo=lo;vHi=hi}else{vLo=0;vHi=255}
+}
+const seek=t=>new Promise(res=>{let ok=false;const h=()=>{if(ok)return;ok=true;vid.removeEventListener('seeked',h);res()};vid.addEventListener('seeked',h);setTimeout(h,2500);vid.currentTime=Math.max(0,Math.min(t,vid.duration-.02))});
+async function detectCrop(){
+  const vw=vid.videoWidth,vh=vid.videoHeight,cw=200,ch=Math.max(1,Math.round(200*vh/vw)),c=document.createElement('canvas');c.width=cw;c.height=ch;
+  const g=c.getContext('2d',{willReadFrequently:true});let x0=cw,y0=ch,x1=-1,y1=-1;
+  for(const q of[.08,.25,.42,.58,.75,.92]){
+    await seek(vid.duration*q);g.drawImage(vid,0,0,cw,ch);const d=g.getImageData(0,0,cw,ch).data;
+    for(let y=0;y<ch;y++)for(let x=0;x<cw;x++){const o=(y*cw+x)*4;if(d[o]+d[o+1]+d[o+2]>75){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}}
+  }
+  if(x1<0)return null;
+  const sxv=vw/cw,syv=vh/ch,r={x:x0*sxv,y:y0*syv,w:(x1-x0+1)*sxv,h:(y1-y0+1)*syv};
+  return r.w*r.h>vw*vh*.92?null:r;
+}
+
+/* ---------- camera ---------- */
+function stopCam(){if(camStream){camStream.getTracks().forEach(t=>t.stop());camStream=null}camReady=false}
+async function setSource(){
+  const info=$('vinfo');
+  if(P.src==='camera'){
+    stopCam();vid.pause();
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){msg(LANG==='en'?EN.cam_err:'Câmera indisponível neste navegador.');return}
+    try{
+      camStream=await navigator.mediaDevices.getUserMedia({video:{deviceId:P.camId?{exact:P.camId}:undefined,width:{ideal:1920},height:{ideal:1080}},audio:false});
+      vid.removeAttribute('src');vid.srcObject=camStream;vid.muted=true;camReady=true;vid.play().catch(()=>{});mHeat=new Float32Array(0);
+      const ds=(await navigator.mediaDevices.enumerateDevices()).filter(d=>d.kind==='videoinput');
+      camOpts=`<option value="">${esc(tr('Câmera padrão'))}</option>`+ds.map((d,i)=>`<option value="${esc(d.deviceId)}">${esc(d.label||tr('Câmera')+' '+(i+1))}</option>`).join('');$('c_camId').innerHTML=camOpts;
+      $('c_camId').value=P.camId;msg(tr('Câmera ao vivo. Use “Tela cheia” (tecla F) para projetar.'));
+    }catch(e){msg(LANG==='en'?EN.cam_err:'Não consegui abrir a câmera. Confira a permissão do navegador e tente de novo.')}
+  }else{
+    stopCam();
+    if(P.src==='video'&&videoURL&&vid.srcObject){vid.srcObject=null;vid.src=videoURL;vid.loop=true}
+    if(P.src!=='camera'&&vid.srcObject){vid.srcObject=null}
+  }
+  sync();draw();
+}
+
+/* ---------- loop ---------- */
+let frame=0,last=performance.now(),busy=false,rec=null;
+function curF(){if(CAM()&&camReady)return Math.round(vid.currentTime*FPS);if(VON())return Math.min(vFrames-1,Math.round(vid.currentTime*FPS));return P.loop?Math.floor(frame)%LL():Math.floor(frame)}
+function draw(){render(curF());$('fr').textContent=CAM()&&camReady?tr('câmera ao vivo'):P.loop||VON()?`frame ${curF()} / ${LL()}`:`frame ${curF()}`}
+function tick(now){
+  const dt=(now-last)/1000;last=now;
+  if(rec){
+    if(rec.cam){render(curF(),true);$('fr').textContent=`gravando ao vivo ${Math.round((now-rec.t0)/1000*FPS)} f`}
+    else if(rec.video){const f=Math.round(vid.currentTime*FPS);
+      if(vid.ended||f>=P.vOut)rec.done();else{render(f,true);$('fr').textContent=`gravando ${f} / ${P.vOut}`;$('pbar').style.width=(f-P.vIn)/Math.max(1,P.vOut-P.vIn)*100+'%'}}
+    else{const f=Math.floor((now-rec.t0)/1000*FPS);
+      if(f>=LL()){rec.done()}else{render(f,true);$('fr').textContent=`gravando ${f} / ${LL()}`;$('pbar').style.width=f/LL()*100+'%'}}}
+  else if(!busy&&VON()){
+    if(P.playing&&vid.paused)vid.play().catch(()=>{});
+    if(!P.playing&&!vid.paused&&!CAM())vid.pause();
+    if(P.playing)draw();
+  }
+  else if(!busy&&P.playing){if(!vid.paused&&!CAM())vid.pause();frame+=dt*FPS;draw()}
+  requestAnimationFrame(tick);
+}
+
+/* ---------- status ---------- */
+const msg=t=>{$('msg').textContent=t};
+
+/* ---------- presets ---------- */
+const KEY='mandalaAsciiPresets';
+function loadP(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+function storeP(o){try{localStorage.setItem(KEY,JSON.stringify(o));return true}catch(e){return false}}
+function listP(sel){const o=loadP(),n=Object.keys(o);$('plist').innerHTML=`<option value="">${tr('— escolher —')}</option>`+n.map(k=>`<option value="${esc(k)}">${esc(k)}</option>`).join('');if(sel)$('plist').value=sel}
+$('psave').onclick=()=>{const o=loadP(),name=$('pname').value.trim()||'Preset '+(Object.keys(o).length+1);o[name]={...P,playing:true};msg(storeP(o)?tr('Preset salvo: ')+name:tr('Este navegador não deixa guardar presets aqui.'));listP(name)};
+$('plist').onchange=()=>{const o=loadP()[$('plist').value];if(!o)return;P={...DEF,mset:[...DEF.mset],...o};$('pname').value=$('plist').value;resize();sync();draw()};
+$('pdel').onclick=()=>{const k=$('plist').value;if(!k)return;const o=loadP();delete o[k];storeP(o);listP();msg(tr('Preset apagado.'))};
+
+/* ---------- buttons ---------- */
+const rnd=(a,b,s)=>Math.round((a+Math.random()*(b-a))/s)*s;
+const hsl2hex=(h,s,l)=>{s/=100;l/=100;const f=n=>{const k=(n+h/30)%12,c=l-s*Math.min(l,1-l)*Math.max(-1,Math.min(k-3,9-k,1));return Math.round(c*255).toString(16).padStart(2,'0')};return'#'+f(0)+f(8)+f(4)};
+$('randBtn').onclick=()=>{
+  const pick=a=>a[Math.random()*a.length|0];
+  Object.assign(P,{sym:rnd(4,28,1),cx:+rnd(1.5,7,.1).toFixed(1),sharp:rnd(40,100,1),dens:rnd(30,70,1),shape:pick(['petals','rings','spiral','star','lattice','waves','tunnel','sphere','heart','sunflower','ripples','plasma','contours','rain','bigword']),scale:+rnd(.9,1.8,.05).toFixed(2),grid:rnd(45,110,1),cs:pick(['binary','numbers','blocks','classic','dots','letters']),colorMode:pick(['solid','gradient','rainbow']),c1:hsl2hex(rnd(0,359,1),95,60),c2:hsl2hex(rnd(0,359,1),95,60),rot:rnd(-3,3,1),pulse:rnd(1,6,1)});
+  sync();draw();
+};
+$('resetBtn').onclick=()=>{P={...DEF,mset:[...DEF.mset]};resize();sync();frame=0;draw()};
+$('playBtn').onclick=()=>{P.playing=!P.playing;sync();if(!P.playing)draw()};
+function toggleFS(){const on=!document.body.classList.contains('fs');document.body.classList.toggle('fs',on);
+  try{if(on&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{});else if(!on&&document.fullscreenElement)document.exitFullscreen()}catch(e){}setTimeout(fit,60)}
+$('fsBtn').onclick=toggleFS;
+document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement){document.body.classList.remove('fs');setTimeout(fit,60)}});
+addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName))return;if(e.key==='f'||e.key==='F'){toggleFS()}else if(e.key==='Escape'&&document.body.classList.contains('fs')){toggleFS()}else if(e.key==='r'||e.key==='R'){$('randBtn').click()}});
+addEventListener('keydown',e=>{if(e.code==='Space'&&!/INPUT|SELECT|TEXTAREA|BUTTON/.test(document.activeElement.tagName)){e.preventDefault();P.playing=!P.playing;sync()}});
+
+cv.addEventListener('contextmenu',e=>e.preventDefault());cv.setAttribute('draggable','false');
+function applyStatic(){document.documentElement.lang=LANG==='en'?'en':'pt-br';document.querySelectorAll('[data-pt][data-en]').forEach(el=>{el.textContent=el.getAttribute('data-'+LANG)});$('pname').placeholder=tr('Meu preset');$('langBtn').textContent=LANG==='en'?'PT':'EN'}
+$('langBtn').onclick=()=>{LANG=LANG==='en'?'pt':'en';try{localStorage.setItem('preferredLanguage',LANG)}catch(e){}buildUI();applyStatic();listP($('plist').value);sync();draw()};
+function applyTheme(t){document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'☀':'☾';try{localStorage.setItem('theme',t)}catch(e){}}
+let th0;try{th0=localStorage.getItem('theme')||'light'}catch(e){th0='light'}applyTheme(th0);
+$('themeBtn').onclick=()=>applyTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+applyStatic();resize();sync();listP();draw();requestAnimationFrame(tick);
+document.fonts&&document.fonts.ready.then(()=>{maskKey='';draw()});
+}
+</script>
+</body>
+</html>
