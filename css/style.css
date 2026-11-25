@@ -45,19 +45,19 @@
 .featured-info .lines { display: flex; justify-content: center; gap: 18px; }
 
 :root {
-    /* Paleta céu galáctico (site só no escuro) — 2026-11 */
-    --bg: #07070F;
-    --bg-2: rgba(255, 255, 255, 0.05);
-    --text: #ECEAF6;
-    --text-2: #A6A3BC;
-    --muted: #7D7A94;
-    --line: rgba(236, 234, 246, 0.14);
-    --guide: rgba(183, 156, 255, 0.05);
-    --accent: #B79CFF;
-    --btn-bg: #ECEAF6;
-    --btn-text: #07070F;
-    --header-bg: rgba(7, 7, 15, 0.45);
-    --shadow: rgba(0, 0, 0, 0.55);
+    /* Paleta clara "céu + coral" (tirada da foto do jardim) — 2026-11 */
+    --bg: #EEF3F5;
+    --bg-2: #E2EAEE;
+    --text: #1F2A30;
+    --text-2: #5B6870;
+    --muted: #7E8A91;
+    --line: rgba(31, 42, 48, 0.14);
+    --guide: rgba(210, 86, 60, 0.05);
+    --accent: #D2563C;
+    --btn-bg: #1F2A30;
+    --btn-text: #EEF3F5;
+    --header-bg: rgba(238, 243, 245, 0.62);
+    --shadow: rgba(31, 42, 48, 0.22);
 
     --font: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --max: 1360px;
@@ -299,8 +299,8 @@ a.arrow:hover { color: var(--text); }
     display: flex;
     align-items: flex-end;
     padding: 16px;
-    background: linear-gradient(165deg, #6B4FD8 0%, #241A55 100%);
-    color: #E6DEFF;
+    background: linear-gradient(165deg, #8FB2BE 0%, #D2563C 100%);
+    color: #FFFFFF;
     font-size: 0.72rem;
 }
 
@@ -757,3 +757,48 @@ header, main, footer, .home-line { position: relative; z-index: 1; }
 header { position: sticky; z-index: 1000; }
 body.home .home-line { position: fixed; z-index: 5; }
 @media (max-width: 760px) { body.home .home-line { position: static; } }
+
+/* =========================================================
+   HOME: VIDRO EMBAÇADO (glass.js) — substitui a colagem
+   ========================================================= */
+body.home { height: 100vh; height: 100svh; overflow: hidden; }
+body.home main { position: relative; flex: 1; animation: none; }
+.glass {
+    position: fixed; inset: 0; z-index: 0;
+    overflow: hidden;
+    touch-action: none;
+    background: var(--bg);
+}
+.glass-photo {
+    position: absolute; inset: 0;
+    background: url("../images/home/jardim.jpg") center / cover no-repeat;
+}
+.glass-fog, .glass-fx {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+}
+/* antes da foto carregar, o vidro já aparece embaçado */
+.glass::before {
+    content: ""; position: absolute; inset: 0; z-index: 3;
+    background: rgba(236, 243, 246, 0.85);
+    backdrop-filter: blur(18px);
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+}
+.glass.ready::before { opacity: 0; }
+.glass-hint {
+    position: absolute; left: 50%; top: 50%; z-index: 4;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-2);
+    pointer-events: none;
+    animation: hintPulse 3s ease-in-out infinite;
+    transition: opacity 1s ease;
+}
+.glass-hint.gone { opacity: 0; animation: none; }
+@keyframes hintPulse { 0%, 100% { opacity: 0.45; } 50% { opacity: 0.9; } }
+body.home .home-line { position: fixed; left: var(--pad); bottom: 20px; z-index: 5; color: var(--text-2); }
+body.home header { background: transparent; border-bottom-color: transparent; }
+@media (prefers-reduced-motion: reduce) { .glass-hint { animation: none; opacity: 0.8; } }
+body.home header { backdrop-filter: none; -webkit-backdrop-filter: none; }

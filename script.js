@@ -5,8 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =========================================================
        TEMA CLARO / ESCURO
        ========================================================= */
-    /* o site agora é só escuro (céu galáctico) */
-    document.body.classList.add("dark-theme");
+    /* site só no tema claro (paleta céu + coral) */
     $("#theme-toggle")?.remove();
 
     /* =========================================================
