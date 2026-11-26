@@ -921,29 +921,6 @@ body.home .snap-glass .home-line { position: absolute; left: var(--pad); bottom:
 .home-contact .contact-list { grid-column: 3 / 5; }
 .snap-contact .foot { border-top: 1px solid var(--line); }
 
-/* ---------- Pontinhos de navegação (lado direito) ---------- */
-.snap-dots {
-    position: fixed; right: 18px; top: 50%; z-index: 900;
-    transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 12px;
-    list-style: none;
-}
-.snap-dots a {
-    position: relative; display: block;
-    width: 8px; height: 8px; border-radius: 50%;
-    border: 1px solid var(--text-2);
-    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s var(--ease);
-}
-.snap-dots a.on { background: var(--accent); border-color: var(--accent); transform: scale(1.3); }
-.snap-dots a span {
-    position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
-    font-size: 0.66rem; white-space: nowrap; color: var(--text-2);
-    opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
-}
-.snap-dots a:hover span, .snap-dots a:focus-visible span { opacity: 1; }
-body.home.on-lab .snap-dots a { border-color: #8A8A8A; }
-body.home.on-lab .snap-dots a.on { background: #00c838; border-color: #00c838; }
-body.home.on-lab .snap-dots a span { color: #BDBDBD; }
 body.home.on-lab header { background: rgba(11, 11, 12, 0.6); }
 body.home.on-lab header .logo, body.home.on-lab header .chip { color: #E8E8E8; }
 
@@ -969,8 +946,6 @@ body.home.on-lab header .logo, body.home.on-lab header .chip { color: #E8E8E8; }
     .home-cards .card .media,
     .home-cards .card:nth-child(odd) .media,
     .home-cards .card:nth-child(even) .media { height: 48svh; }
-    .snap-dots { right: 8px; }
-    .snap-dots a span { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -984,4 +959,10 @@ body.home.on-lab header nav a.active, body.home.on-lab header nav a:hover { colo
 @media (max-width: 760px) {
     body.home .snap-glass .home-line { bottom: auto; top: calc(var(--hh) + 8px); }
 }
-@media (max-width: 520px) { .snap-dots { display: none; } }
+
+/* ---------- Seções compridas (Projetos e Sobre completos) ---------- */
+.snap-tall { justify-content: flex-start; scroll-snap-stop: normal; padding-bottom: 0; }
+.snap-tall .hero { padding-top: 24px; }
+.snap-tall .about-title { padding-top: 24px; }
+.snap-tall .cards { padding-bottom: 72px; }
+.snap-tall .about-grid { padding-bottom: 72px; }

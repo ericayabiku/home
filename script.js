@@ -527,43 +527,22 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================================================
-   HOME EM SEÇÕES: pontinhos de navegação + cabeçalho
+   HOME EM SEÇÕES: menu do topo acompanha a rolagem
    ========================================================= */
 document.addEventListener("DOMContentLoaded", () => {
     const sections = Array.from(document.querySelectorAll("body.home .snap"));
     if (!sections.length) return;
     const body = document.body;
-    const en = () => document.documentElement.lang.startsWith("en");
+    const navLinks = Array.from(document.querySelectorAll("header nav a[data-sec]"));
+    let current = 0;
 
-    /* pontinhos do lado direito (um por seção) */
-    const dots = document.createElement("ul");
-    dots.className = "snap-dots";
-    dots.setAttribute("aria-label", "Seções da página");
-    const links = sections.map(sec => {
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.href = "#" + sec.id;
-        a.innerHTML = "<span></span>";
-        li.appendChild(a);
-        dots.appendChild(li);
-        return a;
-    });
-    const label = () => links.forEach((a, i) => {
-        const t = sections[i].dataset[en() ? "dotEn" : "dotPt"];
-        a.querySelector("span").textContent = t;
-        a.setAttribute("aria-label", t);
-    });
-    label();
-    document.getElementById("lang-toggle")?.addEventListener("click", () => setTimeout(label, 0));
-    body.appendChild(dots);
-
-    /* qual seção está na tela */
+    /* qual seção está na tela → marca o link certo no menu */
     const io = new IntersectionObserver(entries => {
         entries.forEach(({ target, isIntersecting }) => {
             if (!isIntersecting) return;
-            const i = sections.indexOf(target);
-            links.forEach((a, k) => a.classList.toggle("on", k === i));
-            body.classList.toggle("past-glass", i > 0);
+            current = sections.indexOf(target);
+            navLinks.forEach(a => a.classList.toggle("active", a.dataset.sec === target.dataset.nav));
+            body.classList.toggle("past-glass", current > 0);
             body.classList.toggle("on-lab", target.id === "ascii-lab");
         });
     }, { threshold: 0.55 });
@@ -571,12 +550,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* teclado: setas / PageUp / PageDown pulam de seção */
     document.addEventListener("keydown", e => {
-        if (e.target.closest("input, textarea, select, video")) return;
-        const cur = links.findIndex(a => a.classList.contains("on"));
+        if (e.target.closest && e.target.closest("input, textarea, select, video")) return;
         let to = -1;
-        if (e.key === "ArrowDown" || e.key === "PageDown") to = Math.min(cur + 1, sections.length - 1);
-        if (e.key === "ArrowUp" || e.key === "PageUp") to = Math.max(cur - 1, 0);
-        if (to < 0 || to === cur) return;
+        if (e.key === "ArrowDown" || e.key === "PageDown") to = Math.min(current + 1, sections.length - 1);
+        if (e.key === "ArrowUp" || e.key === "PageUp") to = Math.max(current - 1, 0);
+        if (to < 0 || to === current) return;
         e.preventDefault();
         sections[to].scrollIntoView({ behavior: "smooth" });
     });
