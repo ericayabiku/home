@@ -248,9 +248,17 @@
     let raf = 0, tick = 0;
     const loop = () => { frame(); raf = requestAnimationFrame(loop); };
     function start() { cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); }
+    /* só anima quando o vidro está na tela (economiza o computador nas outras seções) */
+    let onScreen = true;
     document.addEventListener("visibilitychange", () => {
-        if (document.hidden) cancelAnimationFrame(raf); else start();
+        if (document.hidden || !onScreen) cancelAnimationFrame(raf); else start();
     });
+    if ("IntersectionObserver" in window) {
+        new IntersectionObserver(([en]) => {
+            onScreen = en.isIntersecting;
+            if (onScreen && !document.hidden) start(); else cancelAnimationFrame(raf);
+        }).observe(scene);
+    }
 
     img.onload = () => { buildFog(); scene.classList.add("ready"); };
     img.src = photoURL;

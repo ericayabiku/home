@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Erica Yabiku — Portfólio</title>
-    <link rel="stylesheet" type="text/css" href="./css/style.css?v=10">
+    <link rel="stylesheet" type="text/css" href="./css/style.css?v=11">
     <link rel="shortcut icon" href="./images/developmenticon.png">
 </head>
 <body class="home">
@@ -31,15 +31,140 @@
     </header>
 
     <main>
-        <section class="glass" data-photo="./images/home/jardim.jpg" aria-label="Vidro embaçado: desenhe com o mouse ou com o dedo">
-            <div class="glass-photo"></div>
-            <canvas class="glass-fog"></canvas>
-            <canvas class="glass-fx"></canvas>
-            <p class="glass-hint" data-pt="desenhe no vidro" data-en="draw on the glass">desenhe no vidro</p>
+
+        <!-- ============ 1. VIDRO EMBAÇADO ============ -->
+        <section class="snap snap-glass" id="inicio" data-dot-pt="Início" data-dot-en="Home" aria-label="Início">
+            <div class="glass" data-photo="./images/home/jardim.jpg" aria-label="Vidro embaçado: desenhe com o mouse ou com o dedo">
+                <div class="glass-photo"></div>
+                <canvas class="glass-fog"></canvas>
+                <canvas class="glass-fx"></canvas>
+                <p class="glass-hint" data-pt="desenhe no vidro" data-en="draw on the glass">desenhe no vidro</p>
+            </div>
+            <p class="home-line">Motion Designer · São Paulo</p>
+            <a class="scroll-cue" href="#destaque">
+                <span data-pt="role para ver mais" data-en="scroll for more">role para ver mais</span>
+                <i aria-hidden="true">&darr;</i>
+            </a>
         </section>
-        <p class="home-line">Motion Designer · São Paulo</p>
+
+        <!-- ============ 2. DESTAQUE: PULP FICTION ============ -->
+        <section class="snap snap-featured" id="destaque" data-dot-pt="Destaque" data-dot-en="Featured" aria-label="Destaque">
+            <div class="wrap featured">
+                <figure class="featured-media">
+                    <video autoplay loop muted playsinline preload="metadata" poster="./images/pulp_fiction_capa.jpg">
+                        <source src="./images/pulp-fiction.mp4" type="video/mp4">
+                    </video>
+                    <button class="chip sound-toggle" type="button" aria-label="Ativar som">🔈</button>
+                </figure>
+                <div class="featured-info">
+                    <span class="label" data-pt="Destaque · Motion Design / Arte ASCII" data-en="Featured · Motion Design / ASCII Art">Destaque · Motion Design / Arte ASCII</span>
+                    <h2>Pulp Fiction</h2>
+                    <a class="btn" href="./projetos.html#pulp-fiction"><span data-pt="Ver projeto" data-en="View project">Ver projeto</span><span class="ico">&nearr;</span></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ 3. PROJETOS (resumo) ============ -->
+        <section class="snap snap-projects" id="projetos" data-dot-pt="Projetos" data-dot-en="Projects" aria-label="Projetos">
+            <div class="wrap">
+                <div class="snap-head">
+                    <h2 class="display md" data-pt="Projetos" data-en="Projects">Projetos</h2>
+                    <a class="btn" href="./projetos.html"><span data-pt="Ver todos" data-en="View all">Ver todos</span><span class="ico">&nearr;</span></a>
+                </div>
+                <div class="cards home-cards">
+                    <article class="card">
+                        <a href="./projetos.html#rorschach">
+                            <div class="media"><video autoplay loop muted playsinline poster="./images/home/rorschach.jpg"><source src="./images/home/rorschach.mp4" type="video/mp4"></video></div>
+                            <h3>Rorschach</h3>
+                            <p>Motion Design</p>
+                        </a>
+                    </article>
+                    <article class="card">
+                        <a href="./projetos.html#poema">
+                            <div class="media"><video autoplay loop muted playsinline poster="./images/home/poema.jpg"><source src="./images/home/poema.mp4" type="video/mp4"></video></div>
+                            <h3 data-pt="Poema" data-en="Poem">Poema</h3>
+                            <p data-pt="Tipografia cinética" data-en="Kinetic typography">Tipografia cinética</p>
+                        </a>
+                    </article>
+                    <article class="card">
+                        <a href="./projetos.html#bubbles">
+                            <div class="media"><video autoplay loop muted playsinline poster="./images/home/bubbles.jpg"><source src="./images/home/bubbles.mp4" type="video/mp4"></video></div>
+                            <h3>Bubbles</h3>
+                            <p data-pt="Animação generativa" data-en="Generative animation">Animação generativa</p>
+                        </a>
+                    </article>
+                    <article class="card">
+                        <a href="./projetos.html#flores">
+                            <div class="media"><video autoplay loop muted playsinline poster="./images/home/flores.jpg"><source src="./images/home/flores.mp4" type="video/mp4"></video></div>
+                            <h3 data-pt="Flores" data-en="Flowers">Flores</h3>
+                            <p>Motion Design</p>
+                        </a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ 4. SOBRE (resumo) ============ -->
+        <section class="snap snap-about" id="sobre" data-dot-pt="Sobre" data-dot-en="About" aria-label="Sobre">
+            <div class="wrap home-about">
+                <figure class="home-about-photo"><img src="./images/eu.jpg" alt="Foto de Erica Correia Yabiku" loading="lazy"></figure>
+                <div class="home-about-text">
+                    <span class="label" data-pt="Sobre" data-en="About">Sobre</span>
+                    <h2 class="display md">Erica Correia Yabiku</h2>
+                    <p class="lead" data-pt="Motion designer em São Paulo, com background em gestão operacional. Animações no After Effects, arte generativa e arte ASCII, a partir de ilustração, vetores e referências visuais."
+                       data-en="Motion designer based in São Paulo, with a background in operations management. After Effects animation, generative art and ASCII art, built from illustration, vectors and visual references.">Motion designer em São Paulo, com background em gestão operacional. Animações no After Effects, arte generativa e arte ASCII, a partir de ilustração, vetores e referências visuais.</p>
+                    <a class="btn" href="./sobre.html"><span data-pt="Saiba mais" data-en="Learn more">Saiba mais</span><span class="ico">&nearr;</span></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ 5. ASCII LAB (convite) ============ -->
+        <section class="snap snap-lab" id="ascii-lab" data-dot-pt="ASCII Lab" data-dot-en="ASCII Lab" aria-label="ASCII Lab">
+            <div class="wrap lab-teaser">
+                <div class="lab-teaser-media">
+                    <video autoplay loop muted playsinline poster="./images/home/ascii-lab.jpg"><source src="./images/home/ascii-lab.mp4" type="video/mp4"></video>
+                </div>
+                <div class="lab-teaser-text">
+                    <span class="lab-tag" data-pt="&gt; experimento interativo" data-en="&gt; interactive experiment">&gt; experimento interativo</span>
+                    <h2>ASCII Lab</h2>
+                    <p data-pt="Um gerador de arte ASCII que eu criei. Digite a palavra que quiser ou use a sua câmera e veja a imagem virar letras e números, ao vivo."
+                       data-en="An ASCII art generator I built. Type any word you like or use your camera and watch the image turn into letters and numbers, live.">Um gerador de arte ASCII que eu criei. Digite a palavra que quiser ou use a sua câmera e veja a imagem virar letras e números, ao vivo.</p>
+                    <p class="lab-note" data-pt="* funciona melhor no computador · a câmera só liga se você permitir" data-en="* works best on a computer · the camera only turns on if you allow it">* funciona melhor no computador · a câmera só liga se você permitir</p>
+                    <a class="lab-btn" href="./lab.html"><span data-pt="Testar agora" data-en="Try it now">Testar agora</span> <i aria-hidden="true">&rarr;</i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ 6. CONTATO ============ -->
+        <section class="snap snap-contact" id="contato" data-dot-pt="Contato" data-dot-en="Contact" aria-label="Contato">
+            <div class="wrap home-contact">
+                <h2 class="display md" data-pt="Vamos criar<br>algo juntos?" data-en="Let's build<br>something together?">Vamos criar<br>algo juntos?</h2>
+                <div class="contact-list">
+                    <a href="mailto:ericayabiku@outlook.com" class="contact-row">
+                        <span class="contact-type" data-pt="E-mail" data-en="Email">E-mail</span>
+                        <span>ericayabiku@outlook.com</span>
+                        <span class="contact-arrow">&nearr;</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/erica-yabiku/" target="_blank" rel="noopener" class="contact-row">
+                        <span class="contact-type">LinkedIn</span>
+                        <span>erica-yabiku</span>
+                        <span class="contact-arrow">&nearr;</span>
+                    </a>
+                    <a href="https://wa.me/5511962070314" target="_blank" rel="noopener" class="contact-row">
+                        <span class="contact-type">WhatsApp</span>
+                        <span>(11) 96207-0314</span>
+                        <span class="contact-arrow">&nearr;</span>
+                    </a>
+                </div>
+            </div>
+            <div class="wrap foot">
+                <span>&copy; 2026 Erica Correia Yabiku.</span>
+                <span>Motion Designer &amp; UI/UX</span>
+            </div>
+        </section>
+
     </main>
-    <script src="./glass.js?v=10"></script>
-    <script src="./script.js?v=10"></script>
+    <script src="./glass.js?v=11"></script>
+    <script src="./script.js?v=11"></script>
 </body>
 </html>

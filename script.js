@@ -525,3 +525,59 @@ document.addEventListener("DOMContentLoaded", () => {
         requestAnimationFrame(loop);
     }
 });
+
+/* =========================================================
+   HOME EM SEÇÕES: pontinhos de navegação + cabeçalho
+   ========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+    const sections = Array.from(document.querySelectorAll("body.home .snap"));
+    if (!sections.length) return;
+    const body = document.body;
+    const en = () => document.documentElement.lang.startsWith("en");
+
+    /* pontinhos do lado direito (um por seção) */
+    const dots = document.createElement("ul");
+    dots.className = "snap-dots";
+    dots.setAttribute("aria-label", "Seções da página");
+    const links = sections.map(sec => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = "#" + sec.id;
+        a.innerHTML = "<span></span>";
+        li.appendChild(a);
+        dots.appendChild(li);
+        return a;
+    });
+    const label = () => links.forEach((a, i) => {
+        const t = sections[i].dataset[en() ? "dotEn" : "dotPt"];
+        a.querySelector("span").textContent = t;
+        a.setAttribute("aria-label", t);
+    });
+    label();
+    document.getElementById("lang-toggle")?.addEventListener("click", () => setTimeout(label, 0));
+    body.appendChild(dots);
+
+    /* qual seção está na tela */
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(({ target, isIntersecting }) => {
+            if (!isIntersecting) return;
+            const i = sections.indexOf(target);
+            links.forEach((a, k) => a.classList.toggle("on", k === i));
+            body.classList.toggle("past-glass", i > 0);
+            body.classList.toggle("on-lab", target.id === "ascii-lab");
+        });
+    }, { threshold: 0.55 });
+    sections.forEach(s => io.observe(s));
+
+    /* teclado: setas / PageUp / PageDown pulam de seção */
+    document.addEventListener("keydown", e => {
+        if (e.target.closest("input, textarea, select, video")) return;
+        const cur = links.findIndex(a => a.classList.contains("on"));
+        let to = -1;
+        if (e.key === "ArrowDown" || e.key === "PageDown") to = Math.min(cur + 1, sections.length - 1);
+        if (e.key === "ArrowUp" || e.key === "PageUp") to = Math.max(cur - 1, 0);
+        if (to < 0 || to === cur) return;
+        e.preventDefault();
+        sections[to].scrollIntoView({ behavior: "smooth" });
+    });
+});
