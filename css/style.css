@@ -974,8 +974,8 @@ body.home.on-lab header nav a.active, body.home.on-lab header nav a:hover { colo
 .cc-cover-dots i { width:10px; height:10px; border-radius:50%; background:#FFFFFF; opacity:.85; }
 .cc-cover-dots i:first-child { background:#1A1A1A; }
 
-.cc-proto { display:grid; grid-template-columns:minmax(0, 420px) 1fr; gap:48px; align-items:center; padding:48px 0; }
-.cc-proto-frame { width:100%; max-width:420px; aspect-ratio:393/852; border-radius:28px; overflow:hidden; background:#F5F1EC; border:1px solid var(--line); }
+.cc-proto { display:grid; grid-template-columns:minmax(0, 300px) 1fr; gap:48px; align-items:center; padding:48px 0; }
+.cc-proto-frame { width:100%; max-width:300px; aspect-ratio:393/852; border-radius:28px; overflow:hidden; background:#F5F1EC; border:1px solid var(--line); }
 .cc-proto-frame iframe { display:block; width:100%; height:100%; border:0; }
 .cc-proto-text { display:flex; flex-direction:column; gap:16px; max-width:420px; }
 .cc-proto-text p { color:var(--text-2); }
