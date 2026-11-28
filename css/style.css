@@ -1034,3 +1034,14 @@ body.home.on-lab header nav a.active, body.home.on-lab header nav a:hover { colo
 .cc-screen .count { color:var(--text-2); font-size:.75rem; }
 .cc-screen .asset-desc { color:var(--text-2); }
 @media (max-width: 1000px) { .cc-screens { grid-template-columns:repeat(2, minmax(0,1fr)); } }
+
+/* Casa Comigo: hierarquia e respiro */
+#casa-comigo .cc-proto { padding:64px 0 0; }
+#casa-comigo .assets { margin-top:96px; }
+#casa-comigo .assets-head { margin-bottom:32px; }
+#casa-comigo .assets-head .label { margin-bottom:10px; }
+#casa-comigo .assets-head p { margin:0; font-size:1.1rem; line-height:1.4; font-weight:500; color:var(--text); max-width:620px; }
+.cc-screen figcaption { gap:4px; }
+.cc-screen .count { font-size:.66rem; color:var(--muted); }
+.cc-screen .asset-title { font-size:.95rem; font-weight:600; color:var(--text); }
+.cc-screen .asset-desc { font-size:.8rem; line-height:1.45; color:var(--text-2); }
